@@ -1,0 +1,15 @@
+.mainLayout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    height: 60px;
+    width: 100%;
+    background-color: var(--color-surface);
+}
+
+.content {
+    flex: 1 1 auto;
+}

@@ -1,0 +1,76 @@
+:root {
+  /* Основная цветовая палитра - синяя гамма для фокуса */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6; /* Основной синий */
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  /* Нейтральные цвета для фона и текста */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Семантические цвета */
+  --color-success-50: #f0fdf4;
+  --color-success-500: #10b981;
+  --color-success-700: #047857;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-500: #f59e0b;
+  --color-warning-700: #b45309;
+
+  --color-error-50: #fef2f2;
+  --color-error-500: #ef4444;
+  --color-error-700: #b91c1c;
+
+  /* Акцентные цвета для разнообразия */
+  --color-accent-purple: #8b5cf6;
+  --color-accent-pink: #ec4899;
+  --color-accent-cyan: #06b6d4;
+
+  /* Брендовые цвета для Todo приложения */
+  --color-brand-todo: var(--color-primary-500);
+  --color-brand-completed: var(--color-success-500);
+  --color-brand-urgent: var(--color-error-500);
+  --color-brand-today: var(--color-warning-500);
+
+  --color-background: var(--color-gray-900);
+  --color-surface: var(--color-gray-800);
+  --color-surface-elevated: var(--color-gray-700);
+  --color-surface-hover: var(--color-gray-700);
+
+  --color-text-primary: var(--color-gray-100);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-inverse: var(--color-gray-900);
+
+  --color-border: var(--color-gray-700);
+  --color-border-light: var(--color-gray-800);
+  --color-border-heavy: var(--color-gray-600);
+
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-overlay: rgba(0, 0, 0, 0.7);
+
+  /* Специфичные для Todo */
+  --color-todo-item-bg: var(--color-gray-800);
+  --color-todo-item-hover: var(--color-gray-700);
+  --color-todo-completed: rgba(16, 185, 129, 0.15);
+  --color-todo-urgent: rgba(239, 68, 68, 0.15);
+
+  --color-checkbox-unchecked: var(--color-gray-600);
+  --color-checkbox-checked: var(--color-success-400);
+  --color-checkbox-hover: var(--color-primary-400);
+}

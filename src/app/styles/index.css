@@ -1,0 +1,18 @@
+@import "reset";
+@import "./styles/default.css";
+@import "./variables/global.css";
+
+.app {
+    background: var(--color-background);
+    min-height: 100vh;
+    color: var(--color-text-primary);
+    font: var(--font-m);
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1400px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
