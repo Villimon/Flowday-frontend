@@ -1,14 +1,17 @@
-@import "reset";
-@import "./styles/default.css";
-@import "./variables/global.css";
+@import 'reset';
+@import './styles/default.css';
+@import './variables/global.css';
 
 .app {
-    background: var(--color-background);
-    min-height: 100vh;
-    color: var(--color-text-primary);
-    font: var(--font-m);
+    min-height: 100%;
     width: 100%;
-    overflow: hidden;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
