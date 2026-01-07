@@ -1,4 +1,5 @@
-import { Button } from '@/shared/ui/Buttons/buttons';
+import { Button } from '@/shared/ui';
+import { Text } from '@/shared/ui/Text';
 import { memo } from 'react';
 
 export const MainPage = memo(() => {
@@ -86,6 +87,66 @@ export const MainPage = memo(() => {
 
             <Button radius="full">Full // Full - круглая кнопка</Button>
             <br />
+
+            <div>
+                // Базовое использование
+                <Text title="Заголовок" text="Основной текст" />
+                // С детьми вместо text
+                <Text title="Задача">Купить молоко, хлеб и яйца. Не забыть про сыр.</Text>
+                // Все цветовые варианты
+                <Text variant="primary" text="Основной текст" />
+                <Text variant="secondary" text="Вторичный текст" />
+                <Text variant="tertiary" text="Третичный текст" />
+                <Text variant="success" text="Успешное действие" />
+                <Text variant="error" text="Ошибка" />
+                <Text variant="warning" text="Предупреждение" />
+                <Text variant="accent" text="Акцентный текст" />
+                // Все размеры
+                <Text size="xs" title="Очень маленький" />
+                <Text size="sm" title="Маленький" />
+                <Text size="md" title="Средний (по умолчанию)" />
+                <Text size="lg" title="Большой" />
+                <Text size="xl" title="Очень большой" />
+                <Text size="2xl" title="Заголовок 2xl" />
+                <Text size="3xl" title="Заголовок 3xl" />
+                <Text size="4xl" title="Заголовок 4xl" />
+                // Выравнивание
+                <Text align="left" text="Слева" />
+                <Text align="center" text="По центру" />
+                <Text align="right" text="Справа" />
+                <Text align="justify" text="По ширине" />
+                // Вес шрифта
+                <Text weight="light" text="Light" />
+                <Text weight="normal" text="Normal" />
+                <Text weight="medium" text="Medium" />
+                <Text weight="semibold" text="Semibold" />
+                <Text weight="bold" text="Bold" />
+                <Text weight="black" text="Black" />
+                // Дополнительные стили
+                <Text italic text="Курсив" />
+                <Text underline text="Подчеркнутый" />
+                <Text strikethrough text="Зачеркнутый" />
+                <Text truncate text="Очень длинный текст который будет обрезан" />
+                <Text nowrap text="Текст без переноса" />
+                // Разные семантические элементы
+                <Text as="p">Параграф</Text>
+                <Text as="span">Inline текст</Text>
+                <Text as="label" htmlFor="input-id">
+                    Метка для инпута
+                </Text>
+                <Text as="legend">Легенда для fieldset</Text>
+                // Accessibility примеры
+                <Text title="Уведомления" aria-live="polite" aria-atomic>
+                    У вас 3 новых сообщения
+                </Text>
+                <Text id="description" aria-label="Описание задачи">
+                    Подробное описание что нужно сделать
+                </Text>
+                // Для форм
+                <Text as="label" htmlFor="email-input" variant="secondary" size="sm">
+                    Email адрес
+                </Text>
+            </div>
         </main>
     );
 });
