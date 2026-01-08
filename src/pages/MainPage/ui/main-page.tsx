@@ -1,4 +1,4 @@
-import { Button, Card, HStack, Modal, Text, VStack } from '@/shared/ui';
+import { Button, Card, HStack, Input, Modal, Text, VStack } from '@/shared/ui';
 import { memo, useState } from 'react';
 
 export const MainPage = memo(() => {
@@ -24,6 +24,60 @@ export const MainPage = memo(() => {
                     <Button onClick={() => setIsOpen(false)}>Закрыть</Button>
                 </VStack>
             </Modal>
+            <VStack gap="8">
+                // Базовое использование
+                <Input label="Название задачи" placeholder="Введите название задачи..." />
+                // С ошибкой
+                <Input label="Email" error="Введите корректный email" isInvalid />
+                // Разные размеры
+                <Input size="xs" placeholder="Очень маленький" />
+                <Input size="sm" placeholder="Маленький" />
+                <Input size="md" placeholder="Средний (по умолчанию)" />
+                <Input size="lg" placeholder="Большой" />
+                <Input size="xl" placeholder="Очень большой" />
+                // Разные варианты
+                <Input variant="outline" label="Outline (по умолчанию)" />
+                <Input variant="filled" label="Filled" />
+                <Input variant="ghost" label="Ghost" />
+                // Разные скругления
+                <Input radius="none" label="Без скругления" />
+                <Input radius="sm" label="Маленькое скругление" />
+                <Input radius="md" label="Среднее" />
+                <Input radius="lg" label="Большое" />
+                <Input radius="full" label="Круглое" />
+                // Состояния
+                <Input disabled label="Disabled" />
+                <Input readOnly value="Только для чтения" />
+                <Input isLoading label="Загрузка..." />
+                <Input autoFocus label="Автофокус" />
+                // С описанием
+                <Input label="Пароль" type="password" description="Минимум 8 символов" />
+                // Accessibility
+                <Input
+                    id="task-title-input"
+                    label="Название задачи"
+                    aria-label="Поле для ввода названия задачи"
+                    aria-describedby="task-title-help"
+                    aria-required="true"
+                />
+                <Text id="task-title-help" variant="tertiary" size="xs">
+                    Введите краткое и понятное название
+                </Text>
+                // В форме
+                <form>
+                    <VStack gap="4" align="stretch">
+                        <Input name="title" label="Название задачи" required />
+
+                        <Input
+                            name="description"
+                            label="Описание"
+                            placeholder="Необязательное поле"
+                        />
+
+                        <Button type="submit">Создать</Button>
+                    </VStack>
+                </form>
+            </VStack>
             <VStack gap="8">
                 <Button variant="filled" color="primary">
                     Сохранить // Filled (Primary) - основное действие
