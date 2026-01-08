@@ -1,0 +1,26 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: calc(var(--z-index-modal, 50) - 10);
+    
+    background-color: var(--color-overlay, rgba(0, 0, 0, 0.75));
+    cursor: pointer;
+    
+    /* Анимация */
+    opacity: 0;
+    animation: overlayFadeIn var(--duration-300, 300ms) var(--ease-out) forwards;
+}
+
+@keyframes overlayFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Blur эффект */
+.overlay.blur {
+    backdrop-filter: blur(4px);
+}

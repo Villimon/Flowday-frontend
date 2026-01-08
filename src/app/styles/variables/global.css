@@ -1,5 +1,5 @@
 :root {
-    --font-family-text: "Nunito", sans-serif;
+/*     --font-family-text: "Nunito", sans-serif;
     --font-family-title: "Roboto", sans-serif;
     --font-size-s: 12px;
     --font-line-s: 20px;
@@ -20,6 +20,6 @@
     --font-line-xl: 40px;
     --font-xl:
         var(--font-size-xl) / var(--font-line-xl)
-        var(--font-family-title);
+        var(--font-family-title); */
         
 }

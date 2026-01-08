@@ -1,0 +1,159 @@
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--z-index-modal, 50);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Анимации */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all var(--duration-300, 300ms) var(--ease-out);
+}
+
+.modal.opened {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.modal.closing {
+    opacity: 0;
+}
+
+.modal.closing .content {
+    transform: scale(0.9) translateY(20px);
+}
+
+/* Контент модалки (Card) */
+.content {
+    position: relative;
+    z-index: calc(var(--z-index-modal, 50) + 1);
+    max-height: 90vh;
+    overflow-y: auto;
+    
+    /* Анимация */
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: all var(--duration-300, 300ms) var(--ease-out);
+    
+    /* Убираем стандартные стили Card для полного контроля */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.opened .content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Размеры модалок (только ширина) */
+.size-xs {
+    width: 320px;
+    max-width: 95vw;
+}
+
+.size-sm {
+    width: 400px;
+    max-width: 95vw;
+}
+
+.size-md {
+    width: 500px;
+    max-width: 95vw;
+}
+
+.size-lg {
+    width: 640px;
+    max-width: 95vw;
+}
+
+.size-xl {
+    width: 800px;
+    max-width: 95vw;
+}
+
+.size-full {
+    width: 95vw;
+    height: 95vh;
+}
+
+/* Варианты через border */
+.variant-danger {
+    border-color: var(--color-error-500) !important;
+}
+
+.variant-danger .headerDivider {
+    background-color: var(--color-error-300);
+}
+
+.variant-success {
+    border-color: var(--color-success-500) !important;
+}
+
+.variant-success .headerDivider {
+    background-color: var(--color-success-300);
+}
+
+.variant-warning {
+    border-color: var(--color-warning-500) !important;
+}
+
+.variant-warning .headerDivider {
+    background-color: var(--color-warning-300);
+}
+
+/* Шапка модалки */
+.header {
+    position: relative;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.headerContent {
+    padding: var(--space-2, 1.5rem) var(--space-6, 1.5rem);
+}
+
+.title {
+    color: var(--color-text-primary);
+}
+
+.closeButton {
+    margin-left: var(--space-2, 0.5rem) !important;
+    svg {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+.contentWrapper {
+    padding: var(--space-3, 1.5rem) var(--space-6, 1.5rem);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4, 1rem);
+}
+
+.description {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+.childrenContent {
+    flex: 1;
+    min-height: 0; 
+}
+
+.childrenContent > *:first-child {
+    margin-top: 0;
+}
+
+.childrenContent > *:last-child {
+    margin-bottom: 0;
+}

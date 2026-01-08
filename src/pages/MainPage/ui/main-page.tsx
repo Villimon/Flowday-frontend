@@ -1,7 +1,8 @@
-import { Button, Card, HStack, Text, VStack } from '@/shared/ui';
-import { memo } from 'react';
+import { Button, Card, HStack, Modal, Text, VStack } from '@/shared/ui';
+import { memo, useState } from 'react';
 
 export const MainPage = memo(() => {
+    const [isOpen, setIsOpen] = useState(false);
     const auth = false;
     return (
         <main>
@@ -11,6 +12,18 @@ export const MainPage = memo(() => {
             ) : (
                 <button>Войти, чтобы начать работу</button>
             )}
+            <Button onClick={() => setIsOpen(true)}>Открыть модалку</Button>;
+            <Modal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                title="Создать задачу"
+                description="Зарегистрируейте чела"
+            >
+                <VStack gap="4">
+                    <Text>Описание модалки</Text>
+                    <Button onClick={() => setIsOpen(false)}>Закрыть</Button>
+                </VStack>
+            </Modal>
             <VStack gap="8">
                 <Button variant="filled" color="primary">
                     Сохранить // Filled (Primary) - основное действие
@@ -61,7 +74,6 @@ export const MainPage = memo(() => {
                 <Button radius="xl">XL // XL - сильное скругление</Button>
                 <Button radius="full">Full // Full - круглая кнопка</Button>
             </VStack>
-
             <VStack gap="4">
                 // Базовое использование
                 <Text title="Заголовок" text="Основной текст" />
@@ -121,7 +133,6 @@ export const MainPage = memo(() => {
                     Email адрес
                 </Text>
             </VStack>
-
             <VStack>
                 // Базовые варианты
                 <Card variant="elevated" padding="8" radius="md">
