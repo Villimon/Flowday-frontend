@@ -1,6 +1,4 @@
-import { Button } from '@/shared/ui';
-import { HStack, VStack } from '@/shared/ui/Stack';
-import { Text } from '@/shared/ui/Text';
+import { Button, Card, HStack, Text, VStack } from '@/shared/ui';
 import { memo } from 'react';
 
 export const MainPage = memo(() => {
@@ -122,6 +120,75 @@ export const MainPage = memo(() => {
                 <Text as="label" htmlFor="email-input" variant="secondary" size="sm">
                     Email адрес
                 </Text>
+            </VStack>
+
+            <VStack>
+                // Базовые варианты
+                <Card variant="elevated" padding="8" radius="md">
+                    <Text title="Заголовок">Содержимое карточки</Text>
+                </Card>
+                <Card variant="outline" padding="12">
+                    Карточка с outline
+                </Card>
+                <Card variant="filled" padding="16">
+                    Заполненная карточка
+                </Card>
+                <Card variant="ghost" padding="8">
+                    Прозрачная карточка
+                </Card>
+                // Разные скругления
+                <Card radius="none">Без скругления</Card>
+                <Card radius="sm">Маленькое скругление</Card>
+                <Card radius="md">Среднее (по умолчанию)</Card>
+                <Card radius="lg">Большое скругление</Card>
+                <Card radius="xl">Очень большое</Card>
+                <Card radius="full">Полное скругление</Card>
+                // Разные отступы
+                <Card padding="0">Без отступов</Card>
+                <Card padding="4">Маленькие отступы</Card>
+                <Card padding="8">Стандартные отступы</Card>
+                <Card padding="12">Средние отступы</Card>
+                <Card padding="16">Большие отступы</Card>
+                <Card padding="24">Очень большие отступы</Card>
+                // Layout
+                <Card fullWidth>На всю ширину</Card>
+                <Card fullWidth maxWidth="400px">
+                    На всю ширину, но макс 400px
+                </Card>
+                // Accessibility
+                <Card role="article" aria-label="Статья о React" aria-describedby="article-desc">
+                    <Text id="article-desc" className="visually-hidden">
+                        Подробная статья о React и TypeScript
+                    </Text>
+                    Содержимое статьи...
+                </Card>
+                <Card role="region" aria-label="Список задач" tabIndex={0}>
+                    {/* Focusable карточка */}
+                    asdasd
+                </Card>
+                // Комплексный пример
+                <Card variant="elevated" padding="16" radius="lg" fullWidth className="todo-card">
+                    <VStack gap="8" align="stretch">
+                        <HStack justify="between" align="center">
+                            <Text size="xl" title="Список задач" weight="semibold" />
+                        </HStack>
+
+                        <VStack gap="4" align="stretch">
+                            <Text>✅ Купить продукты</Text>
+                            <Text>📝 Написать код</Text>
+                            <Text>🏃 Пробежка</Text>
+                        </VStack>
+
+                        <HStack justify="end" gap="4">
+                            <Button variant="outline" size="sm">
+                                Очистить
+                            </Button>
+                            <Button variant="filled" size="sm">
+                                Сохранить
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </Card>
             </VStack>
         </main>
     );
