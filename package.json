@@ -5,6 +5,8 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
+    "start:dev": "concurrently \"npm start\" \"npm run start:dev:server\"",
+    "start:dev:server": "node ./json-server/index.js",
     "preview": "vite preview",
     "eslint": "eslint \"**/*.{ts,tsx}\"",
     "eslint:fix": "eslint \"**/*.{ts,tsx}\" --fix"
@@ -20,20 +22,27 @@
     "@typescript-eslint/eslint-plugin": "^8.51.0",
     "@typescript-eslint/parser": "^8.51.0",
     "@vitejs/plugin-react": "^5.1.2",
-    "eslint": "^9.39.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
+    "json-server": "^0.17.4",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0",
     "vite": "^7.3.0"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.90.16",
+    "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.11.0"
+    "react-hook-form": "^7.70.0",
+    "react-router-dom": "^7.11.0",
+    "react-toastify": "^11.0.5",
+    "zod": "^4.3.5"
   }
 }

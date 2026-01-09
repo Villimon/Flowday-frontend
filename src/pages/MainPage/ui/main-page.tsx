@@ -38,7 +38,7 @@ export const MainPage = memo(() => {
                 // Разные варианты
                 <Input variant="outline" label="Outline (по умолчанию)" />
                 <Input variant="filled" label="Filled" />
-                <Input variant="ghost" label="Ghost" />
+                <Input variant="ghost" label="Ghost" placeholder="Ghost" />
                 // Разные скругления
                 <Input radius="none" label="Без скругления" />
                 <Input radius="sm" label="Маленькое скругление" />

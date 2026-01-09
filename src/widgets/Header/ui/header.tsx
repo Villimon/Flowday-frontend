@@ -2,6 +2,7 @@ import { memo } from 'react';
 import styles from './header.module.css';
 import clsx from 'clsx';
 import { Button, HStack, Text } from '@/shared/ui';
+import { LoginByEmail } from '@/features/LoginByEmail';
 
 export const Header = memo(() => {
     const auth = false;
@@ -17,9 +18,7 @@ export const Header = memo(() => {
                 </HStack>
             ) : (
                 <HStack gap="4">
-                    <Button size="sm" radius="xl" variant="filled">
-                        Войти
-                    </Button>
+                    <LoginByEmail />
                     <Button size="sm" radius="xl" variant="filled">
                         Регистрация
                     </Button>
