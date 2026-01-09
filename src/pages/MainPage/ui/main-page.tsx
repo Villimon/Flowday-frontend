@@ -1,13 +1,15 @@
+import { useAuth } from '@/entities/User';
 import { Button, Card, HStack, Input, Modal, Text, VStack } from '@/shared/ui';
 import { memo, useState } from 'react';
 
 export const MainPage = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
-    const auth = false;
+    const { data: user } = useAuth();
+    const isAuth = Boolean(user);
     return (
         <main>
             <p>Информация о сайте</p>
-            {auth ? (
+            {isAuth ? (
                 <button>Перейти к работе с задачи</button>
             ) : (
                 <button>Войти, чтобы начать работу</button>

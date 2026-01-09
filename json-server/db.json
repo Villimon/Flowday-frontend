@@ -4,7 +4,8 @@
             "name": "Oleg",
             "email": "a2a@mail.ru",
             "password": "123123123",
-            "id": "695a986c820ddc26e77a36d1"
+            "id": "695a986c820ddc26e77a36d1",
+            "token": "123123123"
         }
     ]
 }

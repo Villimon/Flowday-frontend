@@ -3,15 +3,18 @@ import styles from './header.module.css';
 import clsx from 'clsx';
 import { Button, HStack, Text } from '@/shared/ui';
 import { LoginByEmail } from '@/features/LoginByEmail';
+import { useAuth } from '@/entities/User';
 
 export const Header = memo(() => {
-    const auth = false;
+    const { data: user, isLoading } = useAuth();
+    const isAuth = Boolean(user);
+
     return (
         <header className={clsx('container', styles.header)}>
             <Text variant="accent" size="3xl" text="FLOWDAY" />
-            {auth ? (
+            {isAuth ? (
                 <HStack gap="4" align="center">
-                    <Text text="UserName" />
+                    <Text text={user?.data.name} />
                     <Button size="sm" radius="xl" variant="filled">
                         Выйти
                     </Button>
