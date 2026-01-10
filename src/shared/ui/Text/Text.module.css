@@ -121,7 +121,6 @@
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-1) 0;
   }
   
   .paragraph,
@@ -137,7 +136,6 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-1) 0;
   }
   
   .paragraph,
@@ -153,7 +151,6 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-2) 0;
   }
   
   .paragraph,
@@ -169,7 +166,6 @@
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-2) 0;
   }
   
   .paragraph,
@@ -185,7 +181,6 @@
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-3) 0;
   }
   
   .paragraph,
@@ -201,7 +196,6 @@
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-3) 0;
   }
   
   .paragraph,
@@ -217,7 +211,6 @@
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-4) 0;
   }
   
   .paragraph,
@@ -233,7 +226,6 @@
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-black);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-4) 0;
   }
   
   .paragraph,

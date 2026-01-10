@@ -20,9 +20,12 @@ export const Header = memo(() => {
 
     return (
         <header className={clsx('container', styles.header)}>
+            {/* TODO: Сделать это не тестом а кнопкой и переводить на главную если пользователь не авторизован и переводить на задачи если пользователь авторизован */}
             <Text variant="accent" size="3xl" text="FLOWDAY" />
             {isAuth ? (
                 <HStack gap="4" align="center">
+                    {/* TODO: добавить кнопку "Мои задачи", которая будет вести в основное приложение, которая будет показываться только на / (главной) */}
+                    {/* TODO: Имя пользователя будет кликабельным и вызывать выпадающий список с меню, которое будет иметь пункты "Настройки" и "Выйти" */}
                     <Text text={user?.data.name} />
                     <Button onClick={logout} size="sm" radius="xl" variant="filled">
                         Выйти
