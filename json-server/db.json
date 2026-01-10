@@ -1,11 +1,18 @@
 {
-    "users": [
-        {
-            "name": "Oleg",
-            "email": "a2a@mail.ru",
-            "password": "123123123",
-            "id": "695a986c820ddc26e77a36d1",
-            "token": "123123123"
-        }
-    ]
+  "users": [
+    {
+      "name": "Oleg",
+      "email": "a2a@mail.ru",
+      "password": "123123123",
+      "id": "695a986c820ddc26e77a36d1",
+      "token": "123123123"
+    },
+    {
+      "id": "1768044851231",
+      "email": "aa@mail.ru",
+      "password": "123123123",
+      "name": "Villimon",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYyMzEyY2FhYTZkYjkzYTYwMjAxODciLCJlbWFpbCI6ImEyYTIxQG1haWwucnUiLCJpYXQiOjE3NjgwNDI3OTZ9.dv3gMZGCjO-UDzteYsxiXOSu8tRi_g1rXHgSBMkldNQ"
+    }
+  ]
 }

@@ -31,8 +31,45 @@ server.post('/api/auth/login', (req, res) => {
             data: {
                 name: userFromBd.name,
                 email: userFromBd.email,
-                token: '123123123',
+                token: userFromBd.token,
                 id: userFromBd.id,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+server.post('/api/auth/register', (req, res) => {
+    try {
+        const { email, password, name } = req.body;
+        const { db } = router;
+        const users = db.get('users');
+
+        const exists = users.find({ email }).value();
+        if (exists) {
+            return res.status(400).json({ message: 'Пользователь уже существует' });
+        }
+
+        const newUser = {
+            id: String(Date.now()),
+            email,
+            password,
+            name,
+            token: 'qweasdzxc'
+        };
+
+        users.push(newUser).write();
+
+        res.status(201).json({
+            success: true,
+            message: 'Пользователь успешно создан',
+            data: {
+                name: newUser.name,
+                email: newUser.email,
+                token: newUser.token,
+                id: newUser.id,
             },
         });
     } catch (error) {

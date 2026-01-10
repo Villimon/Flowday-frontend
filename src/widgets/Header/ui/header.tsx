@@ -6,6 +6,7 @@ import { LoginByEmail } from '@/features/LoginByEmail';
 import { useAuth } from '@/entities/User';
 import { useQueryClient } from '@tanstack/react-query';
 import { TOKEN_LOCAL_STORAGE_KEY } from '@/shared/constants/localstorage';
+import { RegisterByEmail } from '@/features/RegisterByEmail';
 
 export const Header = memo(() => {
     const { data: user } = useAuth();
@@ -30,9 +31,7 @@ export const Header = memo(() => {
             ) : (
                 <HStack gap="4">
                     <LoginByEmail />
-                    <Button size="sm" radius="xl" variant="filled">
-                        Регистрация
-                    </Button>
+                    <RegisterByEmail />
                 </HStack>
             )}
         </header>
