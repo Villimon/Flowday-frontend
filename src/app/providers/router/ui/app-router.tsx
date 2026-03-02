@@ -2,6 +2,7 @@ import { Suspense, useCallback } from 'react';
 import { AppRoutesProps, routeConfig } from '../config/route-config';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { RequierAuth } from './requier-auth';
+import { Loader } from '@/shared/ui/Loader/Loader';
 
 export const AppRouter = () => {
     const { key } = useLocation();
@@ -19,7 +20,7 @@ export const AppRouter = () => {
     }, []);
 
     return (
-        <Suspense key={key} fallback={<div>Loading...</div>}>
+        <Suspense key={key} fallback={<Loader/>}>
             <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>
         </Suspense>
     );

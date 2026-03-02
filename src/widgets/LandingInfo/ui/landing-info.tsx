@@ -1,14 +1,28 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import styles from './landing-info.module.css';
-import { Button, HStack, Text, VStack } from '@/shared/ui';
+import { Button, HStack, Modal, Text, VStack } from '@/shared/ui';
 import { useNavigate } from 'react-router-dom';
 import { getRouteTodos } from '@/shared/constants/router';
+import { LoginForm } from '@/features/LoginByEmail';
+import { useAuth } from '@/entities/User';
 
 export const LandingInfo = memo(() => {
+    const [isOpen, setIsOpen] = useState(false);
+    const {isAuth} = useAuth()
+
     const navigate = useNavigate();
-    const handleRedirect = useCallback(() => {
-        // TODO: Если мы не авторизированы то переходит на /login (новая страница), иначе логика по переходу на страницу задач
-        navigate(getRouteTodos());
+
+    const handleGetStarted  = useCallback(() => {
+        if(isAuth) {
+            return navigate(getRouteTodos());
+        }
+        setIsOpen(true)
+        
+        // TODO в релизе 1.0.0: Если мы не авторизированы то переходит на /login (новая страница), иначе логика по переходу на страницу задач
+    }, [navigate, isAuth]);
+
+    const handleCloseModal = useCallback(() => {
+        setIsOpen(false);
     }, []);
 
     return (
@@ -26,9 +40,12 @@ export const LandingInfo = memo(() => {
                     />
                 </VStack>
                 <HStack gap="4">
-                    <Button onClick={handleRedirect}>Начать бесплатно</Button>
+                    <Button onClick={handleGetStarted}>Начать бесплатно</Button>
                     <Button variant="filled">Как это работает</Button>
                 </HStack>
+                {isOpen && <Modal isOpen={isOpen} onClose={handleCloseModal} title="Войти">
+                    <LoginForm onClose={handleCloseModal} isRedirect />
+                </Modal>}
             </VStack>
         </section>
     );

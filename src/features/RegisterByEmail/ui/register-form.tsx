@@ -25,7 +25,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
     const handleCloseModal = useCallback(() => {
         reset();
         onClose();
-    }, [reset]);
+    }, [reset, onClose]);
 
     const {
         mutateAsync: registerMutate,

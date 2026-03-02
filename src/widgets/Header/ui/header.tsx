@@ -9,8 +9,7 @@ import { TOKEN_LOCAL_STORAGE_KEY } from '@/shared/constants/localstorage';
 import { RegisterByEmail } from '@/features/RegisterByEmail';
 
 export const Header = memo(() => {
-    const { data: user } = useAuth();
-    const isAuth = Boolean(user);
+    const { data: user, isAuth } = useAuth();
     const queryClient = useQueryClient();
 
     const logout = useCallback(() => {

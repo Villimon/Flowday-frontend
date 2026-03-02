@@ -8,8 +8,7 @@ interface RequierAuthProps {
 }
 
 export const RequierAuth: FC<RequierAuthProps> = ({ children }) => {
-    const { data: user } = useAuth();
-    const isAuth = Boolean(user);
+    const {isAuth} = useAuth()
     const location = useLocation();
 
     if (!isAuth) {

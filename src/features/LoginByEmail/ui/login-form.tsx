@@ -5,12 +5,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { useLoginByEmail } from '../api/use-login-by-email';
 import { LoginFormData, loginSchema } from '../model/schema/schema';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { getRouteTodos } from '@/shared/constants/router';
 
 interface LoginFormProps {
     onClose: () => void;
+    isRedirect?: boolean
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ onClose }) => {
+export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => {
+    const navigate = useNavigate();
+
     const { control, handleSubmit, reset } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -42,6 +47,9 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose }) => {
                 onSuccess: () => {
                     toast.success(`Вы успешно вошли!`);
                     handleCloseModal();
+                    if(isRedirect) {
+                        navigate(getRouteTodos());
+                    }
                 },
             });
         },
