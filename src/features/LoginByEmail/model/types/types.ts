@@ -1,9 +1,9 @@
-export type LoginDto = {
+export type LoginRequestDto = {
     email: string;
     password: string;
 };
 
-export type LoginResponse = {
+export type LoginResponseDto = {
     success: boolean;
     message: string;
     data: {

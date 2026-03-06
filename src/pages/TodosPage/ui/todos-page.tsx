@@ -1,10 +1,12 @@
 import { memo } from 'react';
+import styles from './todos-page.module.css';
+import { CreateTodo } from '@/features/CreateTodo';
 
 const TodosPage = memo(() => {
     return (
-        <main>
+        <main className={styles.main}>
+            <CreateTodo />
             <div>
-                <button>Создать задачу</button>
                 <div>Все</div>
                 <div>Активные</div>
                 <div>Выполненные</div>

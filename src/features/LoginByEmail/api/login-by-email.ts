@@ -1,9 +1,9 @@
 import { $api } from '@/shared/api/api';
-import { LoginDto, LoginResponse } from '../model/types/types';
+import { LoginRequestDto, LoginResponseDto } from '../model/types/types';
 
-export const loginByEmail = async (dto: LoginDto) => {
+export const loginByEmail = async (dto: LoginRequestDto) => {
     try {
-        const { data } = await $api.post<LoginResponse>('/auth/login', dto);
+        const { data } = await $api.post<LoginResponseDto>('/auth/login', dto);
         return data.data.token;
     } catch (e: any) {
         const serverMessage = e?.response?.data?.message || 'Ошибка авторизации';

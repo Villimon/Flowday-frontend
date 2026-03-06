@@ -10,10 +10,10 @@ import { getRouteTodos } from '@/shared/constants/router';
 
 interface LoginFormProps {
     onClose: () => void;
-    isRedirect?: boolean
+    isRedirect?: boolean;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => {
+export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) => {
     const navigate = useNavigate();
 
     const { control, handleSubmit, reset } = useForm<LoginFormData>({
@@ -38,8 +38,6 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => 
         reset: resetMutation,
     } = useLoginByEmail();
 
-    const isFormSubmitting = isLoggingIn;
-
     const handleLogin = useCallback(
         async (value: LoginFormData) => {
             resetMutation();
@@ -47,7 +45,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => 
                 onSuccess: () => {
                     toast.success(`Вы успешно вошли!`);
                     handleCloseModal();
-                    if(isRedirect) {
+                    if (isRedirect) {
                         navigate(getRouteTodos());
                     }
                 },
@@ -75,7 +73,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => 
                                 label="Почта"
                                 type="email"
                                 autoComplete="email"
-                                disabled={isFormSubmitting}
+                                disabled={isLoggingIn}
                                 aria-describedby={
                                     fieldState.error ? 'email-error' : 'email-description'
                                 }
@@ -95,7 +93,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => 
                                 isInvalid={!!fieldState.error}
                                 label="Пароль"
                                 type="password"
-                                disabled={isFormSubmitting}
+                                disabled={isLoggingIn}
                                 aria-describedby={
                                     fieldState.error ? 'password-error' : 'password-description'
                                 }
@@ -106,12 +104,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect=false }) => 
                         <Text variant="error" text={mutationError.message} size="sm" />
                     )}
                 </VStack>
-                <Button
-                    loading={isFormSubmitting}
-                    disabled={isFormSubmitting}
-                    fullWidth
-                    type="submit"
-                >
+                <Button loading={isLoggingIn} disabled={isLoggingIn} fullWidth type="submit">
                     Войти
                 </Button>
             </VStack>

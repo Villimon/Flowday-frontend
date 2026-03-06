@@ -5,15 +5,15 @@ const server = jsonServer.create();
 const router = jsonServer.router(path.resolve(__dirname, 'db.json'));
 const middlewares = jsonServer.defaults();
 
-server.use(middlewares);
-server.use(jsonServer.bodyParser);
-
-server.use(async (res, req, next) => {
+server.use(async (req, res, next) => {
     await new Promise(res => {
         setTimeout(res, 800);
     });
     next();
 });
+
+server.use(middlewares);
+server.use(jsonServer.bodyParser);
 
 server.post('/api/auth/login', (req, res) => {
     try {
@@ -57,7 +57,7 @@ server.post('/api/auth/register', (req, res) => {
             email,
             password,
             name,
-            token: 'qweasdzxc'
+            token: 'qweasdzxc',
         };
 
         users.push(newUser).write();
@@ -103,6 +103,35 @@ server.get('/api/auth/me', (req, res) => {
     }
 });
 
+server.post('/api/todos', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const { title, description } = req.body;
+
+        const newTodo = {
+            id: String(Date.now()),
+            title,
+            description,
+            complited: false,
+            userId,
+        };
+
+        const { db } = router;
+        const todos = db.get('todos');
+
+        todos.push(newTodo).write();
+
+        res.status(201).json({
+            success: true,
+            message: 'Задача успешно создана',
+            data: newTodo,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
 server.use(async (req, res, next) => {
     try {
         // Пропускаем публичные роуты (логин, регистрация)
@@ -127,7 +156,7 @@ server.use(async (req, res, next) => {
 // require('./routes/user/index')(server, router)
 // require('./routes/session/index')(server, router)
 
-// server.use(router)
+server.use('/api', router);
 
 server.listen(8000, () => {
     console.log('JSON Server is running');
