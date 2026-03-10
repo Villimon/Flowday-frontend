@@ -18,9 +18,11 @@ export const CreateTodo = () => {
             <Button onClick={handleOpenModal} variant="filled">
                 Создать задачу
             </Button>
-            <Modal isOpen={isOpen} onClose={handleCloseModal} title="Создать задачу">
-                <CreateTodoForm onClose={handleCloseModal} />
-            </Modal>
+            {isOpen && (
+                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Создать задачу">
+                    <CreateTodoForm onClose={handleCloseModal} />
+                </Modal>
+            )}
         </div>
     );
 };

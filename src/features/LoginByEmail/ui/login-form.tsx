@@ -1,6 +1,6 @@
 import { Button, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoginByEmail } from '../api/use-login-by-email';
 import { LoginFormData, loginSchema } from '../model/schema/schema';
@@ -14,6 +14,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) => {
+    const ref = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     const { control, handleSubmit, reset } = useForm<LoginFormData>({
@@ -64,6 +65,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                         render={({ field, fieldState }) => (
                             <Input
                                 {...field}
+                                ref={ref}
                                 placeholder="Введите вашу почту"
                                 autoFocus
                                 aria-required="true"

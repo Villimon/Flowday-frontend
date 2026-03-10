@@ -1,6 +1,6 @@
 import { Button, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { registerSchema, RegisterFormData } from '../model/schema/schema';
@@ -11,6 +11,8 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
+    const ref = useRef<HTMLInputElement>(null);
+
     const { control, handleSubmit, reset } = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -59,6 +61,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
                         render={({ field, fieldState }) => (
                             <Input
                                 {...field}
+                                ref={ref}
                                 placeholder="Введите ваше имя"
                                 autoFocus
                                 aria-required="true"

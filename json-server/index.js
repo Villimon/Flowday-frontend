@@ -114,6 +114,7 @@ server.post('/api/todos', (req, res) => {
             description,
             complited: false,
             userId,
+            createdAt: Date.now(),
         };
 
         const { db } = router;
@@ -125,6 +126,28 @@ server.post('/api/todos', (req, res) => {
             success: true,
             message: 'Задача успешно создана',
             data: newTodo,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+server.get('/api/todos', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+
+        const { db } = router;
+        let todos = db.get('todos').filter({ userId }).value();
+
+        todos = todos.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'Задачи получены',
+            data: todos,
         });
     } catch (error) {
         console.log(error);

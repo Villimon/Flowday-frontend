@@ -18,9 +18,11 @@ export const LoginByEmail = () => {
             <Button onClick={handleOpenModal} size="sm" radius="xl" variant="filled">
                 Войти
             </Button>
-            <Modal isOpen={isOpen} onClose={handleCloseModal} title="Войти">
-                <LoginForm onClose={handleCloseModal} />
-            </Modal>
+            {isOpen && (
+                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Войти">
+                    <LoginForm onClose={handleCloseModal} />
+                </Modal>
+            )}
         </>
     );
 };

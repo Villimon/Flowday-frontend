@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, memo, useEffect, useRef, useState, useCallback } from 'react';
+import { InputHTMLAttributes, memo, useEffect, useState, useCallback, forwardRef } from 'react';
 import cls from './Input.module.css';
 import { Text } from '../Text/Text';
 import { VStack } from '../Stack/VStack/VStack';
@@ -50,52 +50,53 @@ interface InputProps extends HTMLInputProps {
 }
 
 export const Input = memo(
-    ({
-        // Основные
-        value,
-        onChange,
-        type = 'text',
+    forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+        const {
+            // Основные
+            value,
+            onChange,
+            type = 'text',
 
-        // Визуальные
-        className,
-        inputClassName,
-        size = 'md',
-        variant = 'outline',
-        radius = 'md',
+            // Визуальные
+            className,
+            inputClassName,
+            size = 'md',
+            variant = 'outline',
+            radius = 'md',
 
-        // Контент
-        label,
-        placeholder,
-        description,
-        error,
+            // Контент
+            label,
+            placeholder,
+            description,
+            error,
 
-        // Состояния
-        disabled = false,
-        readOnly = false,
-        isLoading = false,
-        isInvalid = false,
+            // Состояния
+            disabled = false,
+            readOnly = false,
+            isLoading = false,
+            isInvalid = false,
 
-        // Поведение
-        autoFocus = false,
-        fullWidth = true,
+            // Поведение
+            autoFocus = false,
+            fullWidth = true,
 
-        // Accessibility
-        id,
-        'aria-label': ariaLabel,
-        'aria-describedby': ariaDescribedBy,
-        'aria-invalid': ariaInvalid,
-        'aria-errormessage': ariaErrorMessage,
+            // Accessibility
+            id,
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'aria-invalid': ariaInvalid,
+            'aria-errormessage': ariaErrorMessage,
 
-        // HTML атрибуты
-        name,
-        required,
-        maxLength,
-        minLength,
-        pattern,
-        ...otherProps
-    }: InputProps) => {
+            // HTML атрибуты
+            name,
+            required,
+            maxLength,
+            minLength,
+            pattern,
+            ...otherProps
+        } = props;
+
         const [isFocused, setIsFocused] = useState(false);
-        const inputRef = useRef<HTMLInputElement>(null);
 
         const hasError = Boolean(error) || isInvalid;
 
@@ -117,13 +118,11 @@ export const Input = memo(
         }, []);
 
         useEffect(() => {
-            if (autoFocus && inputRef.current) {
-                setTimeout(() => {
-                    inputRef.current?.focus();
-                    setIsFocused(true);
-                }, 100);
+            if (autoFocus && ref && 'current' in ref && ref.current) {
+                ref.current.focus();
+                setIsFocused(true);
             }
-        }, [autoFocus]);
+        }, [autoFocus, ref]);
 
         const ariaProps = {
             'aria-label': ariaLabel || label,
@@ -175,7 +174,7 @@ export const Input = memo(
                     )}
                 >
                     <input
-                        ref={inputRef}
+                        ref={ref}
                         id={inputId}
                         name={name}
                         value={value}
@@ -227,7 +226,7 @@ export const Input = memo(
                 )}
             </VStack>
         );
-    }
+    })
 );
 
 Input.displayName = 'Input';

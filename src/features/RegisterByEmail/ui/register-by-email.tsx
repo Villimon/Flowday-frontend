@@ -18,9 +18,11 @@ export const RegisterByEmail = () => {
             <Button onClick={handleOpenModal} size="sm" radius="xl" variant="filled">
                 Зарегистроваться
             </Button>
-            <Modal isOpen={isOpen} onClose={handleCloseModal} title="Зарегистроваться">
-                <RegisterForm onClose={handleCloseModal} />
-            </Modal>
+            {isOpen && (
+                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Зарегистроваться">
+                    <RegisterForm onClose={handleCloseModal} />
+                </Modal>
+            )}
         </>
     );
 };

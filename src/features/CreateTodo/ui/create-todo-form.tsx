@@ -2,7 +2,7 @@ import { useCreateTodo } from '../api/create-todo';
 import { CreateTodoFormData, createTodoSchema } from '../model/schema/schema';
 import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -11,6 +11,7 @@ interface CreateTodoFormProps {
 }
 
 export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
+    const ref = useRef<HTMLInputElement>(null);
     const { control, handleSubmit, reset } = useForm<CreateTodoFormData>({
         resolver: zodResolver(createTodoSchema),
         defaultValues: {
@@ -56,6 +57,7 @@ export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
                         render={({ field, fieldState }) => (
                             <Input
                                 {...field}
+                                ref={ref}
                                 placeholder="Введите название задачи"
                                 autoFocus
                                 aria-required="true"

@@ -1,11 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    svgr({
+      svgrOptions: {
+        exportType: 'default',
+        ref: true,
+        svgo: false,
+        titleProp: true,
+      },
+      include: '**/*.svg',
+    }),
+    react(),
+  ],
   resolve: {
     alias: [{ find: '@', replacement: '/src' }],
   },
+  assetsInclude: [],
   define: {
     __IS_DEV__: JSON.stringify(true),
     __API__: JSON.stringify('http://localhost:8000'),
