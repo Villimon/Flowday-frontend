@@ -1,3 +1,22 @@
-.icon {
-    margin-top: 5px;
+.todoCard {
+    transition: all var(--duration-200) var(--ease-out);
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--color-border-heavy) !important;
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+
+.completed {
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 0.9;
+    }
 }

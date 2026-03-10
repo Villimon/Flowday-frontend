@@ -112,9 +112,10 @@ server.post('/api/todos', (req, res) => {
             id: String(Date.now()),
             title,
             description,
-            complited: false,
+            completed: false,
             userId,
             createdAt: Date.now(),
+            updatedAt: Date.now(),
         };
 
         const { db } = router;
@@ -136,18 +137,41 @@ server.post('/api/todos', (req, res) => {
 server.get('/api/todos', (req, res) => {
     try {
         const userId = req.headers.userid;
+        const { filter } = req.query;
+        let todos;
 
         const { db } = router;
-        let todos = db.get('todos').filter({ userId }).value();
 
-        todos = todos.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-        });
+        if (filter === 'active') {
+            todos = db.get('todos').filter({ userId, completed: false }).value();
+        } else if (filter === 'completed') {
+            todos = db.get('todos').filter({ userId, completed: true }).value();
+        } else {
+            todos = db.get('todos').filter({ userId }).value();
+        }
+
+        const activeTodos = todos.filter(t => !t.completed);
+        const completedTodos = todos.filter(t => t.completed);
+
+        // Сортируем активные по createdAt (новые сверху)
+        activeTodos.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        // Сортируем выполненные по updatedAt (новые сверху)
+        completedTodos.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+        // Объединяем: сначала активные, потом выполненные
+        let sortedTodos = [...activeTodos, ...completedTodos];
+
+        // Если есть фильтр, применяем его
+        if (filter === 'active') {
+            sortedTodos = activeTodos;
+        } else if (filter === 'completed') {
+            sortedTodos = completedTodos;
+        }
 
         res.status(200).json({
             success: true,
             message: 'Задачи получены',
-            data: todos,
+            data: sortedTodos,
         });
     } catch (error) {
         console.log(error);

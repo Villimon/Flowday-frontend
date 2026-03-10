@@ -1,0 +1,125 @@
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fullWidth {
+    width: 100%;
+    
+    .tab {
+        flex: 1;
+    }
+}
+
+.tab {
+    cursor: pointer;
+    transition: all var(--duration-200) var(--ease-out);
+    user-select: none;
+    
+    /* Focus styles for accessibility */
+    &:focus-visible {
+        outline: 2px solid var(--color-primary-500);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px var(--color-primary-900);
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Hover effect for non-disabled tabs */
+    &:hover:not(.disabled) {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    /* Active effect for non-disabled tabs */
+    &:active:not(.disabled) {
+        transform: translateY(0);
+    }
+}
+
+.selected {
+    position: relative;
+    
+    /* Bottom indicator for selected tab */
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 2px;
+        background-color: var(--color-primary-500);
+        border-radius: var(--radius-full);
+        transition: width var(--duration-200) var(--ease-out);
+    }
+    
+    &:hover::after {
+        width: 80%;
+    }
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    
+    &:hover,
+    &:active,
+    &:focus {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    
+    svg {
+        width: 1em;
+        height: 1em;
+    }
+}
+
+/* Direction variants */
+.directionRow {
+    flex-direction: row;
+}
+
+.directionColumn {
+    flex-direction: column;
+    
+    .tab {
+        width: 100%;
+    }
+    
+    .selected::after {
+        bottom: auto;
+        right: -2px;
+        left: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2px;
+        height: 30%;
+    }
+    
+    .selected:hover::after {
+        height: 50%;
+        width: 2px;
+    }
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+    .selected {
+        &::after {
+            background-color: var(--color-primary-400);
+        }
+    }
+}

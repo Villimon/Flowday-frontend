@@ -1,13 +1,19 @@
 import { Loader } from '@/shared/ui/Loader/Loader';
-import { useTodos } from '../../api/use-todo';
 import { Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../TodoCard/todo-card';
 import styles from './todo-list.module.css';
+import { Todo } from '../../model/types/types';
+import { FC } from 'react';
 
-export const TodoList = () => {
-    const { data, isFetching, isError } = useTodos();
+interface TodoListProps {
+    todos?: Todo[];
+    isLoading: boolean;
+    isError: boolean;
+    filter: string;
+}
 
-    if (isFetching) {
+export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, filter }) => {
+    if (isLoading) {
         // TODO add sceleton
         return <Loader />;
     }
@@ -16,14 +22,14 @@ export const TodoList = () => {
         return <Text text="Не удалось получить список задач " />;
     }
 
-    if (!data?.data.length) {
+    if (!todos?.length) {
         return <Text title="Список задач пустой" align="center" size="2xl" />;
     }
 
     return (
         <VStack gap="4" fullWidth className={styles.container}>
-            {data?.data.map(todo => (
-                <TodoCard key={todo.id} todo={todo} />
+            {todos?.map(todo => (
+                <TodoCard key={todo.id} todo={todo} filter={filter} />
             ))}
         </VStack>
     );

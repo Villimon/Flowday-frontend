@@ -5,14 +5,22 @@ import { Icon } from '@/shared/ui/Icon/Icon';
 import CircleSvg from '@/shared/assets/circle.svg';
 import CircleCheckSvg from '@/shared/assets/circle-check.svg';
 import styles from './todo-card.module.css';
+import clsx from 'clsx';
 
 interface TodoCardProps {
     todo: Todo;
+    filter: string;
 }
 
-export const TodoCard: FC<TodoCardProps> = ({ todo }) => {
+export const TodoCard: FC<TodoCardProps> = ({ todo, filter }) => {
     return (
-        <Card padding="4" fullWidth>
+        <Card
+            padding="4"
+            fullWidth
+            className={clsx(styles.todoCard, {
+                [styles.completed]: todo.completed && filter === 'all',
+            })}
+        >
             <HStack gap="8">
                 <Icon
                     clickable
