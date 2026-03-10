@@ -2,23 +2,25 @@ import { Card, HStack, Text, VStack } from '@/shared/ui';
 import { Todo } from '../../model/types/types';
 import { FC } from 'react';
 import { Icon } from '@/shared/ui/Icon/Icon';
-import CircleSvg from '@/shared/assets/circle.svg';
-import CircleCheckSvg from '@/shared/assets/circle-check.svg';
+import CircleIcon from '@/shared/assets/circle.svg';
+import CircleCheckIcon from '@/shared/assets/circle-check.svg';
+import DeleteIcon from '@/shared/assets/trash.svg';
+import EditIcon from '@/shared/assets/edit-pen.svg';
 import styles from './todo-card.module.css';
 import clsx from 'clsx';
 
 interface TodoCardProps {
     todo: Todo;
-    filter: string;
+    status: string;
 }
 
-export const TodoCard: FC<TodoCardProps> = ({ todo, filter }) => {
+export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
     return (
         <Card
             padding="4"
             fullWidth
             className={clsx(styles.todoCard, {
-                [styles.completed]: todo.completed && filter === 'all',
+                [styles.completed]: todo.completed && status === 'all',
             })}
         >
             <HStack gap="8">
@@ -26,12 +28,29 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, filter }) => {
                     clickable
                     onClick={() => {}}
                     aria-label="checbox"
-                    Svg={todo.completed ? CircleCheckSvg : CircleSvg}
+                    Svg={todo.completed ? CircleCheckIcon : CircleIcon}
+                    color="primary"
                 />
                 <VStack fullWidth gap="2">
                     <Text title={todo.title} size="2xl" />
                     {todo.description && <Text text={todo.description} />}
                 </VStack>
+                <HStack gap="2" className={styles.buttons}>
+                    <Icon
+                        clickable
+                        onClick={() => {}}
+                        aria-label="edit"
+                        Svg={EditIcon}
+                        color="secondary"
+                    />
+                    <Icon
+                        clickable
+                        onClick={() => {}}
+                        aria-label="delete"
+                        Svg={DeleteIcon}
+                        color="warning"
+                    />
+                </HStack>
             </HStack>
         </Card>
     );

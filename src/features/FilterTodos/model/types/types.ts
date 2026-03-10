@@ -1,1 +1,1 @@
-export type TodoFilter = 'all' | 'active' | 'completed';
+export type TodoStatus = 'all' | 'active' | 'completed';

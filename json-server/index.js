@@ -137,14 +137,14 @@ server.post('/api/todos', (req, res) => {
 server.get('/api/todos', (req, res) => {
     try {
         const userId = req.headers.userid;
-        const { filter } = req.query;
+        const { status } = req.query;
         let todos;
 
         const { db } = router;
 
-        if (filter === 'active') {
+        if (status === 'active') {
             todos = db.get('todos').filter({ userId, completed: false }).value();
-        } else if (filter === 'completed') {
+        } else if (status === 'completed') {
             todos = db.get('todos').filter({ userId, completed: true }).value();
         } else {
             todos = db.get('todos').filter({ userId }).value();
@@ -162,9 +162,9 @@ server.get('/api/todos', (req, res) => {
         let sortedTodos = [...activeTodos, ...completedTodos];
 
         // Если есть фильтр, применяем его
-        if (filter === 'active') {
+        if (status === 'active') {
             sortedTodos = activeTodos;
-        } else if (filter === 'completed') {
+        } else if (status === 'completed') {
             sortedTodos = completedTodos;
         }
 

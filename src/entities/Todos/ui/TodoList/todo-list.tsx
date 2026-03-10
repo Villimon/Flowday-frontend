@@ -9,10 +9,10 @@ interface TodoListProps {
     todos?: Todo[];
     isLoading: boolean;
     isError: boolean;
-    filter: string;
+    status: string;
 }
 
-export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, filter }) => {
+export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, status }) => {
     if (isLoading) {
         // TODO add sceleton
         return <Loader />;
@@ -29,7 +29,7 @@ export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, filter 
     return (
         <VStack gap="4" fullWidth className={styles.container}>
             {todos?.map(todo => (
-                <TodoCard key={todo.id} todo={todo} filter={filter} />
+                <TodoCard key={todo.id} todo={todo} status={status} />
             ))}
         </VStack>
     );

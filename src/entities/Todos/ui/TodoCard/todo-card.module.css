@@ -1,10 +1,15 @@
 .todoCard {
+    cursor: pointer;
     transition: all var(--duration-200) var(--ease-out);
     
     &:hover {
         transform: translateY(-1px);
         box-shadow: var(--shadow-md);
         border-color: var(--color-border-heavy) !important;
+
+        .buttons {
+            display: flex;
+        }
     }
     
     &:active {
@@ -19,4 +24,8 @@
     &:hover {
         opacity: 0.9;
     }
+}
+
+.buttons {
+    display: none;
 }

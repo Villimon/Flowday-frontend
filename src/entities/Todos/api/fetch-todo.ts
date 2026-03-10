@@ -2,14 +2,14 @@ import { $api } from '@/shared/api/api';
 import { TodosResponseDto } from '../model/types/types';
 
 interface FetchTodoParams {
-    filter?: string
+    status?: string
 }
 
-export const fetchTodo = async ({ filter }: FetchTodoParams) => {
+export const fetchTodo = async ({ status }: FetchTodoParams) => {
     try {
         const { data } = await $api.get<TodosResponseDto>('/todos', {
             params: {
-                filter
+                status
             }
         });
         return data;
