@@ -15,6 +15,7 @@ export const Header = memo(() => {
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
         queryClient.setQueryData(['user'], null);
+        queryClient.clear();
     }, []);
 
     return (

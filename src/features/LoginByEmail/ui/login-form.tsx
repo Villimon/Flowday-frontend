@@ -33,7 +33,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
     }, [reset]);
 
     const {
-        mutateAsync: loginMutate,
+        mutate: loginMutate,
         error: mutationError,
         isPending: isLoggingIn,
         reset: resetMutation,

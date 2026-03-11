@@ -1,13 +1,16 @@
 import { Card, HStack, Text, VStack } from '@/shared/ui';
 import { Todo } from '../../model/types/types';
-import { FC } from 'react';
-import { Icon } from '@/shared/ui/Icon/Icon';
-import CircleIcon from '@/shared/assets/circle.svg';
-import CircleCheckIcon from '@/shared/assets/circle-check.svg';
+import { FC, useCallback } from 'react';
+
 import styles from './todo-card.module.css';
 import clsx from 'clsx';
 import { DeleteTodo } from '@/features/DeleteTodo';
-import EditIcon from '@/shared/assets/edit-pen.svg';
+import { EditTodo } from '@/features/EditTodo';
+import { toast } from 'react-toastify';
+import { Icon } from '@/shared/ui/Icon/Icon';
+import CircleIcon from '@/shared/assets/circle.svg';
+import CircleCheckIcon from '@/shared/assets/circle-check.svg';
+import { useToggleTodo } from '@/features/ToggleTodo';
 
 interface TodoCardProps {
     todo: Todo;
@@ -15,6 +18,20 @@ interface TodoCardProps {
 }
 
 export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
+    const { mutate: toggleTodoMutate } = useToggleTodo();
+
+    const handleToggleTodo = useCallback(
+        (e?: React.MouseEvent) => {
+            e?.stopPropagation();
+            toggleTodoMutate(todo, {
+                onError: error => {
+                    toast.error(error.message || 'Ошибка при изменении статуса');
+                },
+            });
+        },
+        [toggleTodoMutate, todo]
+    );
+
     return (
         <Card
             padding="4"
@@ -22,27 +39,25 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
             className={clsx(styles.todoCard, {
                 [styles.completed]: todo.completed && status === 'all',
             })}
+            onClick={handleToggleTodo}
         >
-            <HStack gap="8">
+            <HStack gap="8" align="start">
                 <Icon
-                    clickable
-                    onClick={() => {}}
-                    aria-label="checbox"
+                    aria-label={
+                        todo.completed ? 'Отметить как невыполненное' : 'Отметить как выполненное'
+                    }
                     Svg={todo.completed ? CircleCheckIcon : CircleIcon}
                     color="primary"
                 />
                 <VStack fullWidth gap="2">
-                    <Text title={todo.title} size="2xl" />
-                    {todo.description && <Text text={todo.description} />}
+                    <Text
+                        title={`${todo.title.charAt(0).toUpperCase()}${todo.title.slice(1)}`}
+                        size="2xl"
+                    />
+                    {todo.description && <Text text={todo.description} variant="secondary" />}
                 </VStack>
                 <HStack gap="2" className={styles.buttons}>
-                    <Icon
-                        clickable
-                        onClick={() => {}}
-                        aria-label="edit"
-                        Svg={EditIcon}
-                        color="secondary"
-                    />
+                    <EditTodo todoId={todo.id} />
                     <DeleteTodo todoId={todo.id} />
                 </HStack>
             </HStack>

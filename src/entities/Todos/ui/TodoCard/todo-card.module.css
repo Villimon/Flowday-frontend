@@ -8,7 +8,7 @@
         border-color: var(--color-border-heavy) !important;
 
         .buttons {
-            display: flex;
+            opacity: 1;
         }
     }
     
@@ -27,5 +27,5 @@
 }
 
 .buttons {
-    display: none;
+    opacity: 0;
 }

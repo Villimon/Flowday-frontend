@@ -15,7 +15,7 @@ const TodosPage = memo(() => {
         setStatus(newStatus.value as TodoStatus);
     }, []);
 
-    const { data, isFetching, isError } = useTodos({ status });
+    const { data, isLoading, isError } = useTodos({ status });
 
     return (
         <main className={styles.main}>
@@ -24,7 +24,7 @@ const TodosPage = memo(() => {
                 <FilterTodos currentStatus={status} onStatusChange={handleStatusChange} />
                 <TodoList
                     todos={data?.data}
-                    isLoading={isFetching}
+                    isLoading={isLoading}
                     isError={isError}
                     status={status}
                 />

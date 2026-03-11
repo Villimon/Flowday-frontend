@@ -114,8 +114,8 @@ server.post('/api/todos', (req, res) => {
             description,
             completed: false,
             userId,
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
 
         const { db } = router;
@@ -172,6 +172,43 @@ server.get('/api/todos', (req, res) => {
             success: true,
             message: 'Задачи получены',
             data: sortedTodos,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+server.patch('/api/todos/:id/toggle', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const todoId = req.params.id;
+
+        const { db } = router;
+
+        const todo = db.get('todos').find({ userId, id: todoId }).value();
+
+        if (!todo) {
+            return res.status(404).json({
+                message: 'Задача не найдена',
+            });
+        }
+
+        todo.completed = !todo.completed;
+        todo.updatedAt = new Date().toISOString();
+
+        db.get('todos')
+            .find({ id: todoId, userId })
+            .assign({
+                completed: todo.completed,
+                updatedAt: todo.updatedAt,
+            })
+            .write();
+
+        res.status(200).json({
+            success: true,
+            message: 'Статус задачи успешно изменен',
+            data: todo,
         });
     } catch (error) {
         console.log(error);

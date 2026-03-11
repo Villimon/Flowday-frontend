@@ -30,7 +30,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
     }, [reset, onClose]);
 
     const {
-        mutateAsync: registerMutate,
+        mutate: registerMutate,
         error: registerError,
         isPending: isRegisteringIn,
         reset: resetMutation,

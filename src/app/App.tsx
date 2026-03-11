@@ -20,8 +20,6 @@ import { Loader } from '@/shared/ui/Loader/Loader';
 // TODO
 // Редактировать задачи, для этого надо получать конкретную задачу по роуту /:id, а в параметрах передать todoId
 
-// Менять статус задачи - /:id/toggle
-
 // Сделать адаптив
 
 export const App = () => {
@@ -34,7 +32,7 @@ export const App = () => {
             ) : (
                 <Loader />
             )}
-            <ToastContainer />
+            <ToastContainer theme="dark" position="bottom-right" newestOnTop />
         </div>
     );
 };

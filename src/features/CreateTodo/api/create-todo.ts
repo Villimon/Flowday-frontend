@@ -17,8 +17,9 @@ export const useCreateTodo = () => {
             }
 
         },
-        onSuccess: newTodo => {
-            queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
+        onSuccess: async newTodo => {
+            await queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
+            return newTodo
         },
     });
 };

@@ -4,6 +4,8 @@ export interface Todo {
     description?: string,
     completed: boolean,
     userId: string,
+    updatedAt: string
+    createdAt: string
 }
 
 export interface TodosResponseDto {

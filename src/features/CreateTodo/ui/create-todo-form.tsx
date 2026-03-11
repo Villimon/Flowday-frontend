@@ -35,17 +35,15 @@ export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
     }, [reset]);
 
     const handleCreateTodo = useCallback(
-        (value: CreateTodoFormData) => {
+        async (value: CreateTodoFormData) => {
             resetMutation();
-            createTodoMutate(value, {
-                onSuccess: () => {
-                    toast.success(`Задача создана`);
-                    handleCloseModal();
-                },
-                onError: error => {
-                    toast.error(error.message || 'Ошибка при создание');
-                },
-            });
+            try {
+                await createTodoMutate(value);
+                toast.success(`Задача создана`);
+                handleCloseModal();
+            } catch (error: any) {
+                toast.error(error.message || 'Ошибка при создание');
+            }
         },
         [createTodoMutate, resetMutation]
     );
