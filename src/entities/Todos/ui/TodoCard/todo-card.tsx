@@ -4,10 +4,10 @@ import { FC } from 'react';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import CircleIcon from '@/shared/assets/circle.svg';
 import CircleCheckIcon from '@/shared/assets/circle-check.svg';
-import DeleteIcon from '@/shared/assets/trash.svg';
-import EditIcon from '@/shared/assets/edit-pen.svg';
 import styles from './todo-card.module.css';
 import clsx from 'clsx';
+import { DeleteTodo } from '@/features/DeleteTodo';
+import EditIcon from '@/shared/assets/edit-pen.svg';
 
 interface TodoCardProps {
     todo: Todo;
@@ -43,13 +43,7 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                         Svg={EditIcon}
                         color="secondary"
                     />
-                    <Icon
-                        clickable
-                        onClick={() => {}}
-                        aria-label="delete"
-                        Svg={DeleteIcon}
-                        color="warning"
-                    />
+                    <DeleteTodo todoId={todo.id} />
                 </HStack>
             </HStack>
         </Card>

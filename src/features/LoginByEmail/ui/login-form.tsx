@@ -40,7 +40,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
     } = useLoginByEmail();
 
     const handleLogin = useCallback(
-        async (value: LoginFormData) => {
+        (value: LoginFormData) => {
             resetMutation();
             loginMutate(value, {
                 onSuccess: () => {
@@ -49,6 +49,9 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                     if (isRedirect) {
                         navigate(getRouteTodos());
                     }
+                },
+                onError: error => {
+                    toast.error(error.message || 'Ошибка при авторизации');
                 },
             });
         },

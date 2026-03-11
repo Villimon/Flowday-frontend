@@ -39,12 +39,15 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
     const isFormSubmitting = isRegisteringIn;
 
     const handleLogin = useCallback(
-        async (value: RegisterFormData) => {
+        (value: RegisterFormData) => {
             resetMutation();
             registerMutate(value, {
                 onSuccess: () => {
                     toast.success(`Вы успешно зарегистрировались!`);
                     handleCloseModal();
+                },
+                onError: error => {
+                    toast.error(error.message || 'Ошибка при регистрации');
                 },
             });
         },
