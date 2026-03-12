@@ -16,7 +16,7 @@ export const Header = memo(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
         queryClient.setQueryData(['user'], null);
         queryClient.clear();
-    }, []);
+    }, [queryClient]);
 
     return (
         <header className={clsx('container', styles.header)}>

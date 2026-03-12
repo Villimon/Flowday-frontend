@@ -49,7 +49,7 @@ export const useDeleteTodo = () => {
 
             return { previousData };
         },
-        onError: (err, todoId, context) => {
+        onError: (err, _, context) => {
             if (context?.previousData) {
                 queryClient.setQueryData(TODO_KEYS.list('all'), context.previousData.all);
                 queryClient.setQueryData(TODO_KEYS.list('active'), context.previousData.active);
@@ -57,7 +57,7 @@ export const useDeleteTodo = () => {
             }
             toast.error(err.message || 'Ошибка при удаление');
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: TODO_KEYS.lists()
             });

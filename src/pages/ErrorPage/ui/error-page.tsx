@@ -3,7 +3,7 @@ import { memo, useState } from 'react';
 
 const ErrorPage = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
-
+    // !!!TODO: УБАРТЬ ТУТ ВСЕ
     return (
         <main>
             Упс, такой страницы нет

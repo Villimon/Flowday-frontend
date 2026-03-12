@@ -30,7 +30,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
     const handleCloseModal = useCallback(() => {
         onClose();
         reset();
-    }, [reset]);
+    }, [reset, onClose]);
 
     const {
         mutate: loginMutate,
@@ -55,7 +55,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                 },
             });
         },
-        [loginMutate, resetMutation]
+        [loginMutate, resetMutation, handleCloseModal]
     );
 
     return (

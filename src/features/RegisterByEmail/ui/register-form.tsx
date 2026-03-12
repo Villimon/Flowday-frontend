@@ -51,7 +51,7 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
                 },
             });
         },
-        [registerMutate, resetMutation]
+        [registerMutate, resetMutation, handleCloseModal]
     );
 
     return (

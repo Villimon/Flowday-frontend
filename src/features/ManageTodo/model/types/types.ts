@@ -1,12 +1,12 @@
 import { Todo } from "@/entities/Todos";
 
-export type CreateTodoDto = {
+export type ManageTodoDto = {
     title: string;
     description?: string;
 };
 
 
-export type CreateTodoResponseDto = {
+export type ManageTodoResponseDto = {
     success: boolean,
     message: string,
     data: Todo

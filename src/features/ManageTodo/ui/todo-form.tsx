@@ -1,55 +1,40 @@
-import { useCreateTodo } from '../api/create-todo';
-import { CreateTodoFormData, createTodoSchema } from '../model/schema/schema';
+import { TodoFormData, todoSchema } from '../model/schema/schema';
 import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
-interface CreateTodoFormProps {
-    onClose: () => void;
+interface TodoFormProps {
+    onCancel: () => void;
+    onSubmit: (value: TodoFormData) => Promise<void>;
+    isLoading: boolean;
+    error: Error | null;
+    submitText: any;
+    initialData?: Partial<TodoFormData>;
 }
 
-export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
+export const TodoForm: FC<TodoFormProps> = ({
+    error,
+    initialData,
+    isLoading,
+    onCancel,
+    onSubmit,
+    submitText,
+}) => {
     const ref = useRef<HTMLInputElement>(null);
-    const { control, handleSubmit, reset } = useForm<CreateTodoFormData>({
-        resolver: zodResolver(createTodoSchema),
+    const { control, handleSubmit } = useForm<TodoFormData>({
+        resolver: zodResolver(todoSchema),
         defaultValues: {
             title: '',
             description: '',
+            ...initialData,
         },
         mode: 'onSubmit',
         reValidateMode: 'onBlur',
     });
 
-    const {
-        mutateAsync: createTodoMutate,
-        error: mutationError,
-        isPending,
-        reset: resetMutation,
-    } = useCreateTodo();
-
-    const handleCloseModal = useCallback(() => {
-        onClose();
-        reset();
-    }, [reset]);
-
-    const handleCreateTodo = useCallback(
-        async (value: CreateTodoFormData) => {
-            resetMutation();
-            try {
-                await createTodoMutate(value);
-                toast.success(`Задача создана`);
-                handleCloseModal();
-            } catch (error: any) {
-                toast.error(error.message || 'Ошибка при создание');
-            }
-        },
-        [createTodoMutate, resetMutation]
-    );
-
     return (
-        <form onSubmit={handleSubmit(handleCreateTodo)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <VStack gap="8" fullWidth>
                 <VStack gap="4" fullWidth>
                     <Controller
@@ -66,7 +51,7 @@ export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
                                 error={fieldState.error?.message}
                                 isInvalid={!!fieldState.error}
                                 label="Название задачи"
-                                disabled={isPending}
+                                disabled={isLoading}
                                 aria-describedby={
                                     fieldState.error ? 'title-error' : 'title-description'
                                 }
@@ -83,7 +68,7 @@ export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
                                 error={fieldState.error?.message}
                                 isInvalid={!!fieldState.error}
                                 label="Описание задачи"
-                                disabled={isPending}
+                                disabled={isLoading}
                                 aria-describedby={
                                     fieldState.error
                                         ? 'description-error'
@@ -92,19 +77,17 @@ export const CreateTodoForm: FC<CreateTodoFormProps> = ({ onClose }) => {
                             />
                         )}
                     />
-                    {mutationError && (
-                        <Text variant="error" text={mutationError.message} size="sm" />
-                    )}
+                    {error && <Text variant="error" text={error.message} size="sm" />}
                 </VStack>
                 <HStack fullWidth gap="4" justify="end">
-                    <Button loading={isPending} disabled={isPending} variant="filled" type="submit">
-                        Создать
+                    <Button loading={isLoading} disabled={isLoading} variant="filled" type="submit">
+                        {submitText}
                     </Button>
                     <Button
-                        loading={isPending}
-                        disabled={isPending}
+                        loading={isLoading}
+                        disabled={isLoading}
                         variant="outline"
-                        onClick={handleCloseModal}
+                        onClick={onCancel}
                     >
                         Отмена
                     </Button>

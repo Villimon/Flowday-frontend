@@ -216,6 +216,42 @@ server.patch('/api/todos/:id/toggle', (req, res) => {
     }
 });
 
+server.put('/api/todos/:id', (req, res) => {
+    try {
+        const data = req.body;
+        const userId = req.headers.userid;
+        const todoId = req.params.id;
+
+        const { db } = router;
+
+        const todo = db.get('todos').find({ userId, id: todoId }).value();
+
+        if (!todo) {
+            return res.status(404).json({
+                message: 'Задача не найдена',
+            });
+        }
+
+        const updatedTodo = {
+            ...todo,
+            updatedAt: new Date().toISOString(),
+            title: data.title,
+            description: data.description,
+        };
+
+        db.get('todos').find({ id: todoId, userId }).assign(updatedTodo).write();
+
+        res.status(200).json({
+            success: true,
+            message: 'Задачи успешно изменена',
+            data: updatedTodo,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
 server.use(async (req, res, next) => {
     try {
         // Пропускаем публичные роуты (логин, регистрация)

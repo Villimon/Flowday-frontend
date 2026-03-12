@@ -56,8 +56,8 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                     />
                     {todo.description && <Text text={todo.description} variant="secondary" />}
                 </VStack>
-                <HStack gap="2" className={styles.buttons}>
-                    <EditTodo todoId={todo.id} />
+                <HStack onClick={e => e.stopPropagation()} gap="2" className={styles.buttons}>
+                    <EditTodo todo={todo} />
                     <DeleteTodo todoId={todo.id} />
                 </HStack>
             </HStack>
