@@ -2,29 +2,47 @@
     cursor: pointer;
     transition: all var(--duration-200) var(--ease-out);
     word-break: break-all;
-    
-    &:hover {
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--color-border-heavy) !important;
 
-        .buttons {
+    &.completed {
+        opacity: 0.5;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        &.completed:hover {
+            opacity: 0.9;
+        }
+
+        &:hover .buttons {
             opacity: 1;
         }
     }
 
+    @media (hover: none), (pointer: coarse) {
+        &:hover {
+            transform: none;
+            box-shadow: none;
+        }
 
-    @media (max-width: 768px) {
-        padding: var(--space-2);
+        &:active {
+            transform: scale(0.98);
+            background-color: var(--color-surface-hover);
+            transition: transform 0.1s;
+        }
 
         .buttons {
-            opacity: 1;
+            opacity: 1; 
         }
     }
-    
-    &:active {
-        transform: translateY(0);
-    }
+}
+
+.buttons {
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
 .body {
@@ -38,17 +56,4 @@
         width: 26px;
         height: 26px;
     }
-}
-
-
-.completed {
-    opacity: 0.5;
-
-    &:hover {
-        opacity: 0.9;
-    }
-}
-
-.buttons {
-    opacity: 0;
 }
