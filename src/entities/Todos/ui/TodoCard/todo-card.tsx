@@ -40,19 +40,21 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                 [styles.completed]: todo.completed && status === 'all',
             })}
             onClick={handleToggleTodo}
+            lang="ru"
         >
-            <HStack gap="8" align="start">
+            <HStack gap="8" align="start" className={styles.body}>
                 <Icon
                     aria-label={
                         todo.completed ? 'Отметить как невыполненное' : 'Отметить как выполненное'
                     }
                     Svg={todo.completed ? CircleCheckIcon : CircleIcon}
                     color="primary"
+                    className={styles.icon}
                 />
                 <VStack fullWidth gap="2">
                     <Text
                         title={`${todo.title.charAt(0).toUpperCase()}${todo.title.slice(1)}`}
-                        size="2xl"
+                        size="xl"
                     />
                     {todo.description && <Text text={todo.description} variant="secondary" />}
                 </VStack>

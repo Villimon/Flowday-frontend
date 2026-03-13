@@ -27,10 +27,10 @@
       "id": "1772804637122",
       "title": "Купить молока",
       "description": "Купить пару бутылок, буду готовить кашу",
-      "completed": false,
+      "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": 1772804637122,
-      "updatedAt": "2026-03-12T07:35:51.788Z"
+      "updatedAt": "2026-03-13T11:49:39.993Z"
     },
     {
       "id": "1772804644525",
@@ -39,7 +39,7 @@
       "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": 1772804644525,
-      "updatedAt": "2026-03-11T14:04:54.710Z"
+      "updatedAt": "2026-03-13T11:49:44.107Z"
     },
     {
       "id": "1772804725737",
@@ -70,12 +70,12 @@
     },
     {
       "id": "1773231812749",
-      "title": "sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad",
+      "title": "Оченьдлинноесловокотороеневлезает ОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезает",
       "description": "sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad",
       "completed": false,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-11T12:23:32.749Z",
-      "updatedAt": "2026-03-12T07:14:58.703Z"
+      "updatedAt": "2026-03-13T10:40:36.953Z"
     },
     {
       "id": "1773251013751",
@@ -139,6 +139,15 @@
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-12T07:50:07.276Z",
       "updatedAt": "2026-03-12T07:50:30.504Z"
+    },
+    {
+      "id": "1773400966411",
+      "title": "Новая задача",
+      "description": "Описание по приколу",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "createdAt": "2026-03-13T11:22:46.411Z",
+      "updatedAt": "2026-03-13T11:22:46.411Z"
     }
   ]
 }

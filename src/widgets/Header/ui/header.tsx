@@ -15,6 +15,7 @@ export const Header = memo(() => {
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
         queryClient.setQueryData(['user'], null);
+        queryClient.removeQueries();
         queryClient.clear();
     }, [queryClient]);
 
@@ -26,8 +27,8 @@ export const Header = memo(() => {
                 <HStack gap="4" align="center">
                     {/* TODO: добавить кнопку "Мои задачи", которая будет вести в основное приложение, которая будет показываться только на / (главной) */}
                     {/* TODO: Имя пользователя будет кликабельным и вызывать выпадающий список с меню, которое будет иметь пункты "Настройки" и "Выйти" */}
-                    <Text text={user?.data.name} />
-                    <Button onClick={logout} size="sm" radius="xl" variant="filled">
+                    <Text text={user?.data.name} size="lg" />
+                    <Button onClick={logout} size="md" radius="xl" variant="filled">
                         Выйти
                     </Button>
                 </HStack>

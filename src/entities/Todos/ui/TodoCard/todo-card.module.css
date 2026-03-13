@@ -1,6 +1,7 @@
 .todoCard {
     cursor: pointer;
     transition: all var(--duration-200) var(--ease-out);
+    word-break: break-all;
     
     &:hover {
         transform: translateY(-1px);
@@ -11,9 +12,31 @@
             opacity: 1;
         }
     }
+
+
+    @media (max-width: 768px) {
+        padding: var(--space-2);
+
+        .buttons {
+            opacity: 1;
+        }
+    }
     
     &:active {
         transform: translateY(0);
+    }
+}
+
+.body {
+    @media (max-width: 480px) {
+        gap: 7px;
+    }
+}
+
+.icon {
+    @media (max-width: 480px) {
+        width: 26px;
+        height: 26px;
     }
 }
 
