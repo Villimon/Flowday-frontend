@@ -1,14 +1,32 @@
-import { Button, Card, HStack, Input, Modal, Text, VStack } from '@/shared/ui';
-import { memo, useState } from 'react';
+import { memo, useCallback } from 'react';
+import styles from './error-page.module.css';
+import { Button, Text, VStack } from '@/shared/ui';
+import { useNavigate } from 'react-router-dom';
+import { getRouteMain } from '@/shared/constants/router';
 
 const ErrorPage = memo(() => {
-    const [isOpen, setIsOpen] = useState(false);
-    // !!!TODO: УБАРТЬ ТУТ ВСЕ
+    const navigate = useNavigate();
+
+    const handleRedirect = useCallback(() => {
+        navigate(getRouteMain());
+    }, []);
+
     return (
-        <main>
-            Упс, такой страницы нет
-            <button>Вернуться на главную</button>
-            <Button onClick={() => setIsOpen(true)}>Открыть модалку</Button>;
+        <div className={styles.block} role="main">
+            <VStack gap="8" align="center">
+                <Text title="Упс, такой страницы нет" size="4xl" />
+                <Button onClick={handleRedirect} size="xl">
+                    Вернуться на главную
+                </Button>
+            </VStack>
+        </div>
+    );
+});
+
+export default ErrorPage;
+
+/* 
+<Button onClick={() => setIsOpen(true)}>Открыть модалку</Button>;
             <Modal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
@@ -224,7 +242,7 @@ const ErrorPage = memo(() => {
                     Содержимое статьи...
                 </Card>
                 <Card role="region" aria-label="Список задач" tabIndex={0}>
-                    {/* Focusable карточка */}
+                    Focusable карточка 
                     asdasd
                 </Card>
                 // Комплексный пример
@@ -251,8 +269,6 @@ const ErrorPage = memo(() => {
                     </VStack>
                 </Card>
             </VStack>
-        </main>
-    );
-});
 
-export default ErrorPage;
+
+*/

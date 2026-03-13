@@ -7,10 +7,13 @@ import { useAuth } from '@/entities/User';
 import { useQueryClient } from '@tanstack/react-query';
 import { TOKEN_LOCAL_STORAGE_KEY } from '@/shared/constants/localstorage';
 import { RegisterByEmail } from '@/features/RegisterByEmail';
+import { useNavigate } from 'react-router-dom';
+import { getRouteMain } from '@/shared/constants/router';
 
 export const Header = memo(() => {
     const { data: user, isAuth } = useAuth();
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
@@ -19,10 +22,15 @@ export const Header = memo(() => {
         queryClient.clear();
     }, [queryClient]);
 
+    const handleRedirect = useCallback(() => {
+        navigate(getRouteMain());
+    }, []);
+
     return (
         <header className={clsx('container', styles.header)}>
-            {/* TODO: Сделать это не тестом а кнопкой и переводить на главную если пользователь не авторизован и переводить на задачи если пользователь авторизован */}
-            <Text variant="accent" size="3xl" text="FLOWDAY" />
+            <Button onClick={handleRedirect} size="xl" variant="clear" color="primary">
+                FLOWDAY
+            </Button>
             {isAuth ? (
                 <HStack gap="4" align="center">
                     {/* TODO: добавить кнопку "Мои задачи", которая будет вести в основное приложение, которая будет показываться только на / (главной) */}
