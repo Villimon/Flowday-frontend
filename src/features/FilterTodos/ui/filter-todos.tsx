@@ -3,7 +3,7 @@ import { TodoStatus } from '../model/types/types';
 import { TabItem, Tabs } from '@/shared/ui/Tabs/Tabs';
 
 const filterItems: { value: TodoStatus; content: string }[] = [
-    { value: 'all', content: 'Все задачи' },
+    { value: 'all', content: 'Все' },
     { value: 'active', content: 'Активные' },
     { value: 'completed', content: 'Выполненные' },
 ];
