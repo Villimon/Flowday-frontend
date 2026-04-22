@@ -9,7 +9,7 @@ const ErrorPage = memo(() => {
 
     const handleRedirect = useCallback(() => {
         navigate(getRouteMain());
-    }, []);
+    }, [navigate]);
 
     return (
         <div className={styles.block} role="main">
@@ -24,6 +24,8 @@ const ErrorPage = memo(() => {
 });
 
 export default ErrorPage;
+
+ErrorPage.displayName = 'ErrorPage';
 
 /* 
 <Button onClick={() => setIsOpen(true)}>Открыть модалку</Button>;

@@ -30,6 +30,7 @@ interface ModalProps {
     closeOnOverlayClick?: boolean;
     showOverlay?: boolean;
     showCloseButton?: boolean;
+    disableClose?: boolean;
 
     // Accessibility
     title?: string;
@@ -68,6 +69,7 @@ export const Modal = ({
     closeOnOverlayClick = true,
     showOverlay = true,
     showCloseButton = true,
+    disableClose = false,
 
     // Accessibility
     title,
@@ -121,7 +123,7 @@ export const Modal = ({
                 {showOverlay && (
                     <Overlay
                         className={overlayClassName}
-                        onClick={closeOnOverlayClick ? closeHandler : undefined}
+                        onClick={closeOnOverlayClick && !disableClose ? closeHandler : undefined}
                         blur
                     />
                 )}
@@ -160,6 +162,7 @@ export const Modal = ({
                                         variant="clear"
                                         size="sm"
                                         onClick={closeHandler}
+                                        disabled={disableClose}
                                         iconOnly
                                         aria-label="Закрыть модальное окно"
                                         className={cls.closeButton}

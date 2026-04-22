@@ -1,6 +1,8 @@
 import { $api } from '@/shared/api/api';
 import { TOKEN_LOCAL_STORAGE_KEY } from '@/shared/constants/localstorage';
 import { UserDto } from '../model/types/types';
+import { AxiosError } from 'axios';
+import { ApiError } from '@/shared/types/api.types';
 
 export const fetchMe = async () => {
     try {
@@ -12,8 +14,8 @@ export const fetchMe = async () => {
         const { data } = await $api.get<UserDto>('/auth/me');
 
         return data;
-    } catch (e: any) {
-        const serverMessage = e?.response?.data?.message || 'Ошибка получение данных';
-        throw new Error(serverMessage);
+    } catch (e) {
+        const error = e as AxiosError<ApiError>;
+        throw error.response?.data || { success: false, message: 'Ошибка получения данных' };
     }
 };

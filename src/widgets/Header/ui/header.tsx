@@ -24,7 +24,7 @@ export const Header = memo(() => {
 
     const handleRedirect = useCallback(() => {
         navigate(getRouteMain());
-    }, []);
+    }, [navigate]);
 
     return (
         <header className={clsx('container', styles.header)}>
@@ -49,3 +49,5 @@ export const Header = memo(() => {
         </header>
     );
 });
+
+Header.displayName = 'Header';

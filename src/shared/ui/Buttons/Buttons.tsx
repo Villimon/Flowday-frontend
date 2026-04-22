@@ -95,7 +95,7 @@ export const Button = memo(
                     if (!disabled && !loading && (e.key === ' ' || e.key === 'Enter')) {
                         e.preventDefault();
                         if (onClick) {
-                            onClick(e as any);
+                            onClick(e as unknown as React.MouseEvent<HTMLButtonElement>);
                         }
                     }
 

@@ -8,13 +8,13 @@ interface MainLayoutProps {
     content: ReactElement;
 }
 
-export const MainLayout: FC<MainLayoutProps> = memo(
-    ({ content, header, className }) => {
-        return (
-            <div className={clsx(styles.mainLayout, [className])}>
-                <div className={styles.header}>{header}</div>
-                <div className={styles.content}>{content}</div>
-            </div>
-        );
-    }
-);
+export const MainLayout: FC<MainLayoutProps> = memo(({ content, header, className }) => {
+    return (
+        <div className={clsx(styles.mainLayout, [className])}>
+            <div className={styles.header}>{header}</div>
+            <div className={styles.content}>{content}</div>
+        </div>
+    );
+});
+
+MainLayout.displayName = 'MainLayout';

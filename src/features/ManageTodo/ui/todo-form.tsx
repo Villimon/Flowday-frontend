@@ -1,3 +1,4 @@
+import { ApiError } from '@/shared/types/api.types';
 import { TodoFormData, todoSchema } from '../model/schema/schema';
 import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,8 +9,8 @@ interface TodoFormProps {
     onCancel: () => void;
     onSubmit: (value: TodoFormData) => Promise<void>;
     isLoading: boolean;
-    error: Error | null;
-    submitText: any;
+    error: ApiError | null;
+    submitText: string;
     initialData?: Partial<TodoFormData>;
 }
 
@@ -83,12 +84,7 @@ export const TodoForm: FC<TodoFormProps> = ({
                     <Button loading={isLoading} disabled={isLoading} variant="filled" type="submit">
                         {submitText}
                     </Button>
-                    <Button
-                        loading={isLoading}
-                        disabled={isLoading}
-                        variant="outline"
-                        onClick={onCancel}
-                    >
+                    <Button disabled={isLoading} variant="outline" onClick={onCancel}>
                         Отмена
                     </Button>
                 </HStack>

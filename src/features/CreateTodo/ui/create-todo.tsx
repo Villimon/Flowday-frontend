@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCreateTodo } from '@/features/CreateTodo/api/create-todo';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
+import { ApiError } from '@/shared/types/api.types';
 
 export const CreateTodo = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -30,8 +31,10 @@ export const CreateTodo = () => {
                 await createTodoMutate(value);
                 toast.success(`Задача создана`);
                 handleCloseModal();
-            } catch (error: any) {
-                toast.error(error.message || 'Ошибка при создание');
+            } catch (e) {
+                const error = e as ApiError;
+                const errorMessage = 'errors' in error ? error.errors[0]?.msg : error.message;
+                toast.error(errorMessage || 'Ошибка при создании');
             }
         },
         [createTodoMutate, resetMutation, handleCloseModal]
@@ -43,7 +46,12 @@ export const CreateTodo = () => {
                 Создать задачу
             </Button>
             {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Создать задачу">
+                <Modal
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    disableClose={isPending}
+                    title="Создать задачу"
+                >
                     <TodoForm
                         error={mutationError}
                         isLoading={isPending}

@@ -8,6 +8,7 @@ export const useLoginByEmail = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
+        mutationKey: ['login-action'],
         mutationFn: async (dto: LoginRequestDto) => {
             const token = await loginByEmail(dto);
             localStorage.setItem(TOKEN_LOCAL_STORAGE_KEY, token);

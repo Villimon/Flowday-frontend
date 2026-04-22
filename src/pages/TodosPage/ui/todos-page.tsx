@@ -34,3 +34,5 @@ const TodosPage = memo(() => {
 });
 
 export default TodosPage;
+
+TodosPage.displayName = 'TodosPage';

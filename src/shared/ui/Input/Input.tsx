@@ -1,4 +1,12 @@
-import { InputHTMLAttributes, memo, useEffect, useState, useCallback, forwardRef } from 'react';
+import {
+    InputHTMLAttributes,
+    memo,
+    useEffect,
+    useState,
+    useCallback,
+    forwardRef,
+    useId,
+} from 'react';
 import cls from './Input.module.css';
 import { Text } from '../Text/Text';
 import { VStack } from '../Stack/VStack/VStack';
@@ -96,7 +104,8 @@ export const Input = memo(
             ...otherProps
         } = props;
 
-        const [isFocused, setIsFocused] = useState(false);
+        const [isFocused, setIsFocused] = useState(autoFocus);
+        const generatedId = useId();
 
         const hasError = Boolean(error) || isInvalid;
 
@@ -120,9 +129,8 @@ export const Input = memo(
         useEffect(() => {
             if (autoFocus && ref && 'current' in ref && ref.current) {
                 ref.current.focus();
-                setIsFocused(true);
             }
-        }, [autoFocus, ref]);
+        }, [autoFocus, ref, setIsFocused]);
 
         const ariaProps = {
             'aria-label': ariaLabel || label,
@@ -140,8 +148,7 @@ export const Input = memo(
             }
         });
 
-        const inputId =
-            id || (name ? `${name}-input` : `input-${Math.random().toString(36).substr(2, 9)}`);
+        const inputId = id || (name ? `${name}-input` : generatedId);
 
         return (
             <VStack gap="2" align="stretch" fullWidth={fullWidth} className={className}>

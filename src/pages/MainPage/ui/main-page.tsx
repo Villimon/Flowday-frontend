@@ -9,3 +9,5 @@ export const MainPage = memo(() => {
         </main>
     );
 });
+
+MainPage.displayName = 'MainPage';

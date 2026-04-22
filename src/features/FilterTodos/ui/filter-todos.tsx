@@ -16,3 +16,5 @@ interface FilterTodosProps {
 export const FilterTodos: FC<FilterTodosProps> = memo(({ currentStatus, onStatusChange }) => {
     return <Tabs tabs={filterItems} onTabClick={onStatusChange} value={currentStatus} />;
 });
+
+FilterTodos.displayName = 'FilterTodos';

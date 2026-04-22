@@ -10,8 +10,8 @@ export const useAuth = () => {
     });
 
     return {
-        ...query,
+        data: query.data,
         isAuth: Boolean(query.data),
         isInitialized: !query.isLoading && !query.isFetching,
-    }
+    };
 };

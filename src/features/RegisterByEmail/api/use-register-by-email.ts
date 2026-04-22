@@ -6,6 +6,7 @@ export const useRegisterByEmail = () => {
     const { mutateAsync } = useLoginByEmail();
 
     return useMutation({
+        mutationKey: ['register-action'],
         mutationFn: registerByEmail,
         onSuccess: async (_, variables) => {
             await mutateAsync({

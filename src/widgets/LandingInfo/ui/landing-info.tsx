@@ -6,11 +6,13 @@ import { getRouteTodos } from '@/shared/constants/router';
 import { LoginForm } from '@/features/LoginByEmail';
 import { useAuth } from '@/entities/User';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
+import { useIsMutating } from '@tanstack/react-query';
 
 export const LandingInfo = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
     const { isAuth } = useAuth();
     const isMobile = useMedia('(max-width: 768px)');
+    const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
 
     const navigate = useNavigate();
 
@@ -50,7 +52,12 @@ export const LandingInfo = memo(() => {
                     </Button>
                 </HStack>
                 {isOpen && (
-                    <Modal isOpen={isOpen} onClose={handleCloseModal} title="Войти">
+                    <Modal
+                        disableClose={isLoggingIn}
+                        isOpen={isOpen}
+                        onClose={handleCloseModal}
+                        title="Войти"
+                    >
                         <LoginForm onClose={handleCloseModal} isRedirect />
                     </Modal>
                 )}
@@ -58,3 +65,5 @@ export const LandingInfo = memo(() => {
         </section>
     );
 });
+
+LandingInfo.displayName = 'LandingInfo';

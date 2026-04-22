@@ -55,7 +55,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                 },
             });
         },
-        [loginMutate, resetMutation, handleCloseModal]
+        [loginMutate, resetMutation, handleCloseModal, isRedirect, navigate]
     );
 
     return (

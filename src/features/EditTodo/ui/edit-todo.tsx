@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Modal } from '@/shared/ui';
 import { TodoForm } from '@/features/ManageTodo';
 import { useEditTodo } from '@/features/EditTodo/api/edit-todo';
+import { ApiError } from '@/shared/types/api.types';
 
 interface EditTodoProps {
     todo: Todo;
@@ -37,11 +38,13 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                 await editTodoMutate({ todo: value, todoId: todo.id });
                 toast.success(`Задача обновлена`);
                 handleCloseModal();
-            } catch (error: any) {
-                toast.error(error.message || 'Ошибка при обновление');
+            } catch (e) {
+                const error = e as ApiError;
+                const errorMessage = 'errors' in error ? error.errors[0]?.msg : error.message;
+                toast.error(errorMessage || 'Ошибка при обновление');
             }
         },
-        [editTodoMutate, resetMutation]
+        [editTodoMutate, resetMutation, todo.id, handleCloseModal]
     );
 
     return (
@@ -54,7 +57,12 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                 color="secondary"
             />
             {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Редактирование задачи">
+                <Modal
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    disableClose={isPending}
+                    title="Редактирование задачи"
+                >
                     <TodoForm
                         error={mutationError}
                         isLoading={isPending}

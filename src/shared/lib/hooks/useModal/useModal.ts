@@ -37,15 +37,9 @@ export function useModal({ animationDelay, isOpen, onClose }: UseModalProps) {
         [closeHandler]
     );
 
-    useEffect(() => {
-        if (isOpen) {
-            setIsMounted(true);
-        }
-
-        return () => {
-            setIsMounted(false);
-        };
-    }, [isOpen]);
+    if (isOpen && !isMounted) {
+        setIsMounted(true);
+    }
 
     useEffect(() => {
         if (isOpen) {
