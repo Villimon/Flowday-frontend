@@ -85,7 +85,7 @@ export const Header = memo(() => {
                         items={menuItems}
                         trigger={
                             <Card horizontalPadding="12" verticalPadding="6" radius="full">
-                                <HStack gap="2" justify="center" align="center">
+                                <HStack gap="4" justify="center" align="center">
                                     <Text
                                         className={styles.avatar}
                                         text={user?.data.name[0].toUpperCase()}
@@ -101,10 +101,6 @@ export const Header = memo(() => {
                             </VStack>
                         }
                     />
-
-                    {/* <Button onClick={logout} size="md" radius="xl" variant="filled">
-                        Выйти
-                    </Button> */}
                 </HStack>
             ) : (
                 <HStack gap="4">

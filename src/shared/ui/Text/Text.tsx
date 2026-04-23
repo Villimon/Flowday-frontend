@@ -11,7 +11,18 @@ export type TextVariant =
     | 'warning'
     | 'accent';
 export type TextAlign = 'left' | 'right' | 'center' | 'justify';
-export type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
+export type TextSize =
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | '7xl';
 export type TextWeight = 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'black';
 export type TextElement = 'p' | 'span' | 'div' | 'label' | 'legend';
 
@@ -26,6 +37,9 @@ const mapSizeToHeaderTag: Record<TextSize, HeaderTagType> = {
     '2xl': 'h1',
     '3xl': 'h1',
     '4xl': 'h1',
+    '5xl': 'h1',
+    '6xl': 'h1',
+    '7xl': 'h1',
 };
 
 interface TextProps {
@@ -45,6 +59,7 @@ interface TextProps {
     strikethrough?: boolean;
     truncate?: boolean;
     nowrap?: boolean;
+    headerTag?: HeaderTagType;
 
     // Семантика
     as?: TextElement;
@@ -91,9 +106,10 @@ export const Text: FC<TextProps> = memo(
         'aria-busy': ariaBusy,
         role,
         lang,
+        headerTag,
         'data-testid': dataTestId = 'Text',
     }) => {
-        const HeaderTag = mapSizeToHeaderTag[size];
+        const HeaderTag = headerTag || mapSizeToHeaderTag[size];
 
         // Собираем accessibility атрибуты
         const accessibilityProps = {

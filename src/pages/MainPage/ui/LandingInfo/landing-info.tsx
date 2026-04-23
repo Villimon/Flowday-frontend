@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 import styles from './landing-info.module.css';
 import { Button, HStack, Modal, Text, VStack } from '@/shared/ui';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getRouteTodos } from '@/shared/constants/router';
 import { LoginForm } from '@/features/LoginByEmail';
 import { useAuth } from '@/entities/User';
@@ -14,16 +14,10 @@ export const LandingInfo = memo(() => {
     const isMobile = useMedia('(max-width: 768px)');
     const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
 
-    const navigate = useNavigate();
-
     const handleGetStarted = useCallback(() => {
-        if (isAuth) {
-            return navigate(getRouteTodos());
-        }
+        if (isAuth) return;
         setIsOpen(true);
-
-        // TODO в релизе 1.0.0: Если мы не авторизированы то переходит на /login (новая страница), иначе логика по переходу на страницу задач
-    }, [navigate, isAuth]);
+    }, [isAuth]);
 
     const handleCloseModal = useCallback(() => {
         setIsOpen(false);
@@ -31,24 +25,46 @@ export const LandingInfo = memo(() => {
 
     return (
         <section className={styles.info}>
-            <VStack gap="8">
-                <Text size="3xl" variant="accent" title="Управляйте днем, а не списком" />
+            <VStack gap="16" align="center">
                 <VStack>
+                    <Text size="7xl" align="center" variant="accent" title="Планируй день." />
                     <Text
-                        variant="secondary"
-                        text="Flowday превращает хаос задач в ясный план дня."
-                    />
-                    <Text
-                        variant="secondary"
-                        text="Создавайте, редактируйте и завершайте дела в простом, фокусированном интерфейсе."
+                        size="7xl"
+                        align="center"
+                        title="Покоряй неделю."
+                        as={'span'}
+                        className={styles.title}
+                        headerTag="h2"
                     />
                 </VStack>
-                <HStack gap="4" wrap={isMobile ? 'wrap' : 'nowrap'}>
-                    <Button fullWidth={isMobile ? true : false} onClick={handleGetStarted}>
+                <VStack className={styles.description}>
+                    <Text
+                        variant="secondary"
+                        align="center"
+                        size="3xl"
+                        text="Красивый планировщик, календарь и менеджер задач. Организуйте свою жизнь с удобными видами «День», «Неделя», «Месяц» и списком."
+                    />
+                </VStack>
+                <HStack gap={isMobile ? '16' : '8'} wrap={isMobile ? 'wrap' : 'nowrap'}>
+                    <Button
+                        as={isAuth ? Link : 'button'}
+                        to={isAuth ? getRouteTodos() : undefined}
+                        fullWidth={isMobile ? true : false}
+                        onClick={handleGetStarted}
+                        variant="filled"
+                        size="lg"
+                        radius="xl"
+                    >
                         Начать бесплатно
                     </Button>
-                    <Button fullWidth={isMobile ? true : false} variant="filled">
-                        Как это работает
+                    <Button
+                        as={Link}
+                        to={'#feature'}
+                        fullWidth={isMobile ? true : false}
+                        size="lg"
+                        radius="xl"
+                    >
+                        Узнать больше
                     </Button>
                 </HStack>
                 {isOpen && (

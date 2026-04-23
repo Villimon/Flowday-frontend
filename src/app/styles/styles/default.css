@@ -360,6 +360,7 @@
         --font-size-4xl:  2rem;
         --font-size-5xl:  2.5rem;
         --font-size-6xl:  3rem;
+        --font-size-7xl:  3.5rem;
     }
 
     /* Мобильные (до 480px) */
@@ -374,6 +375,7 @@
         --font-size-4xl:  1.75rem;
         --font-size-5xl:  2.125rem;
         --font-size-6xl:  2.5rem;
+        --font-size-7xl:  3rem;
     }
 }
 
