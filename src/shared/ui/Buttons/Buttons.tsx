@@ -10,7 +10,7 @@ import cls from './Buttons.module.css';
 import clsx from 'clsx';
 import { Icon } from '@/shared/ui/Icon/Icon';
 
-export type ButtonVariant = 'filled' | 'outline' | 'ghost' | 'clear';
+export type ButtonVariant = 'filled' | 'outline' | 'ghost' | 'clear' | 'glass';
 export type ButtonColor = 'primary' | 'success' | 'error' | 'warning' | 'neutral';
 export type IconColor =
     | 'primary'

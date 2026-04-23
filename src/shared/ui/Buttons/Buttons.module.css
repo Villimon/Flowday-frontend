@@ -377,6 +377,22 @@
     }
 }
 
+.variant-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-primary);
+    
+    &:hover:not(.disabled):not([disabled]) {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    @media (hover: none) {
+        backdrop-filter: none;
+    }
+}
+
 .variant-ghost {
     background-color: transparent;
     border: 1px solid transparent;

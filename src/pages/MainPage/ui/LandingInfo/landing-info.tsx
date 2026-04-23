@@ -1,28 +1,13 @@
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 import styles from './landing-info.module.css';
-import { Button, HStack, Modal, Text, VStack } from '@/shared/ui';
-import { Link } from 'react-router-dom';
-import { getRouteTodos } from '@/shared/constants/router';
-import { LoginForm } from '@/features/LoginByEmail';
-import { useAuth } from '@/entities/User';
+import { Button, HStack, Text, VStack } from '@/shared/ui';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
-import { useIsMutating } from '@tanstack/react-query';
 import clsx from 'clsx';
+import { useGetStartedAction } from '../../model/hooks/useGetStartedAction';
 
 export const LandingInfo = memo(() => {
-    const [isOpen, setIsOpen] = useState(false);
-    const { isAuth } = useAuth();
     const isTablet = useMedia('(max-width: 768px)');
-    const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
-
-    const handleGetStarted = useCallback(() => {
-        if (isAuth) return;
-        setIsOpen(true);
-    }, [isAuth]);
-
-    const handleCloseModal = useCallback(() => {
-        setIsOpen(false);
-    }, []);
+    const getStartedAction = useGetStartedAction({});
 
     return (
         <section className={clsx(styles.info, 'container')}>
@@ -47,20 +32,10 @@ export const LandingInfo = memo(() => {
                     />
                 </VStack>
                 <HStack gap={isTablet ? '16' : '8'} wrap={isTablet ? 'wrap' : 'nowrap'}>
+                    {getStartedAction}
                     <Button
-                        as={isAuth ? Link : 'button'}
-                        to={isAuth ? getRouteTodos() : undefined}
-                        fullWidth={isTablet ? true : false}
-                        onClick={handleGetStarted}
-                        variant="filled"
-                        size="lg"
-                        radius="xl"
-                    >
-                        Начать бесплатно
-                    </Button>
-                    <Button
-                        as={Link}
-                        to={'#features'}
+                        as={'a'}
+                        href={'#features'}
                         fullWidth={isTablet ? true : false}
                         size="lg"
                         radius="xl"
@@ -68,16 +43,6 @@ export const LandingInfo = memo(() => {
                         Узнать больше
                     </Button>
                 </HStack>
-                {isOpen && (
-                    <Modal
-                        disableClose={isLoggingIn}
-                        isOpen={isOpen}
-                        onClose={handleCloseModal}
-                        title="Войти"
-                    >
-                        <LoginForm onClose={handleCloseModal} isRedirect />
-                    </Modal>
-                )}
             </VStack>
         </section>
     );

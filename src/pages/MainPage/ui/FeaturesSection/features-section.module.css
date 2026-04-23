@@ -1,6 +1,5 @@
 .features {
     padding: calc(var(--space-1) * 32) 0;
-    /* background: var(--gradient-primary-soft); */
     background-color: var(--color-glow-violet);
 
     @media (max-width: 768px) {
@@ -60,8 +59,10 @@
 }
 
 .smallCard {
-    &:hover {
-        transform: scale(1.02);
-        transition: transform 0.2 ease;
+    @media (hover: hover) {
+        &:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease;
+        }
     }
 }
