@@ -7,6 +7,7 @@ import { FilterTodos } from '@/features/FilterTodos';
 import { TodoStatus } from '@/features/FilterTodos/model/types/types';
 import { useTodos } from '@/entities/Todos/api/use-todo';
 import { TabItem } from '@/shared/ui/Tabs/Tabs';
+import clsx from 'clsx';
 
 const TodosPage = memo(() => {
     const [status, setStatus] = useState<TodoStatus>('all');
@@ -18,7 +19,7 @@ const TodosPage = memo(() => {
     const { data, isLoading, isError } = useTodos({ status });
 
     return (
-        <main className={styles.main}>
+        <main className={clsx(styles.main, 'container')}>
             <VStack gap="8" className={styles.wrapper}>
                 <CreateTodo />
                 <FilterTodos currentStatus={status} onStatusChange={handleStatusChange} />

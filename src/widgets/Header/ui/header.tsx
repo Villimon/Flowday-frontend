@@ -14,10 +14,12 @@ import DashboardIcon from '@/shared/assets/dashboard.svg';
 import { Menu, MenuItem } from '@/shared/ui/Menu/Menu';
 import ProfileIcon from '@/shared/assets/profile.svg';
 import LogoutIcon from '@/shared/assets/logout.svg';
+import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 
 export const Header = memo(() => {
     const { data: user, isAuth } = useAuth();
     const queryClient = useQueryClient();
+    const isMobile = useMedia('(max-width: 480px)');
 
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
@@ -59,7 +61,7 @@ export const Header = memo(() => {
                 iconWrapperStyle={styles.iconWrapper}
                 ariaLabelIcon="На главную"
             >
-                FLOWDAY
+                {isMobile ? '' : 'FLOWDAY'}
             </Button>
 
             {isAuth ? (

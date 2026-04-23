@@ -7,11 +7,12 @@ import { LoginForm } from '@/features/LoginByEmail';
 import { useAuth } from '@/entities/User';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 import { useIsMutating } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 export const LandingInfo = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
     const { isAuth } = useAuth();
-    const isMobile = useMedia('(max-width: 768px)');
+    const isTablet = useMedia('(max-width: 768px)');
     const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
 
     const handleGetStarted = useCallback(() => {
@@ -24,7 +25,7 @@ export const LandingInfo = memo(() => {
     }, []);
 
     return (
-        <section className={styles.info}>
+        <section className={clsx(styles.info, 'container')}>
             <VStack gap="16" align="center">
                 <VStack>
                     <Text size="7xl" align="center" variant="accent" title="Планируй день." />
@@ -45,11 +46,11 @@ export const LandingInfo = memo(() => {
                         text="Красивый планировщик, календарь и менеджер задач. Организуйте свою жизнь с удобными видами «День», «Неделя», «Месяц» и списком."
                     />
                 </VStack>
-                <HStack gap={isMobile ? '16' : '8'} wrap={isMobile ? 'wrap' : 'nowrap'}>
+                <HStack gap={isTablet ? '16' : '8'} wrap={isTablet ? 'wrap' : 'nowrap'}>
                     <Button
                         as={isAuth ? Link : 'button'}
                         to={isAuth ? getRouteTodos() : undefined}
-                        fullWidth={isMobile ? true : false}
+                        fullWidth={isTablet ? true : false}
                         onClick={handleGetStarted}
                         variant="filled"
                         size="lg"
@@ -59,8 +60,8 @@ export const LandingInfo = memo(() => {
                     </Button>
                     <Button
                         as={Link}
-                        to={'#feature'}
-                        fullWidth={isMobile ? true : false}
+                        to={'#features'}
+                        fullWidth={isTablet ? true : false}
                         size="lg"
                         radius="xl"
                     >

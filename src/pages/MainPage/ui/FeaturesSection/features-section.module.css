@@ -1,0 +1,67 @@
+.features {
+    padding: calc(var(--space-1) * 32) 0;
+    /* background: var(--gradient-primary-soft); */
+    background-color: var(--color-glow-violet);
+
+    @media (max-width: 768px) {
+        padding: calc(var(--space-1) * 22) 0;
+    }
+}
+
+.icon {
+    background: var(--color-glow-primary);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.block {
+    margin-bottom: 96px;
+}
+
+.bigCard {
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(34, 211, 238, 0.06) 100%);
+    border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.firstSmallCard {
+    background: linear-gradient(
+        135deg,
+        rgba(129, 140, 248, 0.18) 0%,
+        rgba(129, 140, 248, 0.06) 100%
+    );
+    border: 1px solid rgba(129, 140, 248, 0.25);
+}
+
+.secondSmallCard {
+    background: linear-gradient(
+        135deg,
+        rgba(167, 139, 250, 0.18) 0%,
+        rgba(167, 139, 250, 0.06) 100%
+    );
+    border: 1px solid rgba(167, 139, 250, 0.25);
+}
+
+.thirdSmallCard {
+    background: linear-gradient(
+        135deg,
+        rgba(251, 113, 133, 0.18) 0%,
+        rgba(251, 113, 133, 0.06) 100%
+    );
+    border: 1px solid rgba(251, 113, 133, 0.25);
+}
+
+.fourthSmallCard {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.18) 0%, rgba(52, 211, 153, 0.06) 100%);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.smallCard {
+    &:hover {
+        transform: scale(1.02);
+        transition: transform 0.2 ease;
+    }
+}

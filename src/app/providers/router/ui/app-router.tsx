@@ -8,7 +8,7 @@ export const AppRouter = () => {
     const { key } = useLocation();
 
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
-        const element = <div className="container">{route.element}</div>;
+        const element = <div>{route.element}</div>;
 
         return (
             <Route
@@ -20,7 +20,7 @@ export const AppRouter = () => {
     }, []);
 
     return (
-        <Suspense key={key} fallback={<Loader/>}>
+        <Suspense key={key} fallback={<Loader />}>
             <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>
         </Suspense>
     );
