@@ -17,7 +17,7 @@ export const LoginByEmail = () => {
 
     return (
         <>
-            <Button onClick={handleOpenModal} size="sm" radius="xl" variant="filled">
+            <Button onClick={handleOpenModal} size="sm" radius="xl" variant="outline">
                 Войти
             </Button>
             {isOpen && (

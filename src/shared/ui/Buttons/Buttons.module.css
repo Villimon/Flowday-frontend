@@ -5,7 +5,6 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
@@ -21,10 +20,6 @@
     transition-duration: var(--duration-200, 150ms);
     transition-timing-function: var(--ease-out, cubic-bezier(0.4, 0, 0.2, 1));
 
-    &:hover:not(.disabled):not([disabled]) {
-        transform: translateY(-1px);
-    }
-
     &:active:not(.disabled):not([disabled]) {
         transform: translateY(0);
     }
@@ -35,6 +30,18 @@
         box-shadow:
             0 0 0 4px var(--color-primary-100, #dbeafe),
             var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+    }
+
+    &.align-right {
+        justify-content: end;
+    }
+
+    &.align-center {
+        justify-content: center;
+    }
+
+    &.align-left {
+        justify-content: start;
     }
 
     &[disabled],
@@ -102,9 +109,6 @@
         flex-shrink: 0;
 
         svg {
-            width: 1em;
-            height: 1em;
-
             [fill]:not([fill='none']) {
                 fill: currentColor;
             }

@@ -3,7 +3,7 @@ import cls from './Card.module.css';
 import clsx from 'clsx';
 
 export type CardVariant = 'elevated' | 'outline' | 'filled' | 'ghost';
-export type CardPadding = '0' | '4' | '8' | '12' | '16' | '20' | '24';
+export type CardPadding = '0' | '2' | '4' | '8' | '12' | '16' | '20' | '24';
 export type CardRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -19,6 +19,8 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
     fullWidth?: boolean;
     fullHeight?: boolean;
     maxWidth?: string | number;
+    horizontalPadding?: string;
+    verticalPadding?: string;
 
     // Accessibility
     role?: string;
@@ -29,6 +31,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 const mapPaddingToClass: Record<CardPadding, string> = {
     '0': cls.padding0,
+    '2': cls.padding2,
     '4': cls.padding4,
     '8': cls.padding8,
     '12': cls.padding12,
@@ -56,6 +59,8 @@ export const Card = ({
     fullHeight = false,
     maxWidth,
     role,
+    horizontalPadding,
+    verticalPadding,
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
@@ -72,6 +77,7 @@ export const Card = ({
     const inlineStyles = {
         ...style,
         ...(maxWidth && { maxWidth }),
+        padding: `${verticalPadding}px ${horizontalPadding}px`,
     };
 
     return (
