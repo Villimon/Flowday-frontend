@@ -8,8 +8,18 @@
     height: 70px;
     width: 100%;
     background-color: var(--color-surface);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
 }
 
 .content {
     flex: 1 1 auto;
+}
+
+.footer {
+    min-height: 100px;
+    width: 100%;
+    background-color: var(--color-surface);
 }

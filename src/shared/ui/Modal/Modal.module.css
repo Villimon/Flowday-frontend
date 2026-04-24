@@ -35,7 +35,7 @@
 .content {
     position: relative;
     z-index: calc(var(--z-index-modal, 50) + 1);
-    max-height: 90vh;
+    max-height: 80vh;
     overflow-y: auto;
 
     /* Анимация */

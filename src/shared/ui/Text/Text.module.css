@@ -2,7 +2,7 @@
   color: var(--color-text-primary);
   font-family: var(--font-family-sans);
   line-height: var(--line-height-normal);
-  width: 100%;
+  width: fit-content;
   
   &.truncate {
     overflow: hidden;

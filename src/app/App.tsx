@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useAuth } from '@/entities/User';
 import { Loader } from '@/shared/ui/Loader/Loader';
+import { Footer } from '@/widgets/Foooter';
 // GLOBAL TODO:
 // Настроить мета данные для SEO - в релиз 1.0.0
 // Настроить ацесабилити для компонентов и соблюдать симантику - в релиз 1.0.0
@@ -25,7 +26,7 @@ export const App = () => {
     return (
         <div className="app">
             {isInitialized ? (
-                <MainLayout content={<AppRouter />} header={<Header />} />
+                <MainLayout content={<AppRouter />} header={<Header />} footer={<Footer />} />
             ) : (
                 <Loader />
             )}

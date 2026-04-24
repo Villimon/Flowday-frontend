@@ -2,8 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
-    position: sticky;
+    height: 100%;
 }
 
 .iconWrapper {
