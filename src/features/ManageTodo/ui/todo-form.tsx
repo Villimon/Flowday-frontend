@@ -4,6 +4,7 @@ import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Textarea } from '@/shared/ui/Textarea/Textarea';
 
 interface TodoFormProps {
     onCancel: () => void;
@@ -63,12 +64,15 @@ export const TodoForm: FC<TodoFormProps> = ({
                         name="description"
                         control={control}
                         render={({ field, fieldState }) => (
-                            <Input
+                            <Textarea
                                 {...field}
-                                placeholder="Введите описание"
-                                error={fieldState.error?.message}
-                                isInvalid={!!fieldState.error}
                                 label="Описание задачи"
+                                placeholder="Введите описание"
+                                size="md"
+                                rows={3}
+                                autoResize
+                                error={fieldState.error?.message}
+                                hint="Максимум 1000 символов"
                                 disabled={isLoading}
                                 aria-describedby={
                                     fieldState.error
