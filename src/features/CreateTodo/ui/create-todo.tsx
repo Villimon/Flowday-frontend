@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useCreateTodo } from '@/features/CreateTodo/api/create-todo';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { ApiError } from '@/shared/types/api.types';
+import PlusIcon from '@/shared/assets/plus.svg';
 
 export const CreateTodo = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -42,15 +43,21 @@ export const CreateTodo = () => {
 
     return (
         <div>
-            <Button onClick={handleOpenModal} variant="filled">
-                Создать задачу
+            <Button
+                icon={PlusIcon}
+                radius="xl"
+                size="sm"
+                onClick={handleOpenModal}
+                variant="filled"
+            >
+                Новая задача
             </Button>
             {isOpen && (
                 <Modal
                     isOpen={isOpen}
                     onClose={handleCloseModal}
                     disableClose={isPending}
-                    title="Создать задачу"
+                    title="Новая задача"
                 >
                     <TodoForm
                         error={mutationError}

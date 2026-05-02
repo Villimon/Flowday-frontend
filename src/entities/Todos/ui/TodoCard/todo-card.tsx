@@ -37,6 +37,7 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
             padding="4"
             fullWidth
             radius="xl"
+            variant="filled"
             className={clsx(styles.todoCard, {
                 [styles.completed]: todo.completed && status === 'all',
             })}

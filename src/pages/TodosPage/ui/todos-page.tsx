@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
 import { TodoList } from '@/entities/Todos';
-import { VStack } from '@/shared/ui';
+import { HStack, VStack } from '@/shared/ui';
 import { FilterTodos } from '@/features/FilterTodos';
 import { TodoStatus } from '@/features/FilterTodos/model/types/types';
 import { useTodos } from '@/entities/Todos/api/use-todo';
@@ -21,8 +21,11 @@ const TodosPage = memo(() => {
     return (
         <main className={clsx(styles.main, 'container')}>
             <VStack gap="8" className={styles.wrapper}>
-                <CreateTodo />
-                <FilterTodos currentStatus={status} onStatusChange={handleStatusChange} />
+                <HStack wrap="wrap" gap="4" fullWidth align="center" justify="end">
+                    <FilterTodos currentStatus={status} onStatusChange={handleStatusChange} />
+                    <CreateTodo />
+                </HStack>
+
                 <TodoList
                     todos={data?.data}
                     isLoading={isLoading}

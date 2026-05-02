@@ -18,6 +18,9 @@
     cursor: pointer;
     transition: all var(--duration-200) var(--ease-out);
     user-select: none;
+    opacity: 0.5;
+    padding: 6px 10px;
+    background-color: var(--color-surface, #1f2937);
     
     /* Focus styles for accessibility */
     &:focus-visible {
@@ -30,36 +33,21 @@
     
     /* Hover effect for non-disabled tabs */
     &:hover:not(.disabled) {
-        transform: translateY(-1px);
         box-shadow: var(--shadow-sm);
+        opacity: 1;
     }
     
     /* Active effect for non-disabled tabs */
     &:active:not(.disabled) {
-        transform: translateY(0);
+        opacity: 1;
     }
 }
 
 .selected {
     position: relative;
-    
-    /* Bottom indicator for selected tab */
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50%;
-        height: 2px;
-        background-color: var(--color-primary-500);
-        border-radius: var(--radius-full);
-        transition: width var(--duration-200) var(--ease-out);
-    }
-    
-    &:hover::after {
-        width: 80%;
-    }
+    opacity: 1;
+    background-color: var(--color-surface, #1f2937) !important;
+    box-shadow: var(--shadow-sm);
 }
 
 .disabled {

@@ -2,7 +2,7 @@ import { memo } from 'react';
 import styles from './features-section.module.css';
 import { Card, HStack, Text, VStack } from '@/shared/ui';
 import CalendarIcon from '@/shared/assets/calendar-card.svg';
-import CkeckIcon from '@/shared/assets/check-circle.svg';
+import CkeckIcon from '@/shared/assets/circle-check.svg';
 import LayoutIcon from '@/shared/assets/layout.svg';
 import ListIcon from '@/shared/assets/list.svg';
 import SparkIcon from '@/shared/assets/spark.svg';
