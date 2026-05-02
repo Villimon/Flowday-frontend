@@ -19,6 +19,11 @@ export const changeLog: ChangeLogType[] = [
                 status: 'upgrade',
                 description: 'Сделан редизайн хедера и главной страницы',
             },
+            {
+                id: '3',
+                status: 'upgrade',
+                description: 'Переделал карточки задач',
+            },
         ],
     },
 ];

@@ -8,6 +8,7 @@ import { Modal } from '@/shared/ui';
 import { TodoForm } from '@/features/ManageTodo';
 import { useEditTodo } from '@/features/EditTodo/api/edit-todo';
 import { ApiError } from '@/shared/types/api.types';
+import styles from './edit-todo.module.css';
 
 interface EditTodoProps {
     todo: Todo;
@@ -48,14 +49,18 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
     );
 
     return (
-        <div>
-            <Icon
-                clickable
-                onClick={handleOpenModal}
-                aria-label="Редактирование задачи"
-                Svg={EditIcon}
-                color="secondary"
-            />
+        <>
+            <div className={styles.icon}>
+                <Icon
+                    clickable
+                    onClick={handleOpenModal}
+                    aria-label="Редактирование задачи"
+                    Svg={EditIcon}
+                    color="primary"
+                    width={22}
+                    height={22}
+                />
+            </div>
             {isOpen && (
                 <Modal
                     isOpen={isOpen}
@@ -73,6 +78,6 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                     />
                 </Modal>
             )}
-        </div>
+        </>
     );
 };

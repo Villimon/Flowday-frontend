@@ -6,7 +6,7 @@ interface MainLayoutProps {
     className?: string;
     header: ReactElement;
     content: ReactElement;
-    footer: ReactElement;
+    footer?: ReactElement;
 }
 
 export const MainLayout: FC<MainLayoutProps> = memo(({ content, header, footer, className }) => {
@@ -14,7 +14,7 @@ export const MainLayout: FC<MainLayoutProps> = memo(({ content, header, footer, 
         <div className={clsx(styles.mainLayout, [className])}>
             <div className={styles.header}>{header}</div>
             <div className={styles.content}>{content}</div>
-            <div className={styles.footer}>{footer}</div>
+            {footer && <div className={styles.footer}>{footer}</div>}
         </div>
     );
 });

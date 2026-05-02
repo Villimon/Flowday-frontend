@@ -36,6 +36,7 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
         <Card
             padding="4"
             fullWidth
+            radius="xl"
             className={clsx(styles.todoCard, {
                 [styles.completed]: todo.completed && status === 'all',
             })}
@@ -58,10 +59,17 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                     />
                     {todo.description && <Text text={todo.description} variant="secondary" />}
                 </VStack>
-                <HStack onClick={e => e.stopPropagation()} gap="2" className={styles.buttons}>
-                    <EditTodo todo={todo} />
-                    <DeleteTodo todoId={todo.id} />
-                </HStack>
+                <Card className={styles.buttons} radius="xl">
+                    <HStack
+                        justify="center"
+                        align="center"
+                        onClick={e => e.stopPropagation()}
+                        gap="2"
+                    >
+                        <EditTodo todo={todo} />
+                        <DeleteTodo todoId={todo.id} />
+                    </HStack>
+                </Card>
             </HStack>
         </Card>
     );
