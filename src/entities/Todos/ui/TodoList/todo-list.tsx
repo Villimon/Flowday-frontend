@@ -1,5 +1,5 @@
 import { Loader } from '@/shared/ui/Loader/Loader';
-import { Text, VStack } from '@/shared/ui';
+import { HStack, Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../TodoCard/todo-card';
 import { Todo } from '../../model/types/types';
 import { FC } from 'react';
@@ -22,7 +22,11 @@ export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, status 
     }
 
     if (!todos?.length) {
-        return <Text title="Список задач пустой" align="center" size="2xl" />;
+        return (
+            <HStack justify="center">
+                <Text title="Список задач пустой" size="2xl" />
+            </HStack>
+        );
     }
 
     return (

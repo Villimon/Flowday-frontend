@@ -2,8 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: var(--space-1);
 }
 
 .fullWidth {
@@ -40,6 +39,25 @@
     /* Active effect for non-disabled tabs */
     &:active:not(.disabled) {
         opacity: 1;
+    }
+}
+
+.count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+    transition: all var(--duration-150) var(--ease-out);
+    
+    &.selected {
+        background-color: var(--color-primary-600);
+        color: var(--color-text-inverse);
     }
 }
 

@@ -5,12 +5,14 @@ import { Flex, FlexDirection } from '../Stack/Flex/Flex';
 import { Text, TextSize } from '../Text/Text';
 import { clsx } from 'clsx';
 import { Icon } from '../Icon/Icon';
+import { Chip } from '../Chip/Chip';
 
 export interface TabItem {
     value: string;
     content: ReactNode;
     disabled?: boolean;
     Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+    count?: number;
 }
 
 interface TabsProps {
@@ -106,12 +108,23 @@ export const Tabs = memo(
                                 )}
 
                                 {typeof tab.content === 'string' ? (
-                                    <Text
-                                        size={size}
-                                        variant={tab.disabled ? 'tertiary' : 'primary'}
-                                    >
-                                        {tab.content}
-                                    </Text>
+                                    <>
+                                        <Text
+                                            size={size}
+                                            variant={tab.disabled ? 'tertiary' : 'primary'}
+                                        >
+                                            {tab.content}
+                                        </Text>
+                                        {tab.count !== undefined && tab.count > 0 && (
+                                            <Chip
+                                                label={String(tab.count)}
+                                                size="xs"
+                                                variant="filled"
+                                                color={isSelected ? 'primary' : 'neutral'}
+                                                className={cls.count}
+                                            />
+                                        )}
+                                    </>
                                 ) : (
                                     tab.content
                                 )}

@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
 import { TodoList } from '@/entities/Todos';
@@ -17,6 +17,16 @@ const TodosPage = memo(() => {
     }, []);
 
     const { data, isLoading, isError } = useTodos({ status });
+    const { data: allTodosData } = useTodos({ status: 'all' });
+
+    const todoStats = useMemo(() => {
+        const all = allTodosData?.data || [];
+        return {
+            all: all.length,
+            active: all.filter(t => !t.completed).length,
+            completed: all.filter(t => t.completed).length,
+        };
+    }, [allTodosData]);
 
     return (
         <main className={clsx(styles.main)}>
@@ -32,6 +42,7 @@ const TodosPage = memo(() => {
                         </HStack> */}
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
                             <FilterTodos
+                                counts={todoStats}
                                 currentStatus={status}
                                 onStatusChange={handleStatusChange}
                             />
