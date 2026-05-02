@@ -21,6 +21,7 @@ interface TabsProps {
     value: string;
     onTabClick: (tab: TabItem) => void;
     direction?: FlexDirection;
+    iconOnlyOnMobile?: boolean;
 
     // Accessibility
     'aria-label'?: string;
@@ -40,6 +41,7 @@ export const Tabs = memo(
         direction = 'row',
         size = 'xs',
         fullWidth = false,
+        iconOnlyOnMobile = false,
         'aria-label': ariaLabel = 'Вкладки',
         'aria-labelledby': ariaLabelledBy,
     }: TabsProps) => {
@@ -109,12 +111,14 @@ export const Tabs = memo(
 
                                 {typeof tab.content === 'string' ? (
                                     <>
-                                        <Text
-                                            size={size}
-                                            variant={tab.disabled ? 'tertiary' : 'primary'}
-                                        >
-                                            {tab.content}
-                                        </Text>
+                                        {!iconOnlyOnMobile && (
+                                            <Text
+                                                size={size}
+                                                variant={tab.disabled ? 'tertiary' : 'primary'}
+                                            >
+                                                {tab.content}
+                                            </Text>
+                                        )}
                                         {tab.count !== undefined && tab.count > 0 && (
                                             <Chip
                                                 label={String(tab.count)}

@@ -6,6 +6,7 @@ import styles from './filter-todos.module.css';
 import CkeckIcon from '@/shared/assets/circle-check.svg';
 import ListIcon from '@/shared/assets/list.svg';
 import CalendarIcon from '@/shared/assets/calendar-card.svg';
+import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 
 interface CountsType {
     all: number;
@@ -21,6 +22,8 @@ interface FilterTodosProps {
 
 export const FilterTodos: FC<FilterTodosProps> = memo(
     ({ currentStatus, onStatusChange, counts }) => {
+        const isMobile = useMedia('(max-width: 400px)');
+
         const filterItems: TabItem[] = useMemo(
             () => [
                 { value: 'all', content: 'Все', Icon: ListIcon, count: counts?.all },
@@ -37,7 +40,12 @@ export const FilterTodos: FC<FilterTodosProps> = memo(
 
         return (
             <Card variant="elevated" className={styles.card} radius="xl">
-                <Tabs tabs={filterItems} onTabClick={onStatusChange} value={currentStatus} />
+                <Tabs
+                    iconOnlyOnMobile={isMobile}
+                    tabs={filterItems}
+                    onTabClick={onStatusChange}
+                    value={currentStatus}
+                />
             </Card>
         );
     }
