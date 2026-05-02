@@ -1,6 +1,7 @@
 .todoCard {
     cursor: pointer;
     transition: all var(--duration-200) var(--ease-out);
+    border: 1px solid var(--color-border-heavy);
 
     &.completed {
         opacity: 0.5;

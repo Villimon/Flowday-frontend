@@ -19,19 +19,37 @@ const TodosPage = memo(() => {
     const { data, isLoading, isError } = useTodos({ status });
 
     return (
-        <main className={clsx(styles.main, 'container')}>
-            <VStack gap="8" className={styles.wrapper}>
-                <HStack wrap="wrap" gap="4" fullWidth align="center" justify="end">
-                    <FilterTodos currentStatus={status} onStatusChange={handleStatusChange} />
-                    <CreateTodo />
-                </HStack>
+        <main className={clsx(styles.main)}>
+            <VStack gap="8" fullWidth className={styles.wrapper}>
+                <div className={styles.filterSection}>
+                    <VStack className={'container'} gap="8" fullWidth>
+                        {/* <HStack fullWidth wrap="wrap" gap="4" align="center" justify="between">
+                            <FilterTodos
+                                currentStatus={status}
+                                onStatusChange={handleStatusChange}
+                            />
+                            <CreateTodo />
+                        </HStack> */}
+                        <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
+                            <FilterTodos
+                                currentStatus={status}
+                                onStatusChange={handleStatusChange}
+                            />
+                            <CreateTodo />
+                        </HStack>
+                    </VStack>
+                </div>
 
-                <TodoList
-                    todos={data?.data}
-                    isLoading={isLoading}
-                    isError={isError}
-                    status={status}
-                />
+                <div className={clsx(styles.todoSection)}>
+                    <div className={clsx('container', styles.scrollableList)}>
+                        <TodoList
+                            todos={data?.data}
+                            isLoading={isLoading}
+                            isError={isError}
+                            status={status}
+                        />
+                    </div>
+                </div>
             </VStack>
         </main>
     );

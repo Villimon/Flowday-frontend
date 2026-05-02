@@ -1,7 +1,6 @@
 import { Loader } from '@/shared/ui/Loader/Loader';
 import { Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../TodoCard/todo-card';
-import styles from './todo-list.module.css';
 import { Todo } from '../../model/types/types';
 import { FC } from 'react';
 
@@ -27,7 +26,7 @@ export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, status 
     }
 
     return (
-        <VStack gap="4" fullWidth className={styles.container}>
+        <VStack gap="4" fullWidth>
             {todos?.map(todo => (
                 <TodoCard key={todo.id} todo={todo} status={status} />
             ))}
