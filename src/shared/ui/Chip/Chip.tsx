@@ -33,6 +33,7 @@ export interface ChipProps extends HTMLAttributes<HTMLDivElement | HTMLButtonEle
     clickable?: boolean;
     disabled?: boolean;
     removable?: boolean;
+    isActive?: boolean;
     onRemove?: () => void;
 
     // Стили
@@ -67,6 +68,7 @@ export const Chip: FC<ChipProps> = memo(
         ariaLabel,
         isUpperCase = false,
         onClick,
+        isActive,
         ...otherProps
     }) => {
         const isClickable = clickable && !disabled;
@@ -88,6 +90,7 @@ export const Chip: FC<ChipProps> = memo(
                     {
                         [cls.clickable]: isClickable,
                         [cls.disabled]: disabled,
+                        [cls.isActive]: isActive,
                     },
                     className
                 )}
@@ -95,6 +98,8 @@ export const Chip: FC<ChipProps> = memo(
                 disabled={disabled}
                 aria-label={ariaLabel || label}
                 aria-disabled={disabled}
+                style={otherProps.style}
+                type="button"
                 {...otherProps}
             >
                 {icon && iconPosition === 'left' && (

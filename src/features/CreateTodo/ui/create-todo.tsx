@@ -58,6 +58,7 @@ export const CreateTodo = () => {
                     onClose={handleCloseModal}
                     disableClose={isPending}
                     title="Новая задача"
+                    size="md"
                 >
                     <TodoForm
                         error={mutationError}

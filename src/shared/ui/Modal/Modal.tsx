@@ -131,7 +131,7 @@ export const Modal = ({
                 <Card
                     variant={variantToCardVariant[variant]}
                     padding="0"
-                    radius="lg"
+                    radius="xl"
                     className={clsx(
                         cls.content,
                         cls[`size-${size}`],

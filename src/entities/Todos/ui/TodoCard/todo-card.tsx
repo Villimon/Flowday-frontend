@@ -11,6 +11,7 @@ import { Icon } from '@/shared/ui/Icon/Icon';
 import CircleIcon from '@/shared/assets/circle.svg';
 import CircleCheckIcon from '@/shared/assets/circle-check.svg';
 import { useToggleTodo } from '@/features/ToggleTodo';
+import { Chip } from '@/shared/ui/Chip/Chip';
 
 interface TodoCardProps {
     todo: Todo;
@@ -54,10 +55,23 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                     className={styles.icon}
                 />
                 <VStack fullWidth gap="2">
-                    <Text
-                        title={`${todo.title.charAt(0).toUpperCase()}${todo.title.slice(1)}`}
-                        size="xl"
-                    />
+                    <HStack align="center" gap="2" wrap="wrap">
+                        <Text
+                            title={`${todo.title.charAt(0).toUpperCase()}${todo.title.slice(1)}`}
+                            size="xl"
+                        />
+                        {todo.labels?.map(label => {
+                            const style = {
+                                backgroundColor: `color-mix(in srgb, ${label.color}, transparent 80%)`,
+                                color: label.color,
+                                borderColor: label.color,
+                            };
+
+                            return (
+                                <Chip key={label.id} label={label.name} size="xs" style={style} />
+                            );
+                        })}
+                    </HStack>
                     {todo.description && <Text text={todo.description} variant="secondary" />}
                 </VStack>
                 <Card className={styles.buttons} radius="xl">

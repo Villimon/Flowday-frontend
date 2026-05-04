@@ -1,6 +1,6 @@
 import { Icon } from '@/shared/ui/Icon/Icon';
 import EditIcon from '@/shared/assets/edit-pen.svg';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { Todo } from '@/entities/Todos';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { toast } from 'react-toastify';
@@ -48,6 +48,15 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
         [editTodoMutate, resetMutation, todo.id, handleCloseModal]
     );
 
+    const initialFormData: TodoFormData = useMemo(
+        () => ({
+            title: todo.title,
+            description: todo.description,
+            labels: todo.labels?.map(label => label.id) || [],
+        }),
+        [todo.description, todo.labels, todo.title]
+    );
+
     return (
         <>
             <div className={styles.icon}>
@@ -67,6 +76,7 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                     onClose={handleCloseModal}
                     disableClose={isPending}
                     title="Редактирование задачи"
+                    size="md"
                 >
                     <TodoForm
                         error={mutationError}
@@ -74,7 +84,7 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                         onCancel={handleCloseModal}
                         onSubmit={handleCreateTodo}
                         submitText={'Сохранить'}
-                        initialData={todo}
+                        initialData={initialFormData}
                     />
                 </Modal>
             )}

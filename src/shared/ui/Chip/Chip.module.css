@@ -187,13 +187,11 @@
     cursor: pointer;
     color: currentColor;
     font-weight: var(--font-weight-bold);
-    line-height: 1;
     transition: all var(--duration-150) var(--ease-out);
     padding: 0;
     
     &:hover {
         background-color: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
     }
     
     &:active {
