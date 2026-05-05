@@ -21,7 +21,7 @@ Cypress.Commands.add('login', () => {
 
     cy.request('POST', `${API_URL}/auth/login`, {
         email,
-        password,
+        password: String(password),
     }).then(response => {
         expect(response.status).to.eq(201);
         const token = response.body.data.token;

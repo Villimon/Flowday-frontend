@@ -1,4 +1,4 @@
-describe('Полный workflow Todo-приложения', () => {
+describe('Полный workflow приложения', () => {
     // Тестовые данные
     const todo1 = {
         title: 'Первая задача',
