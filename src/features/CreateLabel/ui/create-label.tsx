@@ -63,7 +63,14 @@ export const CreateLabel = () => {
                 <Text size="sm" weight="medium">
                     Метка <span className={styles.optional}>(необязательно)</span>
                 </Text>
-                <Button icon={PlusIcon} radius="xl" size="sm" onClick={handleClick} variant="clear">
+                <Button
+                    data-testid="create-label-button"
+                    icon={PlusIcon}
+                    radius="xl"
+                    size="sm"
+                    onClick={handleClick}
+                    variant="clear"
+                >
                     Новая метка
                 </Button>
             </HStack>
@@ -79,6 +86,7 @@ export const CreateLabel = () => {
                                     <Input
                                         {...field}
                                         ref={ref}
+                                        data-testid="label-name-input"
                                         placeholder="Название метки"
                                         autoFocus
                                         aria-required="true"
@@ -107,6 +115,7 @@ export const CreateLabel = () => {
                             variant="filled"
                             onClick={onSubmit}
                             disabled={!nameValue.trim().length}
+                            data-testid="submit-label-button"
                         >
                             Добавить
                         </Button>

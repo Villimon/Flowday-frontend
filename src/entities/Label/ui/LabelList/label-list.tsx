@@ -44,6 +44,7 @@ export const LabelList: FC<TodoListProps> = ({ labels = [], activeLabels = [], o
 
                 return (
                     <Chip
+                        data-testid={`label-option-${label.name}`}
                         key={label.id}
                         label={label.name}
                         clickable

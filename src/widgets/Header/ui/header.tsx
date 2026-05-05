@@ -41,6 +41,7 @@ export const Header = memo(() => {
                     onClick: logout,
                     Icon: LogoutIcon,
                     color: 'error',
+                    'data-testid': 'logout-button',
                 },
             ] as MenuItem[],
         [logout]
@@ -86,7 +87,12 @@ export const Header = memo(() => {
                         direction="bottom-right"
                         items={menuItems}
                         trigger={
-                            <Card horizontalPadding="12" verticalPadding="6" radius="full">
+                            <Card
+                                data-testid="menu"
+                                horizontalPadding="12"
+                                verticalPadding="6"
+                                radius="full"
+                            >
                                 <HStack gap="4" justify="center" align="center">
                                     <Text
                                         className={styles.avatar}

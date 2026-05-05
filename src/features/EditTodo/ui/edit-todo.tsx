@@ -59,7 +59,7 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
 
     return (
         <>
-            <div className={styles.icon}>
+            <div data-testid="edit-todo-button" className={styles.icon}>
                 <Icon
                     clickable
                     onClick={handleOpenModal}

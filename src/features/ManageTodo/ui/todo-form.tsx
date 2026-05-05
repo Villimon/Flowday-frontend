@@ -60,6 +60,7 @@ export const TodoForm: FC<TodoFormProps> = ({
                                 <Input
                                     {...field}
                                     ref={ref}
+                                    data-testid="todo-title-input"
                                     placeholder="Введите название задачи"
                                     autoFocus
                                     aria-required="true"
@@ -80,6 +81,7 @@ export const TodoForm: FC<TodoFormProps> = ({
                             render={({ field, fieldState }) => (
                                 <Textarea
                                     {...field}
+                                    data-testid="todo-description-input"
                                     label="Описание задачи"
                                     placeholder="Введите описание"
                                     size="md"
@@ -140,6 +142,7 @@ export const TodoForm: FC<TodoFormProps> = ({
                             disabled={isLoading}
                             variant="filled"
                             type="submit"
+                            data-testid="submit-todo-button"
                         >
                             {submitText}
                         </Button>

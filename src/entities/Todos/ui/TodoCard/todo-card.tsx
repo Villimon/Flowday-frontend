@@ -37,6 +37,7 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
         <Card
             padding="4"
             fullWidth
+            data-testid="todo-card"
             radius="xl"
             variant="filled"
             className={clsx(styles.todoCard, {

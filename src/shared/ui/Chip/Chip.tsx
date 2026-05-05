@@ -127,6 +127,7 @@ export const Chip: FC<ChipProps> = memo(
                         className={cls.remove}
                         onClick={handleRemove}
                         aria-label={`Удалить ${label}`}
+                        data-testid={`remove-button-${label}`}
                     >
                         ×
                     </button>

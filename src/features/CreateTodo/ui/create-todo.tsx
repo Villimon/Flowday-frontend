@@ -49,6 +49,7 @@ export const CreateTodo = () => {
                 size="sm"
                 onClick={handleOpenModal}
                 variant="filled"
+                data-testid="create-todo-button"
             >
                 Новая задача
             </Button>

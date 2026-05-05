@@ -11,6 +11,7 @@ export interface MenuItem {
     disabled?: boolean;
     Icon?: FC<SVGProps<SVGSVGElement>>;
     color?: ButtonColor;
+    'data-testid'?: string;
 }
 
 interface MenuProps {
@@ -64,6 +65,7 @@ export const Menu: FC<MenuProps> = memo(
                             {items.map((item, index) => (
                                 <Button
                                     key={index}
+                                    data-testid={item['data-testid']}
                                     type="button"
                                     className={clsx(cls.item, { [cls.disabled]: item.disabled })}
                                     onClick={() => handleItemClick(item)}

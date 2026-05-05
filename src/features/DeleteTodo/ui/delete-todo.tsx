@@ -20,7 +20,7 @@ export const DeleteTodo: FC<DeleteTodoProps> = ({ todoId }) => {
     );
 
     return (
-        <div className={styles.icon}>
+        <div data-testid="delete-todo-button" className={styles.icon}>
             <Icon
                 clickable
                 onClick={handleDeleteTodo}

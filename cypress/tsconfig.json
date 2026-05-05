@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "lib": ["es2015", "dom"],
+        "types": ["cypress", "@testing-library/cypress", "node"],
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "jsx": "react-jsx",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "allowJs": true,
+        "outDir": "./dist",
+        "noEmit": false
+    },
+    "include": ["**/*.ts", "**/*.tsx", "cypress/**/*.ts", "cypress/**/*.js"],
+    "exclude": ["node_modules"]
+}

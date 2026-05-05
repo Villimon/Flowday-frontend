@@ -62,7 +62,7 @@ server.post('/api/auth/register', (req, res) => {
             email,
             password,
             name,
-            token: 'qweasdzxc',
+            token: `token-${String(Date.now())}`,
         };
 
         users.push(newUser).write();
@@ -247,6 +247,28 @@ server.patch('/api/todos/:id/toggle', (req, res) => {
     }
 });
 
+server.delete('/api/todos/:id', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const todoId = req.params.id;
+        const { db } = router;
+      
+        db.get('todos')
+            .remove({ id: todoId, userId })
+            .write();
+
+       
+        res.status(200).json({
+            success: true,
+            message: 'Задача успешно удалена',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+
 server.put('/api/todos/:id', (req, res) => {
     try {
         const data = req.body;
@@ -353,10 +375,44 @@ server.post('/api/labels', (req, res) => {
     }
 });
 
+server.delete('/api/labels/:id', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const labelId = req.params.id;
+        const { db } = router;
+
+      
+        db.get('labels')
+            .remove({ id: labelId, userId })
+            .write();
+
+        const todos = db.get('todos').filter({ userId }).value();
+
+        todos.forEach(todo => {
+            if (todo.labels && todo.labels.includes(labelId)) {
+                db.get('todos')
+                    .find({ id: todo.id })
+                    .assign({
+                        labels: todo.labels.filter((id) => id !== labelId),
+                        updatedAt: new Date().toISOString()
+                    })
+                    .write();
+            }
+        });
+       
+        res.status(200).json({
+            success: true,
+            message: 'Лейбл успешно удален',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
 server.get('/api/labels', (req, res) => {
     try {
         const userId = req.headers.userid;
-
         const { db } = router;
 
         const labels = db.get('labels').filter({ userId }).value();
@@ -372,6 +428,38 @@ server.get('/api/labels', (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 });
+
+// for cypress test
+server.post('/api/test/reset', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const { db } = router;
+        
+        // Удаляем все задачи пользователя
+        const todos = db.get('todos').remove({ userId }).write();
+        
+        // Удаляем все метки пользователя
+        const labels = db.get('labels').remove({ userId }).write();
+        
+        console.log(`🧹 Database cleared for user ${userId}: deleted ${todos.length} todos and ${labels.length} labels`);
+        
+        res.status(200).json({
+            success: true,
+            message: 'Database cleared successfully',
+            data: {
+                todosDeleted: todos.length,
+                labelsDeleted: labels.length
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
+    }
+});
+
 
 
 server.use(async (req, res, next) => {

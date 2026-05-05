@@ -43,6 +43,7 @@ export const useGetStartedAction = ({ buttonColor }: useGetStartedActionParams) 
                 iconPosition="right"
                 iconHeight={20}
                 iconWidth={20}
+                data-testid="login-button-redirect"
             >
                 Начать бесплатно
             </Button>

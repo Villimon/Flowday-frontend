@@ -9,7 +9,7 @@ module.exports = {
         'plugin:react/jsx-runtime',
         'plugin:@tanstack/eslint-plugin-query/recommended',
     ],
-    ignorePatterns: ['dist', '.eslintrc.cjs', 'json-server'],
+    ignorePatterns: ['dist', '.eslintrc.cjs', 'json-server', 'cypress'],
     parser: '@typescript-eslint/parser',
     plugins: ['react-refresh', 'react-hooks'],
     rules: {

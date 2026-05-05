@@ -68,6 +68,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                         render={({ field, fieldState }) => (
                             <Input
                                 {...field}
+                                data-testid="email-input"
                                 ref={ref}
                                 placeholder="Введите вашу почту"
                                 autoFocus
@@ -92,6 +93,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                             <Input
                                 {...field}
                                 placeholder="Введите пароль"
+                                data-testid="password-input"
                                 aria-required="true"
                                 required
                                 error={fieldState.error?.message}
@@ -109,7 +111,13 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
                         <Text variant="error" text={mutationError.message} size="sm" />
                     )}
                 </VStack>
-                <Button loading={isLoggingIn} disabled={isLoggingIn} fullWidth type="submit">
+                <Button
+                    data-testid="submit-login-button"
+                    loading={isLoggingIn}
+                    disabled={isLoggingIn}
+                    fullWidth
+                    type="submit"
+                >
                     Войти
                 </Button>
             </VStack>
