@@ -13,7 +13,7 @@ export default defineConfig({
         video: false,
         screenshotOnRunFailure: true,
 
-        setupNodeEvents(on, config) {
+        setupNodeEvents(_, config) {
             return config;
         },
     },
@@ -25,5 +25,11 @@ export default defineConfig({
         },
         supportFile: 'cypress/support/component.ts',
         specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
+    },
+
+    env: {
+        apiUrl: process.env.CYPRESS_apiUrl || 'http://localhost:8000/api',
+        testUserEmail: process.env.CYPRESS_testUserEmail || 'test@example.com',
+        testUserPassword: process.env.CYPRESS_testUserPassword || '123123123',
     },
 });

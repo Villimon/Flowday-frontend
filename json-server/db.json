@@ -15,41 +15,14 @@
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTYyMzEyY2FhYTZkYjkzYTYwMjAxODciLCJlbWFpbCI6ImEyYTIxQG1haWwucnUiLCJpYXQiOjE3NjgwNDI3OTZ9.dv3gMZGCjO-UDzteYsxiXOSu8tRi_g1rXHgSBMkldNQ"
     },
     {
-      "id": "1773236488243",
-      "email": "a2aaa@mail.ru",
+      "id": "1777897578807",
+      "email": "test@example.com",
       "password": "123123123",
-      "name": "Qwe",
-      "token": "qweasdzxc"
+      "name": "CypressTest",
+      "token": "token-1777897578807"
     }
   ],
   "todos": [
-    {
-      "id": "1772804637122",
-      "title": "Купить молока",
-      "description": "Купить пару бутылок, буду готовить кашу",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": 1772804637122,
-      "updatedAt": "2026-03-13T11:49:39.993Z"
-    },
-    {
-      "id": "1772804644525",
-      "title": "Купить воды",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": 1772804644525,
-      "updatedAt": "2026-03-13T11:49:44.107Z"
-    },
-    {
-      "id": "1772804725737",
-      "title": "Посмотреть фильм",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": 1772804725737,
-      "updatedAt": "2026-03-11T14:04:53.387Z"
-    },
     {
       "id": "1772806436732",
       "title": "Покурить кальян",
@@ -57,7 +30,7 @@
       "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": 1772806436732,
-      "updatedAt": "2026-03-11T14:04:53.105Z"
+      "updatedAt": "2026-05-02T12:44:43.335Z"
     },
     {
       "id": "1772806444863",
@@ -66,34 +39,16 @@
       "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": 1772806444863,
-      "updatedAt": "2026-03-11T14:04:52.775Z"
-    },
-    {
-      "id": "1773231812749",
-      "title": "Оченьдлинноесловокотороеневлезает ОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезаетОченьдлинноесловокотороеневлезает",
-      "description": "sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad sadsadasdasdasdasdasdasdsadasdasdasdasdasdasdasdsadasdas sad asda sdas dsa dsad asd asdasd sad asdas dsa dasd sad",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-11T12:23:32.749Z",
-      "updatedAt": "2026-03-13T10:40:36.953Z"
-    },
-    {
-      "id": "1773251013751",
-      "title": "Тоже тут поменял название",
-      "description": "И добавил описание для этой небольшой задачи",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-11T17:43:33.751Z",
-      "updatedAt": "2026-03-12T07:35:15.465Z"
+      "updatedAt": "2026-05-02T12:44:42.996Z"
     },
     {
       "id": "1773251149660",
       "title": "Делаем нормальное название",
       "description": "И добавляем описание",
-      "completed": false,
+      "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-11T17:45:49.660Z",
-      "updatedAt": "2026-03-12T07:34:46.240Z"
+      "updatedAt": "2026-05-02T12:44:42.577Z"
     },
     {
       "id": "1773251901162",
@@ -102,7 +57,7 @@
       "completed": false,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-11T17:58:21.162Z",
-      "updatedAt": "2026-03-12T07:43:54.528Z"
+      "updatedAt": "2026-05-02T12:44:48.408Z"
     },
     {
       "id": "1773252431335",
@@ -111,16 +66,16 @@
       "completed": false,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-11T18:07:11.335Z",
-      "updatedAt": "2026-03-12T07:39:18.891Z"
+      "updatedAt": "2026-05-02T12:44:48.859Z"
     },
     {
       "id": "1773300693464",
       "title": "Это измененное название",
       "description": "А это измененное описание задачи",
-      "completed": false,
+      "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-12T07:31:33.464Z",
-      "updatedAt": "2026-03-12T07:39:17.251Z"
+      "updatedAt": "2026-05-02T14:34:56.641Z"
     },
     {
       "id": "1773301091983",
@@ -129,16 +84,12 @@
       "completed": false,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-12T07:38:11.983Z",
-      "updatedAt": "2026-03-12T07:39:17.984Z"
-    },
-    {
-      "id": "1773301807276",
-      "title": "Zadacha dlya testa",
-      "description": "Opisanie dlya testa",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-12T07:50:07.276Z",
-      "updatedAt": "2026-03-12T07:50:30.504Z"
+      "updatedAt": "2026-05-04T08:07:50.019Z",
+      "labels": [
+        "1777745694141",
+        "1777745760861",
+        "1777748020469"
+      ]
     },
     {
       "id": "1773400966411",
@@ -147,7 +98,85 @@
       "completed": false,
       "userId": "695a986c820ddc26e77a36d1",
       "createdAt": "2026-03-13T11:22:46.411Z",
-      "updatedAt": "2026-03-13T11:22:46.411Z"
+      "updatedAt": "2026-05-02T12:44:47.181Z"
+    },
+    {
+      "id": "1777733244418",
+      "title": "s",
+      "description": "dasdasdasd as ddasd asd asd asdb ajsdhb hasbd ajsdbh ajsdhb jasdhb ajsdhb ajsdhb asjkdbh ajsdbh ajdbhsjash djashbd jabsdhjk ahsbdkjash djashbd jabshdj ashbdjh adjashbd jabshd jabsdhjashb djasbhdjash bdajshbd ajsdhbajsh bdajsdhb ajshbdj abhsdjash dajshbd jahsbd ahsdjhab sjbdhaj sdhbajsbh djashbdj asbhdjasbhd jabshdj ashbdjkashbd jashbd jdasdasdasd as ddasd asd asd asdb ajsdhb hasbd ajsdbh ajsdhb jasdhb ajsdhb ajsdhb asjkdbh ajsdbh ajdbhsjash djashbd jabsdhjk ahsbdkjash djashbd jabshdj ashbdjh adjashbd jabshd jabsdhjashb djasbhdjash bdajshbd ajsdhbajsh bdajsdhb ajshbdj abhsdjash dajshbd jahsbd ahsdjhab sjbdhaj sdhbajsbh djashbdj asbhdjasbhd jabshdj ashbdjkashbd jashbd j",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "createdAt": "2026-05-02T14:47:24.418Z",
+      "updatedAt": "2026-05-04T11:44:00.339Z",
+      "labels": [
+        "1777745694141"
+      ]
+    },
+    {
+      "id": "1777750500887",
+      "title": "Задача с метками",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [
+        "1777745694141",
+        "1777748020469"
+      ],
+      "createdAt": "2026-05-02T19:35:00.887Z",
+      "updatedAt": "2026-05-04T11:44:00.340Z"
+    },
+    {
+      "id": "1777795226869",
+      "title": "Тест лейблов",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [
+        "1777748020469",
+        "1777745694141"
+      ],
+      "createdAt": "2026-05-03T08:00:26.869Z",
+      "updatedAt": "2026-05-04T11:44:00.341Z"
+    },
+    {
+      "id": "1777795237873",
+      "title": "Без лейбла",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-05-03T08:00:37.873Z",
+      "updatedAt": "2026-05-04T11:44:00.341Z"
+    },
+    {
+      "id": "1777986503777",
+      "title": "Измененная первая задача",
+      "description": "Измененное описание",
+      "completed": false,
+      "userId": "1777897578807",
+      "labels": [],
+      "createdAt": "2026-05-05T13:08:23.777Z",
+      "updatedAt": "2026-05-05T13:08:43.671Z"
+    }
+  ],
+  "labels": [
+    {
+      "id": "1777745694141",
+      "name": "Работа",
+      "userId": "695a986c820ddc26e77a36d1",
+      "color": "#4ECDC4"
+    },
+    {
+      "id": "1777748020469",
+      "name": "Спорт",
+      "userId": "695a986c820ddc26e77a36d1",
+      "color": "#DDA0DD"
+    },
+    {
+      "id": "1777986512863",
+      "name": "Важное",
+      "userId": "1777897578807",
+      "color": "#FF6B6B"
     }
   ]
 }
