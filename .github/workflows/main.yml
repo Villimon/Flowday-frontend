@@ -50,7 +50,7 @@ jobs:
               run: npm run start:dev > server.log 2>&1 &
 
             - name: Wait for server
-              run: npx wait-on tcp:localhost:8080 --timeout 30000
+              run: npx wait-on tcp:localhost:8000 --timeout 30000
 
             - name: Debug Server Logs
               if: failure()
