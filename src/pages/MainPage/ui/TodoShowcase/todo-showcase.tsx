@@ -5,10 +5,9 @@ import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 import ZapIcon from '@/shared/assets/zap.svg';
 import clsx from 'clsx';
 import { Icon } from '@/shared/ui/Icon/Icon';
-import { useGetStartedAction } from '@/pages/MainPage/model/hooks/useGetStartedAction';
+import { GetStartedButton } from '@/features/GetStartedButton';
 
 export const TodoShowcase = memo(() => {
-    const getStartedAction = useGetStartedAction({ buttonColor: 'neutral' });
     const isTablet = useMedia('(max-width: 768px)');
 
     return (
@@ -24,11 +23,11 @@ export const TodoShowcase = memo(() => {
                         title="Готовы навести порядок в делах?"
                         text="Зарегистрируйтесь и пробуйте прямо сейчас."
                     />
-                    {getStartedAction}
+                    <GetStartedButton buttonColor="neutral" />
                 </VStack>
             </Card>
         </section>
     );
 });
 
-TodoShowcase.displayName = 'FeaturesSection';
+TodoShowcase.displayName = 'TodoShowcase';

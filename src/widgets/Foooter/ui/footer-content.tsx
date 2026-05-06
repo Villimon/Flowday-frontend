@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import styles from './footer.module.css';
 import { Button, HStack, Text, VStack } from '@/shared/ui';
 import CalendarIcon from '@/shared/assets/calendar.svg';
@@ -11,11 +11,11 @@ interface FooterContentProps {
     onOpenChangelog: () => void;
 }
 
-export const FooterContent: FC<FooterContentProps> = ({ onOpenChangelog }) => {
+export const FooterContent: FC<FooterContentProps> = memo(({ onOpenChangelog }) => {
     return (
         <>
-            <HStack gap="16">
-                <VStack gap="4" className={styles.logoBlock}>
+            <HStack fullWidth gap="16">
+                <VStack gap="4" fullWidth className={styles.logoBlock}>
                     <Button
                         className={styles.button}
                         as={Link}
@@ -36,7 +36,7 @@ export const FooterContent: FC<FooterContentProps> = ({ onOpenChangelog }) => {
                         variant="secondary"
                     />
                 </VStack>
-                <VStack gap="2" className={styles.productBlock}>
+                <VStack fullWidth gap="2" className={styles.productBlock}>
                     <Text title="Продукт" headerTag="h4" />
                     <ul>
                         <li>
@@ -57,7 +57,7 @@ export const FooterContent: FC<FooterContentProps> = ({ onOpenChangelog }) => {
                 </VStack>
             </HStack>
             <div className={styles.divider} />
-            <HStack justify="between">
+            <HStack fullWidth justify="between">
                 <Text
                     text={`© ${new Date().getFullYear()} Flowday. Все права защищены.`}
                     variant="secondary"
@@ -73,4 +73,6 @@ export const FooterContent: FC<FooterContentProps> = ({ onOpenChangelog }) => {
             </HStack>
         </>
     );
-};
+});
+
+FooterContent.displayName = 'FooterContent';

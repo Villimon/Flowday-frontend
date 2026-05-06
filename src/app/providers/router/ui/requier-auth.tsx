@@ -1,10 +1,10 @@
 import { useAuth } from '@/entities/User';
 import { getRouteMain } from '@/shared/constants/router';
-import { FC, JSX } from 'react';
+import { FC, ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
 interface RequierAuthProps {
-    children: JSX.Element;
+    children: ReactNode;
 }
 
 export const RequierAuth: FC<RequierAuthProps> = ({ children }) => {

@@ -1,19 +1,19 @@
 import { useAuth } from '@/entities/User';
-import { LoginForm } from '@/features/LoginByEmail';
 import { getRouteTodos } from '@/shared/constants/router';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
-import { Button, Modal } from '@/shared/ui';
-import { ButtonColor } from '@/shared/ui/Buttons/Buttons';
+import { Button, ButtonColor } from '@/shared/ui/Buttons/Buttons';
 import { useIsMutating } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, useCallback, useState } from 'react';
 import ArrowRightIcon from '@/shared/assets/arrow-right.svg';
+import { LoginForm } from '@/features/LoginByEmail';
+import { Modal } from '@/shared/ui';
+import { Link } from 'react-router-dom';
 
-interface useGetStartedActionParams {
+interface GetStartedButtonProps {
     buttonColor?: ButtonColor;
 }
 
-export const useGetStartedAction = ({ buttonColor }: useGetStartedActionParams) => {
+export const GetStartedButton = memo(({ buttonColor }: GetStartedButtonProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const { isAuth } = useAuth();
     const isTablet = useMedia('(max-width: 768px)');
@@ -59,4 +59,6 @@ export const useGetStartedAction = ({ buttonColor }: useGetStartedActionParams) 
             )}
         </>
     );
-};
+});
+
+GetStartedButton.displayName = 'GetStartedButton';

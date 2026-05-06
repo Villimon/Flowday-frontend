@@ -3,6 +3,7 @@ import styles from './main-page.module.css';
 import { LandingInfo } from './LandingInfo/landing-info';
 import { FeaturesSection } from './FeaturesSection/features-section';
 import { TodoShowcase } from './TodoShowcase/todo-showcase';
+import { Footer } from '@/widgets/Foooter';
 
 export const MainPage = memo(() => {
     return (
@@ -10,6 +11,7 @@ export const MainPage = memo(() => {
             <LandingInfo />
             <FeaturesSection />
             <TodoShowcase />
+            <Footer />
         </main>
     );
 });

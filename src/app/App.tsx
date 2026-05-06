@@ -6,9 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useAuth } from '@/entities/User';
 import { Loader } from '@/shared/ui/Loader/Loader';
-import { Footer } from '@/widgets/Foooter';
-import { useLocation } from 'react-router-dom';
-import { getRouteMain } from '@/shared/constants/router';
 // GLOBAL TODO:
 // Настроить мета данные для SEO - в релиз 1.0.0
 // Настроить ацесабилити для компонентов и соблюдать симантику - в релиз 1.0.0
@@ -24,17 +21,11 @@ import { getRouteMain } from '@/shared/constants/router';
 
 export const App = () => {
     const { isInitialized } = useAuth();
-    const location = useLocation();
-    const isMainPage = location.pathname === getRouteMain();
 
     return (
         <div className="app">
             {isInitialized ? (
-                <MainLayout
-                    content={<AppRouter />}
-                    header={<Header />}
-                    footer={isMainPage ? <Footer /> : undefined}
-                />
+                <MainLayout content={<AppRouter />} header={<Header />} />
             ) : (
                 <Loader />
             )}

@@ -1,10 +1,10 @@
-import { memo, useCallback } from 'react';
+import { useCallback } from 'react';
 import styles from './error-page.module.css';
 import { Button, Text, VStack } from '@/shared/ui';
 import { useNavigate } from 'react-router-dom';
 import { getRouteMain } from '@/shared/constants/router';
 
-const ErrorPage = memo(() => {
+const ErrorPage = () => {
     const navigate = useNavigate();
 
     const handleRedirect = useCallback(() => {
@@ -21,7 +21,7 @@ const ErrorPage = memo(() => {
             </VStack>
         </div>
     );
-});
+};
 
 export default ErrorPage;
 

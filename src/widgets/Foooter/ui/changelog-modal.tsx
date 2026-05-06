@@ -14,7 +14,8 @@ interface ChanhelogModalProps {
     onClose: () => void;
 }
 
-export const ChanhelogModal: FC<ChanhelogModalProps> = ({ isOpen, onClose }) => {
+// TODO: когда будет больше 10 записей сделать его ленивым
+export const ChangelogModal: FC<ChanhelogModalProps> = ({ isOpen, onClose }) => {
     return (
         <Modal size="lg" isOpen={isOpen} onClose={onClose} title="Что нового">
             {changeLog.map(item => {

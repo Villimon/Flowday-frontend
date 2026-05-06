@@ -1,8 +1,9 @@
 import { memo, useCallback, useState } from 'react';
 import styles from './footer.module.css';
 import clsx from 'clsx';
-import { ChanhelogModal } from './changelog-modal';
+import { ChangelogModal } from './changelog-modal';
 import { FooterContent } from './footer-content';
+import { VStack } from '@/shared/ui';
 
 export const Footer = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,9 +17,11 @@ export const Footer = memo(() => {
     }, []);
 
     return (
-        <footer className={clsx('container', styles.footer)}>
-            <FooterContent onOpenChangelog={handleOpenModal} />
-            {isOpen && <ChanhelogModal isOpen={isOpen} onClose={handleCloseModal} />}
+        <footer className={clsx(styles.footer)}>
+            <VStack fullWidth className="container">
+                <FooterContent onOpenChangelog={handleOpenModal} />
+                {isOpen && <ChangelogModal isOpen={isOpen} onClose={handleCloseModal} />}
+            </VStack>
         </footer>
     );
 });

@@ -8,15 +8,9 @@ export const AppRouter = () => {
     const { key } = useLocation();
 
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
-        const element = <div>{route.element}</div>;
+        const content = route.authOnly ? <RequierAuth>{route.element}</RequierAuth> : route.element;
 
-        return (
-            <Route
-                key={route.path}
-                path={route.path}
-                element={route.authOnly ? <RequierAuth>{element}</RequierAuth> : element}
-            />
-        );
+        return <Route key={route.path} path={route.path} element={content} />;
     }, []);
 
     return (

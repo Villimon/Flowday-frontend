@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import path from 'path';
 import fs from 'fs';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const packageJson = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
 
@@ -18,6 +19,7 @@ export default defineConfig({
             include: '**/*.svg',
         }),
         react(),
+        visualizer({ open: true, gzipSize: true, filename: 'stats.html' }),
     ],
     resolve: {
         alias: [{ find: '@', replacement: '/src' }],
@@ -35,9 +37,10 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                manualChunks: {
-                    vendor: ['react', 'react-dom'],
-                    ui: ['clsx'],
+                manualChunks: id => {
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
                 },
             },
         },

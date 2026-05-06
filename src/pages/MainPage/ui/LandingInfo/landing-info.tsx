@@ -3,11 +3,10 @@ import styles from './landing-info.module.css';
 import { Button, HStack, Text, VStack } from '@/shared/ui';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 import clsx from 'clsx';
-import { useGetStartedAction } from '../../model/hooks/useGetStartedAction';
+import { GetStartedButton } from '@/features/GetStartedButton';
 
 export const LandingInfo = memo(() => {
     const isTablet = useMedia('(max-width: 768px)');
-    const getStartedAction = useGetStartedAction({});
 
     return (
         <section className={clsx(styles.info, 'container')}>
@@ -32,7 +31,7 @@ export const LandingInfo = memo(() => {
                     />
                 </VStack>
                 <HStack gap={isTablet ? '16' : '8'} wrap={isTablet ? 'wrap' : 'nowrap'}>
-                    {getStartedAction}
+                    <GetStartedButton />
                     <Button
                         as={'a'}
                         href={'#features'}
