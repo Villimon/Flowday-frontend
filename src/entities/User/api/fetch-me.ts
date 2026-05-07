@@ -13,7 +13,7 @@ export const fetchMe = async () => {
 
         const { data } = await $api.get<UserDto>('/auth/me');
 
-        return data;
+        return data.data;
     } catch (e) {
         const error = e as AxiosError<ApiError>;
         throw error.response?.data || { success: false, message: 'Ошибка получения данных' };

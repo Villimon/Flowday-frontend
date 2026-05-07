@@ -1,6 +1,6 @@
 import { Card, HStack, Text, VStack } from '@/shared/ui';
 import { Todo } from '../../model/types/types';
-import { FC, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 
 import styles from './todo-card.module.css';
 import clsx from 'clsx';
@@ -15,12 +15,14 @@ import { Chip } from '@/shared/ui/Chip/Chip';
 
 interface TodoCardProps {
     todo: Todo;
-    status: string;
+    isCompleted?: boolean;
 }
 
-export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
+// TODO: нарушение FSD архитектуры, фичи нельзя использовать тут, в будущем добавить слоты под эти фичи и передавать их пропсами
+export const TodoCard: FC<TodoCardProps> = memo(({ todo, isCompleted }) => {
     const { mutate: toggleTodoMutate } = useToggleTodo();
 
+    // TODO: вынести на уровень виджета и передавать пропсом onToggle
     const handleToggleTodo = useCallback(
         (e?: React.MouseEvent) => {
             e?.stopPropagation();
@@ -41,7 +43,7 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
             radius="xl"
             variant="filled"
             className={clsx(styles.todoCard, {
-                [styles.completed]: todo.completed && status === 'all',
+                [styles.completed]: isCompleted,
             })}
             onClick={handleToggleTodo}
             lang="ru"
@@ -69,7 +71,13 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
                             };
 
                             return (
-                                <Chip key={label.id} label={label.name} size="xs" style={style} />
+                                <Chip
+                                    id={label.id}
+                                    key={label.id}
+                                    label={label.name}
+                                    size="xs"
+                                    style={style}
+                                />
                             );
                         })}
                     </HStack>
@@ -89,4 +97,6 @@ export const TodoCard: FC<TodoCardProps> = ({ todo, status }) => {
             </HStack>
         </Card>
     );
-};
+});
+
+TodoCard.displayName = 'TodoCard';

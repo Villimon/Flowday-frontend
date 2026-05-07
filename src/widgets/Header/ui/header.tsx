@@ -96,16 +96,16 @@ export const Header = memo(() => {
                                 <HStack gap="4" justify="center" align="center">
                                     <Text
                                         className={styles.avatar}
-                                        text={user?.data.name[0].toUpperCase()}
+                                        text={user?.name[0].toUpperCase()}
                                     />
-                                    <Text text={user?.data.name} size="lg" />
+                                    <Text text={user?.name} size="lg" />
                                 </HStack>
                             </Card>
                         }
                         headerContent={
                             <VStack>
-                                <Text text={user?.data.name} size="sm" weight="semibold" />
-                                <Text text={user?.data.email} size="xs" variant="secondary" />
+                                <Text text={user?.name} size="sm" weight="semibold" />
+                                <Text text={user?.email} size="xs" variant="secondary" />
                             </VStack>
                         }
                     />

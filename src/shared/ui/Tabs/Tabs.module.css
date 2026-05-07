@@ -120,12 +120,3 @@
         width: 2px;
     }
 }
-
-/* Dark theme adjustments */
-@media (prefers-color-scheme: dark) {
-    .selected {
-        &::after {
-            background-color: var(--color-primary-400);
-        }
-    }
-}

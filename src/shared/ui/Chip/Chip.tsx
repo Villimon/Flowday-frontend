@@ -25,6 +25,7 @@ export interface ChipProps extends HTMLAttributes<HTMLDivElement | HTMLButtonEle
     isUpperCase?: boolean;
 
     // Контент
+    id?: string;
     label: string;
     icon?: React.FC<React.SVGProps<SVGSVGElement>>;
     iconPosition?: 'left' | 'right';
@@ -34,7 +35,7 @@ export interface ChipProps extends HTMLAttributes<HTMLDivElement | HTMLButtonEle
     disabled?: boolean;
     removable?: boolean;
     isActive?: boolean;
-    onRemove?: () => void;
+    onRemove?: (id: string) => void;
 
     // Стили
     className?: string;
@@ -49,6 +50,7 @@ export interface ChipProps extends HTMLAttributes<HTMLDivElement | HTMLButtonEle
 
 export const Chip: FC<ChipProps> = memo(
     ({
+        id,
         label,
         icon,
         iconPosition = 'left',
@@ -74,9 +76,11 @@ export const Chip: FC<ChipProps> = memo(
         const isClickable = clickable && !disabled;
         const Component = isClickable ? 'button' : 'div';
 
-        const handleRemove = (e: React.MouseEvent) => {
+        const handleRemove = (e: React.MouseEvent, id?: string) => {
             e.stopPropagation();
-            onRemove?.();
+            if (id) {
+                onRemove?.(id);
+            }
         };
 
         return (
@@ -125,11 +129,11 @@ export const Chip: FC<ChipProps> = memo(
                     <button
                         type="button"
                         className={cls.remove}
-                        onClick={handleRemove}
+                        onClick={e => handleRemove(e, id)}
                         aria-label={`Удалить ${label}`}
                         data-testid={`remove-button-${label}`}
                     >
-                        ×
+                        {/* TODO: Заменить на иконку */}×
                     </button>
                 )}
             </Component>

@@ -142,12 +142,6 @@ export const Input = memo(
             'aria-readonly': readOnly,
         };
 
-        Object.keys(ariaProps).forEach(key => {
-            if (ariaProps[key as keyof typeof ariaProps] === undefined) {
-                delete ariaProps[key as keyof typeof ariaProps];
-            }
-        });
-
         const inputId = id || (name ? `${name}-input` : generatedId);
 
         return (

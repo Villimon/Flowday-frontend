@@ -1,14 +1,14 @@
 import { Icon } from '@/shared/ui/Icon/Icon';
 import DeleteIcon from '@/shared/assets/trash.svg';
 import { useDeleteTodo } from '../api/delete-todo';
-import { FC, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import styles from './delete-todo.module.css';
 
 interface DeleteTodoProps {
     todoId: string;
 }
 
-export const DeleteTodo: FC<DeleteTodoProps> = ({ todoId }) => {
+export const DeleteTodo: FC<DeleteTodoProps> = memo(({ todoId }) => {
     const { mutate: deleteTodoMutate, isPending } = useDeleteTodo();
 
     const handleDeleteTodo = useCallback(
@@ -33,4 +33,6 @@ export const DeleteTodo: FC<DeleteTodoProps> = ({ todoId }) => {
             />
         </div>
     );
-};
+});
+
+DeleteTodo.displayName = 'DeleteTodo';

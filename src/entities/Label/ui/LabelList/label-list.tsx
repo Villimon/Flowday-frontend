@@ -1,6 +1,6 @@
 import { HStack } from '@/shared/ui';
 import { Label } from '../../model/types/types';
-import { FC, useCallback } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { Chip } from '@/shared/ui/Chip/Chip';
 import { useDeleteLabel } from '@/features/DeleteLabel';
 
@@ -10,7 +10,14 @@ interface TodoListProps {
     onChange: (id: string) => void;
 }
 
-export const LabelList: FC<TodoListProps> = ({ labels = [], activeLabels = [], onChange }) => {
+const INITIAL_LABEL: Label = {
+    id: '',
+    color: '#94a3b8',
+    name: 'Без метки',
+};
+
+export const LabelList: FC<TodoListProps> = memo(({ labels = [], activeLabels = [], onChange }) => {
+    // TODO: Вынести на уровень выше и передавать пропсом onRemove и тогда этот комопнент будет соответсвовать "глупой" сущности
     const { mutate: deleteLabelMutate } = useDeleteLabel();
 
     const handleDeleteLabel = useCallback(
@@ -21,15 +28,11 @@ export const LabelList: FC<TodoListProps> = ({ labels = [], activeLabels = [], o
         [deleteLabelMutate]
     );
 
-    const initialLabel: Label = {
-        id: '',
-        color: '#94a3b8',
-        name: 'Без метки',
-    };
+    const allLabels = useMemo(() => [INITIAL_LABEL, ...labels], [labels]);
 
     return (
         <HStack gap="2" fullWidth wrap="wrap">
-            {[initialLabel, ...labels]?.map(label => {
+            {allLabels.map(label => {
                 const active = activeLabels.length
                     ? activeLabels.includes(label.id)
                     : label.id === '';
@@ -46,6 +49,7 @@ export const LabelList: FC<TodoListProps> = ({ labels = [], activeLabels = [], o
                     <Chip
                         data-testid={`label-option-${label.name}`}
                         key={label.id}
+                        id={label.id}
                         label={label.name}
                         clickable
                         size="md"
@@ -53,10 +57,12 @@ export const LabelList: FC<TodoListProps> = ({ labels = [], activeLabels = [], o
                         style={customStyle}
                         onClick={() => onChange(label.id)}
                         removable={label.id !== ''}
-                        onRemove={() => handleDeleteLabel(label.id)}
+                        onRemove={handleDeleteLabel}
                     />
                 );
             })}
         </HStack>
     );
-};
+});
+
+LabelList.displayName = 'LabelList';

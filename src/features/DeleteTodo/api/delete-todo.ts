@@ -2,6 +2,7 @@ import { $api } from '@/shared/api/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TODO_KEYS } from '@/shared/api/keys-factories/create-todo-factories';
 import { DeleteTodoResponseDto } from '../model/types/types';
+// TODO: вынести тип в другое место, фича не должна импортировать фичу
 import { TodoStatus } from '@/features/FilterTodos/model/types/types';
 import { Todo, TodosResponseDto } from '@/entities/Todos/model/types/types';
 import { toast } from 'react-toastify';

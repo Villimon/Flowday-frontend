@@ -17,6 +17,7 @@ const TodosPage = memo(() => {
     }, []);
 
     const { data, isLoading, isError } = useTodos({ status });
+    // TODO: убрать когда добавлю каунтер на бэк
     const { data: allTodosData } = useTodos({ status: 'all' });
 
     const todoStats = useMemo(() => {

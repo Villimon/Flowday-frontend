@@ -203,13 +203,6 @@ export const Button = memo(<T extends ElementType = 'button'>(props: ButtonProps
         'aria-disabled': disabled || loading,
     };
 
-    // Очищаем undefined значения
-    Object.keys(ariaAttributes).forEach(key => {
-        if (ariaAttributes[key as keyof AriaAttributes] === undefined) {
-            delete ariaAttributes[key as keyof AriaAttributes];
-        }
-    });
-
     return (
         <Component
             type={type}

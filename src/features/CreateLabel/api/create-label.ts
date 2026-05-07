@@ -24,9 +24,19 @@ export const useCreateLabel = () => {
                 );
             }
         },
+        // TODO: Перейти на Success Update
         onSuccess: async newLabel => {
             await queryClient.invalidateQueries({ queryKey: LABEL_KEYS.lists() });
             return newLabel;
+
+            // queryClient.setQueryData(LABEL_KEYS.lists(), (oldResponse: any) => {
+            // if (!oldResponse) return { data: [newLabelFromServer] };
+            //
+            // return {
+            // ...oldResponse,
+            // data: [...oldResponse.data, newLabelFromServer],
+            // };
+            // });
         },
     });
 };

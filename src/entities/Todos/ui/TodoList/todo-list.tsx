@@ -2,7 +2,7 @@ import { Loader } from '@/shared/ui/Loader/Loader';
 import { HStack, Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../TodoCard/todo-card';
 import { Todo } from '../../model/types/types';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 interface TodoListProps {
     todos?: Todo[];
@@ -11,7 +11,8 @@ interface TodoListProps {
     status: string;
 }
 
-export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, status }) => {
+// TODO: TodoList сделать виджетом, widgets/TodoList, widgets/TodoCalendar, widgets/TodoBoard - «День», «Неделя», «Месяц» — это будут разные виджеты.
+export const TodoList: FC<TodoListProps> = memo(({ isError, isLoading, todos, status }) => {
     if (isLoading) {
         // TODO add sceleton
         return <Loader />;
@@ -29,11 +30,26 @@ export const TodoList: FC<TodoListProps> = ({ isError, isLoading, todos, status 
         );
     }
 
+    const isAllTab = status === 'all';
+
+    /* 
+    // TODO: пропс под слот 
+    actions={
+        // Features передаем через слот (FSD-way)
+        <HStack gap="2">
+            <EditTodo todo={todo} />
+            <DeleteTodo todoId={todo.id} />
+        </HStack>
+    }
+    
+    */
     return (
         <VStack gap="4" fullWidth>
             {todos?.map(todo => (
-                <TodoCard key={todo.id} todo={todo} status={status} />
+                <TodoCard key={todo.id} todo={todo} isCompleted={isAllTab && todo.completed} />
             ))}
         </VStack>
     );
-};
+});
+
+TodoList.displayName = 'TodoList';

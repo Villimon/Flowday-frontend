@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface UseModalProps {
     onClose?: () => void;
@@ -16,7 +16,7 @@ interface UseModalProps {
 export function useModal({ animationDelay, isOpen, onClose }: UseModalProps) {
     const [isClosing, setIsClosing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const timeRef = useRef({}) as RefObject<ReturnType<typeof setTimeout>>;
+    const timeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const closeHandler = useCallback(() => {
         if (onClose) {
@@ -44,11 +44,13 @@ export function useModal({ animationDelay, isOpen, onClose }: UseModalProps) {
     useEffect(() => {
         if (isOpen) {
             window.addEventListener('keydown', onKeyDown);
+            document.body.style.overflow = 'hidden';
         }
 
         return () => {
-            clearTimeout(timeRef.current);
+            if (timeRef.current) clearTimeout(timeRef.current);
             window.removeEventListener('keydown', onKeyDown);
+            document.body.style.overflow = 'auto';
         };
     }, [isOpen, onKeyDown]);
 

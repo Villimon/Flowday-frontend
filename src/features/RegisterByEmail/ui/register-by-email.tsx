@@ -1,9 +1,9 @@
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { RegisterForm } from './register-form';
 import { useIsMutating } from '@tanstack/react-query';
 
-export const RegisterByEmail = () => {
+export const RegisterByEmail = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
     const isRegister = useIsMutating({ mutationKey: ['register-action'] }) > 0;
 
@@ -32,4 +32,6 @@ export const RegisterByEmail = () => {
             )}
         </>
     );
-};
+});
+
+RegisterByEmail.displayName = 'RegisterByEmail';

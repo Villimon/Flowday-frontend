@@ -55,15 +55,16 @@ export const Menu: FC<MenuProps> = memo(
 
         return (
             <div ref={menuRef} className={clsx(cls.menu, className)}>
-                <div onClick={handleToggle} className={cls.trigger}>
+                <div aria-haspopup="true" onClick={handleToggle} className={cls.trigger}>
                     {trigger}
                 </div>
                 {isOpen && (
-                    <div className={clsx(cls.content, cls[direction])}>
+                    <div role="menu" className={clsx(cls.content, cls[direction])}>
                         {headerContent && <div className={cls.headerContent}>{headerContent}</div>}
                         <div className={cls.items}>
                             {items.map((item, index) => (
                                 <Button
+                                    role="menuitem"
                                     key={index}
                                     data-testid={item['data-testid']}
                                     type="button"

@@ -1,13 +1,13 @@
 import { TodoForm } from '@/features/ManageTodo';
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCreateTodo } from '@/features/CreateTodo/api/create-todo';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { ApiError } from '@/shared/types/api.types';
 import PlusIcon from '@/shared/assets/plus.svg';
 
-export const CreateTodo = () => {
+export const CreateTodo = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = useCallback(() => {
@@ -25,6 +25,7 @@ export const CreateTodo = () => {
         reset: resetMutation,
     } = useCreateTodo();
 
+    // TODO: убрать await а сделать как везде через onSuccess использовать mutate а не mutateAsync  Именно Success Update (ручное обновление кэша) — это то, что решает твою проблему «задумчивой» модалки.
     const handleCreateTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
@@ -72,4 +73,6 @@ export const CreateTodo = () => {
             )}
         </div>
     );
-};
+});
+
+CreateTodo.displayName = 'CreateTodo';

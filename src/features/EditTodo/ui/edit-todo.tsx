@@ -1,6 +1,6 @@
 import { Icon } from '@/shared/ui/Icon/Icon';
 import EditIcon from '@/shared/assets/edit-pen.svg';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { Todo } from '@/entities/Todos';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ interface EditTodoProps {
     todo: Todo;
 }
 
-export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
+export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = useCallback(() => {
@@ -32,7 +32,8 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
         reset: resetMutation,
     } = useEditTodo();
 
-    const handleCreateTodo = useCallback(
+    // TODO: сделать Success Update и убрать await а сделать как везде через onSuccess использовать mutate а не mutateAsync
+    const handleEditTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
             try {
@@ -48,14 +49,15 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
         [editTodoMutate, resetMutation, todo.id, handleCloseModal]
     );
 
-    const initialFormData: TodoFormData = useMemo(
-        () => ({
+    const initialFormData: TodoFormData | null = useMemo(() => {
+        if (!isOpen) return null;
+
+        return {
             title: todo.title,
             description: todo.description,
             labels: todo.labels?.map(label => label.id) || [],
-        }),
-        [todo.description, todo.labels, todo.title]
-    );
+        };
+    }, [isOpen, todo.description, todo.labels, todo.title]);
 
     return (
         <>
@@ -70,7 +72,7 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                     height={22}
                 />
             </div>
-            {isOpen && (
+            {isOpen && initialFormData && (
                 <Modal
                     isOpen={isOpen}
                     onClose={handleCloseModal}
@@ -82,7 +84,7 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
                         error={mutationError}
                         isLoading={isPending}
                         onCancel={handleCloseModal}
-                        onSubmit={handleCreateTodo}
+                        onSubmit={handleEditTodo}
                         submitText={'Сохранить'}
                         initialData={initialFormData}
                     />
@@ -90,4 +92,6 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
             )}
         </>
     );
-};
+});
+
+EditTodo.displayName = 'EditTodo';

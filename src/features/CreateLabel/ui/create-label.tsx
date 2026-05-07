@@ -1,5 +1,5 @@
 import { Button, Card, HStack, Input, Text, VStack } from '@/shared/ui';
-import { useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import PlusIcon from '@/shared/assets/plus.svg';
 import styles from './create-label.module.css';
 import { LabelFormData, labelSchema } from '../model/schema/schema';
@@ -8,11 +8,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { useCreateLabel } from '../api/create-label';
 import { toast } from 'react-toastify';
 
-export const CreateLabel = () => {
+export const CreateLabel = memo(() => {
     const [showFormLabel, setShowFormLabel] = useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
-    const { control, handleSubmit, reset, watch } = useForm<LabelFormData>({
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { isValid },
+    } = useForm<LabelFormData>({
         resolver: zodResolver(labelSchema),
         defaultValues: {
             name: '',
@@ -20,8 +25,6 @@ export const CreateLabel = () => {
         mode: 'onSubmit',
         reValidateMode: 'onBlur',
     });
-
-    const nameValue = watch('name'); // eslint-disable-line react-hooks/incompatible-library
 
     const handleClick = useCallback(() => {
         setShowFormLabel(prev => !prev);
@@ -114,7 +117,7 @@ export const CreateLabel = () => {
                             radius="lg"
                             variant="filled"
                             onClick={onSubmit}
-                            disabled={!nameValue.trim().length}
+                            disabled={!isValid}
                             data-testid="submit-label-button"
                         >
                             Добавить
@@ -134,4 +137,6 @@ export const CreateLabel = () => {
             )}
         </VStack>
     );
-};
+});
+
+CreateLabel.displayName = 'CreateLabel';

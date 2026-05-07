@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, memo, ReactNode, useMemo } from 'react';
 import cls from './Card.module.css';
 import clsx from 'clsx';
 
@@ -49,55 +49,62 @@ const mapRadiusToClass: Record<CardRadius, string> = {
     full: cls.radiusFull,
 };
 
-export const Card = ({
-    className,
-    children,
-    variant = 'elevated',
-    padding = '8',
-    radius = 'md',
-    fullWidth = false,
-    fullHeight = false,
-    maxWidth,
-    role,
-    horizontalPadding,
-    verticalPadding,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    'aria-describedby': ariaDescribedBy,
-    style,
-    ...otherProps
-}: CardProps) => {
-    const accessibilityProps = {
-        ...(role && { role }),
-        ...(ariaLabel && { 'aria-label': ariaLabel }),
-        ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
-        ...(ariaDescribedBy && { 'aria-describedby': ariaDescribedBy }),
-    };
+export const Card = memo(
+    ({
+        className,
+        children,
+        variant = 'elevated',
+        padding = '8',
+        radius = 'md',
+        fullWidth = false,
+        fullHeight = false,
+        maxWidth,
+        role,
+        horizontalPadding,
+        verticalPadding,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        'aria-describedby': ariaDescribedBy,
+        style,
+        ...otherProps
+    }: CardProps) => {
+        const accessibilityProps = {
+            ...(role && { role }),
+            ...(ariaLabel && { 'aria-label': ariaLabel }),
+            ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
+            ...(ariaDescribedBy && { 'aria-describedby': ariaDescribedBy }),
+        };
 
-    const inlineStyles = {
-        ...style,
-        ...(maxWidth && { maxWidth }),
-        padding: `${verticalPadding}px ${horizontalPadding}px`,
-    };
+        const inlineStyles = useMemo(
+            () => ({
+                ...style,
+                ...(maxWidth && { maxWidth }),
+                padding: `${verticalPadding}px ${horizontalPadding}px`,
+            }),
+            [horizontalPadding, maxWidth, style, verticalPadding]
+        );
 
-    return (
-        <div
-            className={clsx(
-                cls.card,
-                cls[variant],
-                mapPaddingToClass[padding],
-                mapRadiusToClass[radius],
-                {
-                    [cls.fullWidth]: fullWidth,
-                    [cls.fullHeight]: fullHeight,
-                },
-                className
-            )}
-            style={Object.keys(inlineStyles).length > 0 ? inlineStyles : undefined}
-            {...accessibilityProps}
-            {...otherProps}
-        >
-            {children}
-        </div>
-    );
-};
+        return (
+            <div
+                className={clsx(
+                    cls.card,
+                    cls[variant],
+                    mapPaddingToClass[padding],
+                    mapRadiusToClass[radius],
+                    {
+                        [cls.fullWidth]: fullWidth,
+                        [cls.fullHeight]: fullHeight,
+                    },
+                    className
+                )}
+                style={Object.keys(inlineStyles).length > 0 ? inlineStyles : undefined}
+                {...accessibilityProps}
+                {...otherProps}
+            >
+                {children}
+            </div>
+        );
+    }
+);
+
+Card.displayName = 'Card';

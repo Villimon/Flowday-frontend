@@ -1,9 +1,9 @@
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { LoginForm } from './login-form';
 import { useIsMutating } from '@tanstack/react-query';
 
-export const LoginByEmail = () => {
+export const LoginByEmail = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
     const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
 
@@ -38,4 +38,6 @@ export const LoginByEmail = () => {
             )}
         </>
     );
-};
+});
+
+LoginByEmail.displayName = 'LoginByEmail';

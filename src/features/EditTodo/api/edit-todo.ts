@@ -28,6 +28,7 @@ export const useEditTodo = () => {
                 );
             }
         },
+        // TODO: Перейти на Success Update
         onSuccess: async newTodo => {
             await queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
             return newTodo;

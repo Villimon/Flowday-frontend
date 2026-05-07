@@ -24,9 +24,24 @@ export const useCreateTodo = () => {
                 );
             }
         },
+        // TODO: Перейти на Success Update
         onSuccess: async newTodo => {
             await queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
             return newTodo;
+
+            /* 
+            // Обновляем список 'all', так как новая задача точно там будет
+            queryClient.setQueryData(TODO_KEYS.list('all'), (old: any) => {
+                if (!old?.data) return old;
+                return { ...old, data: [newTodo, ...old.data] }; // Добавляем в начало
+            });
+
+            // Опционально: если задача 'active' (а новая обычно такая), 
+            // можно обновить и ключ 'active'.
+            // Но проще сделать invalidate для остальных, чтобы не плодить логику.
+            queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
+            
+            */
         },
     });
 };

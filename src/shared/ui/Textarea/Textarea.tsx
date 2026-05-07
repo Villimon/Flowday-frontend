@@ -1,5 +1,13 @@
 // shared/ui/Textarea/Textarea.tsx
-import { TextareaHTMLAttributes, forwardRef, memo, useId } from 'react';
+import {
+    TextareaHTMLAttributes,
+    forwardRef,
+    memo,
+    useCallback,
+    useId,
+    useLayoutEffect,
+    useRef,
+} from 'react';
 import cls from './Textarea.module.css';
 import clsx from 'clsx';
 import { VStack } from '../Stack/VStack/VStack';
@@ -52,6 +60,11 @@ interface TextareaProps extends HTMLTextareaProps {
     'aria-errormessage'?: string;
 }
 
+const adjustHeight = (el: HTMLTextAreaElement) => {
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+};
+
 export const Textarea = memo(
     forwardRef<HTMLTextAreaElement, TextareaProps>((props, ref) => {
         const {
@@ -81,8 +94,23 @@ export const Textarea = memo(
             name,
             ...otherProps
         } = props;
-
+        const internalRef = useRef<HTMLTextAreaElement | null>(null);
         const generatedId = useId();
+
+        const setRefs = useCallback(
+            (node: HTMLTextAreaElement) => {
+                internalRef.current = node;
+                if (typeof ref === 'function') ref(node);
+                else if (ref) ref.current = node;
+            },
+            [ref]
+        );
+
+        useLayoutEffect(() => {
+            if (autoResize && internalRef.current) {
+                adjustHeight(internalRef.current);
+            }
+        }, [value, autoResize]);
 
         const hasError = Boolean(error) || isInvalid;
         const textareaId = id || (name ? `${name}-textarea` : generatedId);
@@ -92,8 +120,7 @@ export const Textarea = memo(
 
             // Автоматический resize
             if (autoResize) {
-                e.target.style.height = 'auto';
-                e.target.style.height = `${e.target.scrollHeight}px`;
+                adjustHeight(e.target);
             }
         };
 
@@ -107,13 +134,6 @@ export const Textarea = memo(
             'aria-disabled': disabled,
             'aria-readonly': readOnly,
         };
-
-        // Очищаем undefined значения
-        Object.keys(ariaProps).forEach(key => {
-            if (ariaProps[key as keyof typeof ariaProps] === undefined) {
-                delete ariaProps[key as keyof typeof ariaProps];
-            }
-        });
 
         return (
             <VStack gap="2" align="stretch" fullWidth={fullWidth} className={className}>
@@ -137,7 +157,7 @@ export const Textarea = memo(
                     )}
                 >
                     <textarea
-                        ref={ref}
+                        ref={setRefs}
                         id={textareaId}
                         value={value}
                         onChange={onChangeHandler}

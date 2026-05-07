@@ -1,4 +1,4 @@
-import { ReactNode, HTMLAttributes, ElementType } from 'react';
+import { ReactNode, HTMLAttributes, ElementType, memo } from 'react';
 import cls from './Flex.module.css';
 import clsx from 'clsx';
 
@@ -66,41 +66,45 @@ const wrapClasses: Record<FlexWrap, string> = {
     wrap: cls.wrap,
 };
 
-export const Flex = ({
-    className,
-    children,
-    justify = 'start',
-    align = 'stretch',
-    direction = 'row',
-    gap,
-    wrap = 'nowrap',
-    fullWidth = false,
-    as: Component = 'div',
-    role,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    ...otherProps
-}: FlexProps) => {
-    const classes = [
-        cls.flex,
-        justifyClasses[justify],
-        alignClasses[align],
-        directionClasses[direction],
-        wrapClasses[wrap],
-        gap && gapClasses[gap],
-        fullWidth && cls.fullWidth,
+export const Flex = memo(
+    ({
         className,
-    ];
+        children,
+        justify = 'start',
+        align = 'stretch',
+        direction = 'row',
+        gap,
+        wrap = 'nowrap',
+        fullWidth = false,
+        as: Component = 'div',
+        role,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        ...otherProps
+    }: FlexProps) => {
+        const classes = [
+            cls.flex,
+            justifyClasses[justify],
+            alignClasses[align],
+            directionClasses[direction],
+            wrapClasses[wrap],
+            gap && gapClasses[gap],
+            fullWidth && cls.fullWidth,
+            className,
+        ];
 
-    const accessibilityProps = {
-        ...(role && { role }),
-        ...(ariaLabel && { 'aria-label': ariaLabel }),
-        ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
-    };
+        const accessibilityProps = {
+            ...(role && { role }),
+            ...(ariaLabel && { 'aria-label': ariaLabel }),
+            ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
+        };
 
-    return (
-        <Component className={clsx(classes)} {...accessibilityProps} {...otherProps}>
-            {children}
-        </Component>
-    );
-};
+        return (
+            <Component className={clsx(classes)} {...accessibilityProps} {...otherProps}>
+                {children}
+            </Component>
+        );
+    }
+);
+
+Flex.displayName = 'Flex';

@@ -124,13 +124,6 @@ export const Text: FC<TextProps> = memo(
             lang,
         };
 
-        // Очищаем undefined значения
-        Object.keys(accessibilityProps).forEach(key => {
-            if (accessibilityProps[key as keyof typeof accessibilityProps] === undefined) {
-                delete accessibilityProps[key as keyof typeof accessibilityProps];
-            }
-        });
-
         const content = children || text;
 
         return (

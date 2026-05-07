@@ -1,6 +1,6 @@
 import { Button, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback, useRef } from 'react';
+import { FC, memo, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLoginByEmail } from '../api/use-login-by-email';
 import { LoginFormData, loginSchema } from '../model/schema/schema';
@@ -13,7 +13,7 @@ interface LoginFormProps {
     isRedirect?: boolean;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) => {
+export const LoginForm: FC<LoginFormProps> = memo(({ onClose, isRedirect = false }) => {
     const ref = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
@@ -123,4 +123,6 @@ export const LoginForm: FC<LoginFormProps> = ({ onClose, isRedirect = false }) =
             </VStack>
         </form>
     );
-};
+});
+
+LoginForm.displayName = 'LoginForm';
