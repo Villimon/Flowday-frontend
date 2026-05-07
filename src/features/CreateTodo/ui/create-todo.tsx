@@ -1,11 +1,13 @@
 import { TodoForm } from '@/features/ManageTodo';
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCreateTodo } from '@/features/CreateTodo/api/create-todo';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
+import { ApiError } from '@/shared/types/api.types';
+import PlusIcon from '@/shared/assets/plus.svg';
 
-export const CreateTodo = () => {
+export const CreateTodo = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = useCallback(() => {
@@ -23,6 +25,7 @@ export const CreateTodo = () => {
         reset: resetMutation,
     } = useCreateTodo();
 
+    // TODO: убрать await а сделать как везде через onSuccess использовать mutate а не mutateAsync  Именно Success Update (ручное обновление кэша) — это то, что решает твою проблему «задумчивой» модалки.
     const handleCreateTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
@@ -30,8 +33,10 @@ export const CreateTodo = () => {
                 await createTodoMutate(value);
                 toast.success(`Задача создана`);
                 handleCloseModal();
-            } catch (error: any) {
-                toast.error(error.message || 'Ошибка при создание');
+            } catch (e) {
+                const error = e as ApiError;
+                const errorMessage = 'errors' in error ? error.errors[0]?.msg : error.message;
+                toast.error(errorMessage || 'Ошибка при создании');
             }
         },
         [createTodoMutate, resetMutation, handleCloseModal]
@@ -39,11 +44,24 @@ export const CreateTodo = () => {
 
     return (
         <div>
-            <Button onClick={handleOpenModal} variant="filled">
-                Создать задачу
+            <Button
+                icon={PlusIcon}
+                radius="xl"
+                size="sm"
+                onClick={handleOpenModal}
+                variant="filled"
+                data-testid="create-todo-button"
+            >
+                Новая задача
             </Button>
             {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Создать задачу">
+                <Modal
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    disableClose={isPending}
+                    title="Новая задача"
+                    size="md"
+                >
                     <TodoForm
                         error={mutationError}
                         isLoading={isPending}
@@ -55,4 +73,6 @@ export const CreateTodo = () => {
             )}
         </div>
     );
-};
+});
+
+CreateTodo.displayName = 'CreateTodo';

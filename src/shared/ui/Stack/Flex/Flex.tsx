@@ -1,11 +1,11 @@
-import { ReactNode, HTMLAttributes, ElementType } from 'react';
+import { ReactNode, HTMLAttributes, ElementType, memo } from 'react';
 import cls from './Flex.module.css';
 import clsx from 'clsx';
 
 export type FlexJustify = 'start' | 'center' | 'end' | 'between';
 export type FlexAlign = 'start' | 'center' | 'end' | 'stretch';
 export type FlexDirection = 'row' | 'column';
-export type FlexGap = '2' | '4' | '8' | '12' | '16' | '24' | '32';
+export type FlexGap = '1' | '2' | '4' | '8' | '12' | '16' | '24' | '32';
 export type FlexWrap = 'nowrap' | 'wrap';
 
 export interface FlexProps extends HTMLAttributes<HTMLElement> {
@@ -51,6 +51,7 @@ const directionClasses: Record<FlexDirection, string> = {
 };
 
 const gapClasses: Record<FlexGap, string> = {
+    '1': cls.gap1,
     '2': cls.gap2,
     '4': cls.gap4,
     '8': cls.gap8,
@@ -65,41 +66,45 @@ const wrapClasses: Record<FlexWrap, string> = {
     wrap: cls.wrap,
 };
 
-export const Flex = ({
-    className,
-    children,
-    justify = 'start',
-    align = 'stretch',
-    direction = 'row',
-    gap,
-    wrap = 'nowrap',
-    fullWidth = false,
-    as: Component = 'div',
-    role,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    ...otherProps
-}: FlexProps) => {
-    const classes = [
-        cls.flex,
-        justifyClasses[justify],
-        alignClasses[align],
-        directionClasses[direction],
-        wrapClasses[wrap],
-        gap && gapClasses[gap],
-        fullWidth && cls.fullWidth,
+export const Flex = memo(
+    ({
         className,
-    ];
+        children,
+        justify = 'start',
+        align = 'stretch',
+        direction = 'row',
+        gap,
+        wrap = 'nowrap',
+        fullWidth = false,
+        as: Component = 'div',
+        role,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        ...otherProps
+    }: FlexProps) => {
+        const classes = [
+            cls.flex,
+            justifyClasses[justify],
+            alignClasses[align],
+            directionClasses[direction],
+            wrapClasses[wrap],
+            gap && gapClasses[gap],
+            fullWidth && cls.fullWidth,
+            className,
+        ];
 
-    const accessibilityProps = {
-        ...(role && { role }),
-        ...(ariaLabel && { 'aria-label': ariaLabel }),
-        ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
-    };
+        const accessibilityProps = {
+            ...(role && { role }),
+            ...(ariaLabel && { 'aria-label': ariaLabel }),
+            ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
+        };
 
-    return (
-        <Component className={clsx(classes)} {...accessibilityProps} {...otherProps}>
-            {children}
-        </Component>
-    );
-};
+        return (
+            <Component className={clsx(classes)} {...accessibilityProps} {...otherProps}>
+                {children}
+            </Component>
+        );
+    }
+);
+
+Flex.displayName = 'Flex';

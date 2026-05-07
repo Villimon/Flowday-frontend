@@ -1,0 +1,64 @@
+name: CI Pipeline
+
+on:
+    pull_request:
+        branches: [master, dev]
+    push:
+        branches: [dev, master]
+
+env:
+    NODE_VERSION: '24'
+
+jobs:
+    pipeline:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build
+              run: npm run build
+
+            - name: Run ESLint
+              run: npm run eslint
+
+    e2e-tests:
+        runs-on: ubuntu-latest
+        needs: [pipeline]
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Start server
+              run: npm run start:dev > server.log 2>&1 &
+
+            - name: Wait for server
+              run: npx wait-on tcp:localhost:8000 --timeout 30000
+
+            - name: Debug Server Logs
+              if: failure()
+              run: cat server.log
+
+            - name: Run E2E tests
+              run: npm run cypress:run
+              env:
+                  CYPRESS_apiUrl: http://localhost:8000/api
+                  CYPRESS_testUserEmail: test@example.com
+                  CYPRESS_testUserPassword: '123123123'

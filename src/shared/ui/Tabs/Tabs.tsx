@@ -2,14 +2,17 @@ import { memo, ReactNode, useCallback } from 'react';
 import { Card } from '../Card/Card';
 import cls from './Tabs.module.css';
 import { Flex, FlexDirection } from '../Stack/Flex/Flex';
-import { Text } from '../Text/Text';
+import { Text, TextSize } from '../Text/Text';
 import { clsx } from 'clsx';
+import { Icon } from '../Icon/Icon';
+import { Chip } from '../Chip/Chip';
 
 export interface TabItem {
     value: string;
     content: ReactNode;
     disabled?: boolean;
-    icon?: ReactNode;
+    Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+    count?: number;
 }
 
 interface TabsProps {
@@ -18,13 +21,14 @@ interface TabsProps {
     value: string;
     onTabClick: (tab: TabItem) => void;
     direction?: FlexDirection;
+    iconOnlyOnMobile?: boolean;
 
     // Accessibility
     'aria-label'?: string;
     'aria-labelledby'?: string;
 
     // Стилизация
-    size?: 'sm' | 'md' | 'lg';
+    size?: TextSize;
     fullWidth?: boolean;
 }
 
@@ -35,8 +39,9 @@ export const Tabs = memo(
         value,
         onTabClick,
         direction = 'row',
-        size = 'md',
+        size = 'xs',
         fullWidth = false,
+        iconOnlyOnMobile = false,
         'aria-label': ariaLabel = 'Вкладки',
         'aria-labelledby': ariaLabelledBy,
     }: TabsProps) => {
@@ -61,7 +66,7 @@ export const Tabs = memo(
 
         return (
             <Flex
-                gap="4"
+                gap="1"
                 align="center"
                 direction={direction}
                 className={clsx(
@@ -81,9 +86,8 @@ export const Tabs = memo(
                     return (
                         <Card
                             key={tab.value}
-                            radius="xl"
-                            padding={'4'}
-                            variant={isSelected ? 'outline' : 'elevated'}
+                            radius="lg"
+                            variant={isSelected ? 'outline' : 'ghost'}
                             className={clsx(cls.tab, {
                                 [cls.selected]: isSelected,
                                 [cls.disabled]: tab.disabled,
@@ -99,20 +103,32 @@ export const Tabs = memo(
                             data-testid={`Tab.${tab.value}`}
                         >
                             <Flex gap="2" align="center">
-                                {tab.icon && (
+                                {tab.Icon && (
                                     <span className={cls.icon} aria-hidden="true">
-                                        {tab.icon}
+                                        <Icon Svg={tab.Icon} />
                                     </span>
                                 )}
 
                                 {typeof tab.content === 'string' ? (
-                                    <Text
-                                        size={size}
-                                        weight={isSelected ? 'medium' : 'normal'}
-                                        variant={tab.disabled ? 'tertiary' : 'primary'}
-                                    >
-                                        {tab.content}
-                                    </Text>
+                                    <>
+                                        {!iconOnlyOnMobile && (
+                                            <Text
+                                                size={size}
+                                                variant={tab.disabled ? 'tertiary' : 'primary'}
+                                            >
+                                                {tab.content}
+                                            </Text>
+                                        )}
+                                        {tab.count !== undefined && tab.count > 0 && (
+                                            <Chip
+                                                label={String(tab.count)}
+                                                size="xs"
+                                                variant="filled"
+                                                color={isSelected ? 'primary' : 'neutral'}
+                                                className={cls.count}
+                                            />
+                                        )}
+                                    </>
                                 ) : (
                                     tab.content
                                 )}

@@ -1,5 +1,9 @@
-const jsonServer = require('json-server');
-const path = require('path');
+import jsonServer from 'json-server';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const server = jsonServer.create();
 const router = jsonServer.router(path.resolve(__dirname, 'db.json'));
@@ -15,6 +19,7 @@ server.use(async (req, res, next) => {
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+// auth
 server.post('/api/auth/login', (req, res) => {
     try {
         const { email, password } = req.body;
@@ -57,7 +62,7 @@ server.post('/api/auth/register', (req, res) => {
             email,
             password,
             name,
-            token: 'qweasdzxc',
+            token: `token-${String(Date.now())}`,
         };
 
         users.push(newUser).write();
@@ -103,10 +108,11 @@ server.get('/api/auth/me', (req, res) => {
     }
 });
 
+// todos
 server.post('/api/todos', (req, res) => {
     try {
         const userId = req.headers.userid;
-        const { title, description } = req.body;
+        const { title, description, labels } = req.body;
 
         const newTodo = {
             id: String(Date.now()),
@@ -114,6 +120,7 @@ server.post('/api/todos', (req, res) => {
             description,
             completed: false,
             userId,
+            labels, 
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
@@ -133,6 +140,28 @@ server.post('/api/todos', (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 });
+
+
+const enrichTodoWithLabels = (todo, db) => {
+    if (!todo.labels || todo.labels.length === 0) {
+        return { ...todo, labels: [] };
+    }
+    
+    // Получаем полные объекты меток
+    const enrichedLabels = todo.labels
+        .map(labelId => db.get('labels').find({ id: labelId }).value())
+        .filter(label => label !== undefined); // удаляем несуществующие
+    
+    return {
+        ...todo,
+        labels: enrichedLabels
+    };
+};
+
+// Функция для обогащения всех задач
+const enrichTodosWithLabels = (todos, db) => {
+    return todos.map(todo => enrichTodoWithLabels(todo, db));
+};
 
 server.get('/api/todos', (req, res) => {
     try {
@@ -168,10 +197,12 @@ server.get('/api/todos', (req, res) => {
             sortedTodos = completedTodos;
         }
 
+        const enrichedTodos = enrichTodosWithLabels(sortedTodos, db);
+
         res.status(200).json({
             success: true,
             message: 'Задачи получены',
-            data: sortedTodos,
+            data: enrichedTodos,
         });
     } catch (error) {
         console.log(error);
@@ -216,6 +247,28 @@ server.patch('/api/todos/:id/toggle', (req, res) => {
     }
 });
 
+server.delete('/api/todos/:id', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const todoId = req.params.id;
+        const { db } = router;
+      
+        db.get('todos')
+            .remove({ id: todoId, userId })
+            .write();
+
+       
+        res.status(200).json({
+            success: true,
+            message: 'Задача успешно удалена',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+
 server.put('/api/todos/:id', (req, res) => {
     try {
         const data = req.body;
@@ -237,6 +290,7 @@ server.put('/api/todos/:id', (req, res) => {
             updatedAt: new Date().toISOString(),
             title: data.title,
             description: data.description,
+            labels: data.labels
         };
 
         db.get('todos').find({ id: todoId, userId }).assign(updatedTodo).write();
@@ -251,6 +305,162 @@ server.put('/api/todos/:id', (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 });
+
+
+export const LABEL_COLORS = [
+	'#FF6B6B', // красный
+	'#4ECDC4', // бирюзовый
+	'#45B7D1', // голубой
+	'#96CEB4', // мятный
+	'#FFEAA7', // песочный
+	'#DDA0DD', // сливовый
+	'#98D8C8', // аквамарин
+	'#F7DC6F', // желтый
+	'#BB8FCE', // фиолетовый
+	'#85C1E2', // небесный
+	'#F1948A', // лососевый
+	'#82E0AA', // зеленый
+	'#F5B041', // оранжевый
+	'#5DADE2', // синий
+	'#E74C3C', // темно-красный
+	'#2ECC71', // изумрудный
+	'#F39C12', // мандарин
+	'#1ABC9C', // темно-бирюзовый
+	'#3498DB', // королевский синий
+	'#9B59B6', // аметист
+];
+
+// labels
+server.post('/api/labels', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const { name } = req.body;
+        const { db } = router;
+
+        const existingLabel = db.get('labels')
+            .find({ userId, name: name.trim() })
+            .value();
+
+        if (existingLabel) {
+            return res.status(400).json({
+                success: false,
+                message: `Метка с именем "${name}" уже существует`
+            });
+        }
+
+        const userLabels = db.get('labels').filter({ userId }).value();
+        const labelCount = userLabels.length;
+        const colorIndex = labelCount % LABEL_COLORS.length;
+
+
+        const newLabel = {
+            id: String(Date.now()),
+            name,
+            userId,
+            color: LABEL_COLORS[colorIndex]
+        };
+
+        const labels = db.get('labels');
+
+        labels.push(newLabel).write();
+
+        res.status(201).json({
+            success: true,
+            message: 'Лейбл успешно создан',
+            data: newLabel,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+server.delete('/api/labels/:id', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const labelId = req.params.id;
+        const { db } = router;
+
+      
+        db.get('labels')
+            .remove({ id: labelId, userId })
+            .write();
+
+        const todos = db.get('todos').filter({ userId }).value();
+
+        todos.forEach(todo => {
+            if (todo.labels && todo.labels.includes(labelId)) {
+                db.get('todos')
+                    .find({ id: todo.id })
+                    .assign({
+                        labels: todo.labels.filter((id) => id !== labelId),
+                        updatedAt: new Date().toISOString()
+                    })
+                    .write();
+            }
+        });
+       
+        res.status(200).json({
+            success: true,
+            message: 'Лейбл успешно удален',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+server.get('/api/labels', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const { db } = router;
+
+        const labels = db.get('labels').filter({ userId }).value();
+
+
+        res.status(200).json({
+            success: true,
+            message: 'Метки получены',
+            data: labels,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: error.message });
+    }
+});
+
+// for cypress test
+server.post('/api/test/reset', (req, res) => {
+    try {
+        const userId = req.headers.userid;
+        const { db } = router;
+        
+        // Удаляем все задачи пользователя
+        const todos = db.get('todos').remove({ userId }).write();
+        
+        // Удаляем все метки пользователя
+        const labels = db.get('labels').remove({ userId }).write();
+        
+        console.log(`🧹 Database cleared for user ${userId}: deleted ${todos.length} todos and ${labels.length} labels`);
+        
+        res.status(200).json({
+            success: true,
+            message: 'Database cleared successfully',
+            data: {
+                todosDeleted: todos.length,
+                labelsDeleted: labels.length
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ 
+            success: false, 
+            message: error.message 
+        });
+    }
+});
+
+
 
 server.use(async (req, res, next) => {
     try {

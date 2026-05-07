@@ -1,19 +1,25 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import styles from './header.module.css';
 import clsx from 'clsx';
-import { Button, HStack, Text } from '@/shared/ui';
+import { Button, Card, HStack, Text, VStack } from '@/shared/ui';
 import { LoginByEmail } from '@/features/LoginByEmail';
 import { useAuth } from '@/entities/User';
 import { useQueryClient } from '@tanstack/react-query';
 import { TOKEN_LOCAL_STORAGE_KEY } from '@/shared/constants/localstorage';
 import { RegisterByEmail } from '@/features/RegisterByEmail';
-import { useNavigate } from 'react-router-dom';
-import { getRouteMain } from '@/shared/constants/router';
+import { Link } from 'react-router-dom';
+import { getRouteMain, getRouteTodos } from '@/shared/constants/router';
+import CalendarIcon from '@/shared/assets/calendar.svg';
+import DashboardIcon from '@/shared/assets/dashboard.svg';
+import { Menu, MenuItem } from '@/shared/ui/Menu/Menu';
+import ProfileIcon from '@/shared/assets/profile.svg';
+import LogoutIcon from '@/shared/assets/logout.svg';
+import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 
 export const Header = memo(() => {
     const { data: user, isAuth } = useAuth();
     const queryClient = useQueryClient();
-    const navigate = useNavigate();
+    const isMobile = useMedia('(max-width: 480px)');
 
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_LOCAL_STORAGE_KEY);
@@ -22,23 +28,87 @@ export const Header = memo(() => {
         queryClient.clear();
     }, [queryClient]);
 
-    const handleRedirect = useCallback(() => {
-        navigate(getRouteMain());
-    }, []);
+    const menuItems = useMemo(
+        () =>
+            [
+                {
+                    content: 'Профиль',
+                    onClick: () => {},
+                    Icon: ProfileIcon,
+                },
+                {
+                    content: 'Выйти',
+                    onClick: logout,
+                    Icon: LogoutIcon,
+                    color: 'error',
+                    'data-testid': 'logout-button',
+                },
+            ] as MenuItem[],
+        [logout]
+    );
 
     return (
         <header className={clsx('container', styles.header)}>
-            <Button onClick={handleRedirect} size="xl" variant="clear" color="primary">
-                FLOWDAY
+            <Button
+                as={Link}
+                to={getRouteMain()}
+                icon={CalendarIcon}
+                size="xl"
+                variant="clear"
+                color="primary"
+                iconColor="secondary"
+                iconWidth={26}
+                iconHeight={26}
+                iconWrapperStyle={styles.iconWrapper}
+                ariaLabelIcon="На главную"
+            >
+                {isMobile ? '' : 'FLOWDAY'}
             </Button>
+
             {isAuth ? (
-                <HStack gap="4" align="center">
-                    {/* TODO: добавить кнопку "Мои задачи", которая будет вести в основное приложение, которая будет показываться только на / (главной) */}
-                    {/* TODO: Имя пользователя будет кликабельным и вызывать выпадающий список с меню, которое будет иметь пункты "Настройки" и "Выйти" */}
-                    <Text text={user?.data.name} size="lg" />
-                    <Button onClick={logout} size="md" radius="xl" variant="filled">
-                        Выйти
-                    </Button>
+                <HStack gap="8" align="center">
+                    <nav>
+                        <Button
+                            as={Link}
+                            to={getRouteTodos()}
+                            icon={DashboardIcon}
+                            variant="clear"
+                            color="primary"
+                            iconColor="secondary"
+                            iconWidth={26}
+                            iconHeight={26}
+                            ariaLabelIcon="К задачам"
+                        >
+                            Планировщик
+                        </Button>
+                    </nav>
+                    <Menu
+                        className={styles.menu}
+                        direction="bottom-right"
+                        items={menuItems}
+                        trigger={
+                            <Card
+                                data-testid="menu"
+                                horizontalPadding="12"
+                                verticalPadding="6"
+                                radius="full"
+                            >
+                                <HStack gap="4" justify="center" align="center">
+                                    <Text
+                                        className={styles.avatar}
+                                        text={user?.name[0].toUpperCase()}
+                                    />
+                                    <Text text={user?.name} size="lg" />
+                                </HStack>
+                            </Card>
+                        }
+                        headerContent={
+                            <VStack>
+                                <Text text={user?.name} size="sm" weight="semibold" />
+                                <Text text={user?.email} size="xs" variant="secondary" />
+                            </VStack>
+                        }
+                    />
                 </HStack>
             ) : (
                 <HStack gap="4">
@@ -49,3 +119,5 @@ export const Header = memo(() => {
         </header>
     );
 });
+
+Header.displayName = 'Header';

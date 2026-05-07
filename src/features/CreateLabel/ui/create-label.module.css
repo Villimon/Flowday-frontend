@@ -1,0 +1,8 @@
+.optional {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-normal);
+}
+
+.icon {
+    transform: rotate(45deg);
+}

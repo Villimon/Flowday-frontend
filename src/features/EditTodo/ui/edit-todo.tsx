@@ -1,18 +1,20 @@
 import { Icon } from '@/shared/ui/Icon/Icon';
 import EditIcon from '@/shared/assets/edit-pen.svg';
-import { FC, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { Todo } from '@/entities/Todos';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { toast } from 'react-toastify';
 import { Modal } from '@/shared/ui';
 import { TodoForm } from '@/features/ManageTodo';
 import { useEditTodo } from '@/features/EditTodo/api/edit-todo';
+import { ApiError } from '@/shared/types/api.types';
+import styles from './edit-todo.module.css';
 
 interface EditTodoProps {
     todo: Todo;
 }
 
-export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
+export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = useCallback(() => {
@@ -30,41 +32,66 @@ export const EditTodo: FC<EditTodoProps> = ({ todo }) => {
         reset: resetMutation,
     } = useEditTodo();
 
-    const handleCreateTodo = useCallback(
+    // TODO: сделать Success Update и убрать await а сделать как везде через onSuccess использовать mutate а не mutateAsync
+    const handleEditTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
             try {
                 await editTodoMutate({ todo: value, todoId: todo.id });
                 toast.success(`Задача обновлена`);
                 handleCloseModal();
-            } catch (error: any) {
-                toast.error(error.message || 'Ошибка при обновление');
+            } catch (e) {
+                const error = e as ApiError;
+                const errorMessage = 'errors' in error ? error.errors[0]?.msg : error.message;
+                toast.error(errorMessage || 'Ошибка при обновление');
             }
         },
-        [editTodoMutate, resetMutation]
+        [editTodoMutate, resetMutation, todo.id, handleCloseModal]
     );
 
+    const initialFormData: TodoFormData | null = useMemo(() => {
+        if (!isOpen) return null;
+
+        return {
+            title: todo.title,
+            description: todo.description,
+            labels: todo.labels?.map(label => label.id) || [],
+        };
+    }, [isOpen, todo.description, todo.labels, todo.title]);
+
     return (
-        <div>
-            <Icon
-                clickable
-                onClick={handleOpenModal}
-                aria-label="Редактирование задачи"
-                Svg={EditIcon}
-                color="secondary"
-            />
-            {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Редактирование задачи">
+        <>
+            <div data-testid="edit-todo-button" className={styles.icon}>
+                <Icon
+                    clickable
+                    onClick={handleOpenModal}
+                    aria-label="Редактирование задачи"
+                    Svg={EditIcon}
+                    color="primary"
+                    width={22}
+                    height={22}
+                />
+            </div>
+            {isOpen && initialFormData && (
+                <Modal
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    disableClose={isPending}
+                    title="Редактирование задачи"
+                    size="md"
+                >
                     <TodoForm
                         error={mutationError}
                         isLoading={isPending}
                         onCancel={handleCloseModal}
-                        onSubmit={handleCreateTodo}
+                        onSubmit={handleEditTodo}
                         submitText={'Сохранить'}
-                        initialData={todo}
+                        initialData={initialFormData}
                     />
                 </Modal>
             )}
-        </div>
+        </>
     );
-};
+});
+
+EditTodo.displayName = 'EditTodo';

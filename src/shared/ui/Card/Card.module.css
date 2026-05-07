@@ -1,6 +1,6 @@
 .card {
-  background-color: var(--color-surface, #1f2937);
-  color: var(--color-text-primary, #f9fafb);
+  background-color: var(--card-bg, var(--color-surface, #1f2937));
+  color: var(--card-text, var(--color-text-primary, #f9fafb));
   transition: all var(--duration-200, 150ms) var(--ease-out, cubic-bezier(0.4, 0, 0.2, 1));
   
   &:focus-visible {
@@ -12,28 +12,47 @@
   }
 }
 
+/* Варианты карточек */
 .elevated {
-  background-color: var(--color-surface, #374151);
+  --card-bg: var(--color-surface-elevated, #374151);
+  background-color: var(--card-bg);
   border: 1px solid var(--color-border, #374151);
   box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
 }
 
 .outline {
-  background-color: transparent;
+  --card-bg: transparent;
+  background-color: var(--card-bg);
   border: 1px solid var(--color-border, #374151);
 }
 
 .filled {
-  background-color: var(--color-surface, #1f2937);
+  --card-bg: var(--color-surface, #1f2937);
+  background-color: var(--card-bg);
   border: 1px solid transparent;
 }
 
 .ghost {
-  background-color: transparent;
+  --card-bg: transparent;
+  background-color: var(--card-bg);
   border: 1px solid transparent;
 }
 
+/* Вложенные карточки */
+.card .card {
+  --card-bg: transparent;  /* убираем наследование фона */
+  background-color: var(--card-bg);
+  box-shadow: none;
+}
+
+/* Для табов и других UI элементов внутри карточки */
+.card > .tabs {
+  --card-bg: transparent;
+}
+
+/* Паддинги */
 .padding0 { padding: var(--space-0, 0); }
+.padding2 { padding: var(--space-2, 0.5rem); }
 .padding4 { padding: var(--space-4, 1rem); }
 .padding8 { padding: var(--space-8, 2rem); }
 .padding12 { padding: var(--space-12, 3rem); }
@@ -41,6 +60,7 @@
 .padding20 { padding: var(--space-20, 5rem); }
 .padding24 { padding: var(--space-24, 6rem); }
 
+/* Радиусы */
 .radiusNone { border-radius: var(--radius-none, 0); }
 .radiusSm { border-radius: var(--radius-sm, 0.125rem); }
 .radiusMd { border-radius: var(--radius-md, 0.25rem); }

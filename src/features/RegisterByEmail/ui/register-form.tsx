@@ -1,6 +1,6 @@
 import { Button, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useCallback, useRef } from 'react';
+import { FC, memo, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { registerSchema, RegisterFormData } from '../model/schema/schema';
@@ -10,7 +10,7 @@ interface RegisterFormProps {
     onClose: () => void;
 }
 
-export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
+export const RegisterForm: FC<RegisterFormProps> = memo(({ onClose }) => {
     const ref = useRef<HTMLInputElement>(null);
 
     const { control, handleSubmit, reset } = useForm<RegisterFormData>({
@@ -136,4 +136,6 @@ export const RegisterForm: FC<RegisterFormProps> = ({ onClose }) => {
             </VStack>
         </form>
     );
-};
+});
+
+RegisterForm.displayName = 'RegisterForm';

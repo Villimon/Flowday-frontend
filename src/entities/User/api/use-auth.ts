@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchMe } from './fetch-me';
+import { useMemo } from 'react';
 
 export const useAuth = () => {
     const query = useQuery({
@@ -9,9 +10,12 @@ export const useAuth = () => {
         retry: false,
     });
 
-    return {
-        ...query,
-        isAuth: Boolean(query.data),
-        isInitialized: !query.isLoading && !query.isFetching,
-    }
+    return useMemo(
+        () => ({
+            data: query.data,
+            isAuth: Boolean(query.data),
+            isInitialized: !query.isLoading && !query.isFetching,
+        }),
+        [query.data, query.isLoading, query.isFetching]
+    );
 };

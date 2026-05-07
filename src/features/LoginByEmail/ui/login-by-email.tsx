@@ -1,9 +1,11 @@
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { LoginForm } from './login-form';
+import { useIsMutating } from '@tanstack/react-query';
 
-export const LoginByEmail = () => {
+export const LoginByEmail = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
+    const isLoggingIn = useIsMutating({ mutationKey: ['login-action'] }) > 0;
 
     const handleOpenModal = useCallback(() => {
         setIsOpen(true);
@@ -15,14 +17,27 @@ export const LoginByEmail = () => {
 
     return (
         <>
-            <Button onClick={handleOpenModal} size="sm" radius="xl" variant="filled">
+            <Button
+                data-testId="login-button"
+                onClick={handleOpenModal}
+                size="sm"
+                radius="xl"
+                variant="outline"
+            >
                 Войти
             </Button>
             {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Войти">
+                <Modal
+                    disableClose={isLoggingIn}
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    title="Войти"
+                >
                     <LoginForm onClose={handleCloseModal} />
                 </Modal>
             )}
         </>
     );
-};
+});
+
+LoginByEmail.displayName = 'LoginByEmail';

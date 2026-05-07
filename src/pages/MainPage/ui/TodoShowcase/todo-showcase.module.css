@@ -1,0 +1,11 @@
+.showcase {
+    padding: calc(var(--space-1) * 32) 0;
+
+    @media (max-width: 768px) {
+        padding: calc(var(--space-1) * 22) 0;
+    }
+}
+
+.card {
+    background: var(--gradient-primary-soft);
+}

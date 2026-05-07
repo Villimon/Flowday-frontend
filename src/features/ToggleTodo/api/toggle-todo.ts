@@ -1,25 +1,34 @@
-import { $api } from "@/shared/api/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TODO_KEYS } from "@/shared/api/keys-factories/create-todo-factories";
-import { ToggleTodoResponseDto } from "../model/types/types";
-import { Todo } from "@/entities/Todos";
-import { TodoStatus } from "@/features/FilterTodos/model/types/types";
-import { TodosResponseDto } from "@/entities/Todos/model/types/types";
+import { $api } from '@/shared/api/api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { TODO_KEYS } from '@/shared/api/keys-factories/create-todo-factories';
+import { ToggleTodoResponseDto } from '../model/types/types';
+import { Todo } from '@/entities/Todos';
+import { TodoStatus } from '@/features/FilterTodos/model/types/types';
+import { TodosResponseDto } from '@/entities/Todos/model/types/types';
+import { AxiosError } from 'axios';
+import { ApiError } from '@/shared/types/api.types';
 
 export const useToggleTodo = () => {
     const queryClient = useQueryClient();
-    const filters: TodoStatus[] = ['all', 'active', 'completed']
+    const filters: TodoStatus[] = ['all', 'active', 'completed'];
     const mutationKey = ['toggle-todo'];
 
     return useMutation({
         mutationKey,
         mutationFn: async (todo: Todo) => {
             try {
-                const { data } = await $api.patch<ToggleTodoResponseDto>(`/todos/${todo.id}/toggle`);
+                const { data } = await $api.patch<ToggleTodoResponseDto>(
+                    `/todos/${todo.id}/toggle`
+                );
                 return data.data;
-            } catch (error: any) {
-                const serverMessage = error?.response?.data?.message || 'Ошибка при изменении статуса задачи';
-                throw new Error(serverMessage);
+            } catch (e) {
+                const error = e as AxiosError<ApiError>;
+                throw (
+                    error.response?.data || {
+                        success: false,
+                        message: 'Ошибка при изменении статуса задачи',
+                    }
+                );
             }
         },
         onMutate: async (updatedTodo: Todo) => {
@@ -43,13 +52,25 @@ export const useToggleTodo = () => {
 
                     if (filter === 'all') {
                         // В "Все" просто обновляем и сортируем
-                        updatedList = updatedList.map(t => t.id === updatedTodo.id ? { ...t, completed: newStatus, updatedAt: new Date().toISOString() } : t);
+                        updatedList = updatedList.map(t =>
+                            t.id === updatedTodo.id
+                                ? {
+                                      ...t,
+                                      completed: newStatus,
+                                      updatedAt: new Date().toISOString(),
+                                  }
+                                : t
+                        );
                     } else if (filter === 'active') {
                         // Если стала выполненной — удаляем из активных
-                        updatedList = newStatus ? updatedList.filter(t => t.id !== updatedTodo.id) : [...updatedList, { ...updatedTodo, completed: newStatus }];
+                        updatedList = newStatus
+                            ? updatedList.filter(t => t.id !== updatedTodo.id)
+                            : [...updatedList, { ...updatedTodo, completed: newStatus }];
                     } else if (filter === 'completed') {
                         // Если стала активной — удаляем из выполненных
-                        updatedList = !newStatus ? updatedList.filter(t => t.id !== updatedTodo.id) : [...updatedList, { ...updatedTodo, completed: newStatus }];
+                        updatedList = !newStatus
+                            ? updatedList.filter(t => t.id !== updatedTodo.id)
+                            : [...updatedList, { ...updatedTodo, completed: newStatus }];
                     }
 
                     return { ...old, data: sortTodosByFilter(updatedList, filter) };
@@ -63,7 +84,10 @@ export const useToggleTodo = () => {
             if (context?.previousData) {
                 queryClient.setQueryData(TODO_KEYS.list('all'), context.previousData.all);
                 queryClient.setQueryData(TODO_KEYS.list('active'), context.previousData.active);
-                queryClient.setQueryData(TODO_KEYS.list('completed'), context.previousData.completed);
+                queryClient.setQueryData(
+                    TODO_KEYS.list('completed'),
+                    context.previousData.completed
+                );
             }
         },
         onSettled: () => {
@@ -72,17 +96,12 @@ export const useToggleTodo = () => {
             if (activeMutations === 0) {
                 queryClient.invalidateQueries({
                     queryKey: TODO_KEYS.lists(),
-                    refetchType: 'active'
+                    refetchType: 'active',
                 });
             }
         },
-
     });
 };
-
-
-
-
 
 const sortTodosByFilter = (todos: Todo[], filter: string): Todo[] => {
     // Разделяем на активные и выполненные
@@ -90,9 +109,7 @@ const sortTodosByFilter = (todos: Todo[], filter: string): Todo[] => {
     const completedTodos = todos.filter(t => t.completed);
 
     // Сортируем активные по createdAt (новые сверху)
-    activeTodos.sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    activeTodos.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     // Сортируем выполненные по updatedAt (новые сверху)
     completedTodos.sort((a, b) => {

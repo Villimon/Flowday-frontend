@@ -1,9 +1,11 @@
 import { Button, Modal } from '@/shared/ui';
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { RegisterForm } from './register-form';
+import { useIsMutating } from '@tanstack/react-query';
 
-export const RegisterByEmail = () => {
+export const RegisterByEmail = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
+    const isRegister = useIsMutating({ mutationKey: ['register-action'] }) > 0;
 
     const handleOpenModal = useCallback(() => {
         setIsOpen(true);
@@ -19,10 +21,17 @@ export const RegisterByEmail = () => {
                 Зарегистроваться
             </Button>
             {isOpen && (
-                <Modal isOpen={isOpen} onClose={handleCloseModal} title="Зарегистроваться">
+                <Modal
+                    disableClose={isRegister}
+                    isOpen={isOpen}
+                    onClose={handleCloseModal}
+                    title="Зарегистроваться"
+                >
                     <RegisterForm onClose={handleCloseModal} />
                 </Modal>
             )}
         </>
     );
-};
+});
+
+RegisterByEmail.displayName = 'RegisterByEmail';

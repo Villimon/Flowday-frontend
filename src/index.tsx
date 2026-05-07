@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import React, { Suspense } from 'react';
 
 const container = document.getElementById('root');
 
@@ -20,11 +20,23 @@ const queryClient = new QueryClient({
     },
 });
 
+const ReactQueryDevtools = import.meta.env.PROD
+    ? () => null
+    : React.lazy(() =>
+          import('@tanstack/react-query-devtools').then(res => ({
+              default: res.ReactQueryDevtools,
+          }))
+      );
+
 root.render(
     <BrowserRouter>
         <QueryClientProvider client={queryClient}>
             <App />
-            <ReactQueryDevtools initialIsOpen={false} />
+            {import.meta.env.DEV && (
+                <Suspense fallback={null}>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </Suspense>
+            )}
         </QueryClientProvider>
     </BrowserRouter>
 );

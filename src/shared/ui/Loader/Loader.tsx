@@ -1,13 +1,18 @@
-import { FC } from 'react'
-import cls from './Loader.module.css'
-import clsx from 'clsx'
+import { FC } from 'react';
+import cls from './Loader.module.css';
+import clsx from 'clsx';
 
 interface LoaderProps {
-    className?: string
+    className?: string;
 }
 
 export const Loader: FC<LoaderProps> = ({ className }) => (
-    <div className={clsx(cls['loader-wrapper'], {}, [className])}>
+    <div
+        role="alert"
+        aria-busy="true"
+        aria-label="Загрузка"
+        className={clsx(cls['loader-wrapper'], {}, [className])}
+    >
         <div className={clsx(cls['lds-ring'], {}, [className])}>
             <div />
             <div />
@@ -15,4 +20,4 @@ export const Loader: FC<LoaderProps> = ({ className }) => (
             <div />
         </div>
     </div>
-)
+);
