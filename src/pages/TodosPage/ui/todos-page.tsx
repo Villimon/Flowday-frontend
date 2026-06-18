@@ -1,13 +1,13 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
-import { TodoList } from '@/entities/Todos';
 import { HStack, VStack } from '@/shared/ui';
 import { FilterTodos } from '@/features/FilterTodos';
-import { TodoStatus } from '@/features/FilterTodos/model/types/types';
 import { useTodos } from '@/entities/Todos/api/use-todo';
 import { TabItem } from '@/shared/ui/Tabs/Tabs';
 import clsx from 'clsx';
+import { TodoList } from '@/widgets/TodoListView';
+import { TodoStatus } from '@/entities/Todos';
 
 const TodosPage = memo(() => {
     const [status, setStatus] = useState<TodoStatus>('all');

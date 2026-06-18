@@ -1,16 +1,19 @@
 import { $api } from '@/shared/api/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TODO_KEYS } from '@/shared/api/keys-factories/create-todo-factories';
-import { ManageTodoDto, ManageTodoResponseDto } from '@/features/ManageTodo';
+import { ManageTodoResponseDto } from '@/features/ManageTodo';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
+import { Todo, TodosResponseDto } from '@/entities/Todos/model/types/types';
+import { Label, LabelResponseDto } from '@/entities/Label/model/types/types';
+import { LABEL_KEYS } from '@/shared/api/keys-factories/create-label-factories';
 
 export const useCreateTodo = () => {
     const queryClient = useQueryClient();
 
-    return useMutation<ManageTodoDto, ApiError, TodoFormData>({
-        mutationFn: async (dto: ManageTodoDto) => {
+    return useMutation<Todo, ApiError, TodoFormData>({
+        mutationFn: async (dto: TodoFormData) => {
             try {
                 const { data } = await $api.post<ManageTodoResponseDto>('/todos', dto);
                 return data.data;
@@ -24,24 +27,44 @@ export const useCreateTodo = () => {
                 );
             }
         },
-        // TODO: Перейти на Success Update
         onSuccess: async newTodo => {
-            await queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
-            return newTodo;
+            const allLabelsInCache = queryClient.getQueryData<LabelResponseDto>(LABEL_KEYS.lists());
+            const labelsList = allLabelsInCache?.data || [];
 
-            /* 
-            // Обновляем список 'all', так как новая задача точно там будет
-            queryClient.setQueryData(TODO_KEYS.list('all'), (old: any) => {
-                if (!old?.data) return old;
-                return { ...old, data: [newTodo, ...old.data] }; // Добавляем в начало
+            const populatedLabels = newTodo?.labels
+                ?.map(labelIdOrObj => {
+                    if (typeof labelIdOrObj === 'object') return labelIdOrObj;
+
+                    return labelsList.find(l => l.id === labelIdOrObj);
+                })
+                .filter((label): label is Label => !!label);
+
+            const fullTodo = {
+                ...newTodo,
+                labels: populatedLabels,
+            };
+
+            queryClient.setQueryData<TodosResponseDto>(TODO_KEYS.list('all'), old => {
+                if (!old || !Array.isArray(old.data)) return old;
+
+                return {
+                    ...old,
+                    data: [fullTodo, ...old.data],
+                };
             });
 
-            // Опционально: если задача 'active' (а новая обычно такая), 
-            // можно обновить и ключ 'active'.
-            // Но проще сделать invalidate для остальных, чтобы не плодить логику.
-            queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });
-            
-            */
+            queryClient.setQueryData<TodosResponseDto>(TODO_KEYS.list('active'), old => {
+                if (!old || !Array.isArray(old.data)) return old;
+
+                return {
+                    ...old,
+                    data: [fullTodo, ...old.data],
+                };
+            });
+
+            queryClient.invalidateQueries({
+                queryKey: TODO_KEYS.lists(),
+            });
         },
     });
 };

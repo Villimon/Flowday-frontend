@@ -1,2 +1,1 @@
-export { TodoList } from './ui/TodoList/todo-list'
-export type { Todo } from './model/types/types'
+export type { Todo, TodoStatus, TodosResponseDto } from './model/types/types';

@@ -4,8 +4,7 @@ export const changeLog: ChangeLogType[] = [
     {
         id: '1',
         version: 'v1.0.0-beta-1',
-        // TODO: поправить дату релиза
-        dateRelese: '22.04.2026',
+        dateRelese: '07.05.2026',
         description: 'Первая beta версия',
         isActuale: true,
         items: [

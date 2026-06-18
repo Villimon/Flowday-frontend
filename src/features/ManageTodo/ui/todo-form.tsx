@@ -10,6 +10,7 @@ import { CreateLabel } from '@/features/CreateLabel';
 import { Loader } from '@/shared/ui/Loader/Loader';
 import styles from './todo-form.module.css';
 import { useMedia } from '@/shared/hooks/useDevice/useDevice';
+import { useDeleteLabel } from '@/features/DeleteLabel';
 
 interface TodoFormProps {
     onCancel: () => void;
@@ -24,6 +25,7 @@ export const TodoForm: FC<TodoFormProps> = memo(
     ({ error, initialData, isLoading, onCancel, onSubmit, submitText }) => {
         const ref = useRef<HTMLInputElement>(null);
         const { data: labels, isLoading: labelsLoading } = useLabels();
+        const { mutate: deleteLabelMutate } = useDeleteLabel();
         const isTablet = useMedia('(max-width: 768px)');
 
         const { control, handleSubmit } = useForm<TodoFormData>({
@@ -118,6 +120,7 @@ export const TodoForm: FC<TodoFormProps> = memo(
                                         return (
                                             <LabelList
                                                 onChange={handleSelect}
+                                                onRemove={deleteLabelMutate}
                                                 activeLabels={currentLabels}
                                                 labels={labels?.data}
                                             />

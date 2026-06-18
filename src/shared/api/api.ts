@@ -13,6 +13,8 @@ $api.interceptors.request.use(config => {
         }
     }
 
+    config.headers['x-timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     // ДЛЯ РАЗРАБОТКИ: добавляем userId в заголовки
     if (import.meta.env.DEV) {
         const userId = localStorage.getItem(USER_ID_STORAGE_KEY);

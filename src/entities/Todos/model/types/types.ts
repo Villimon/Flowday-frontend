@@ -16,3 +16,5 @@ export interface TodosResponseDto {
     message: string;
     data: Todo[];
 }
+
+export type TodoStatus = 'all' | 'active' | 'completed';

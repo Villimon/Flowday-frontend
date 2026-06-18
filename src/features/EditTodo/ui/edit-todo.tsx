@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { Modal } from '@/shared/ui';
 import { TodoForm } from '@/features/ManageTodo';
 import { useEditTodo } from '@/features/EditTodo/api/edit-todo';
-import { ApiError } from '@/shared/types/api.types';
 import styles from './edit-todo.module.css';
 
 interface EditTodoProps {
@@ -26,25 +25,27 @@ export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
     }, []);
 
     const {
-        mutateAsync: editTodoMutate,
+        mutate: editTodoMutate,
         error: mutationError,
         isPending,
         reset: resetMutation,
     } = useEditTodo();
 
-    // TODO: сделать Success Update и убрать await а сделать как везде через onSuccess использовать mutate а не mutateAsync
     const handleEditTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
-            try {
-                await editTodoMutate({ todo: value, todoId: todo.id });
-                toast.success(`Задача обновлена`);
-                handleCloseModal();
-            } catch (e) {
-                const error = e as ApiError;
-                const errorMessage = 'errors' in error ? error.errors[0]?.msg : error.message;
-                toast.error(errorMessage || 'Ошибка при обновление');
-            }
+            editTodoMutate(
+                { todo: value, todoId: todo.id },
+                {
+                    onSuccess: () => {
+                        toast.success(`Задача обновлена`);
+                        handleCloseModal();
+                    },
+                    onError: error => {
+                        toast.error(error.message || 'Ошибка при обновление');
+                    },
+                }
+            );
         },
         [editTodoMutate, resetMutation, todo.id, handleCloseModal]
     );

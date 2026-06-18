@@ -3,8 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TODO_KEYS } from '@/shared/api/keys-factories/create-todo-factories';
 import { ToggleTodoResponseDto } from '../model/types/types';
 import { Todo } from '@/entities/Todos';
-import { TodoStatus } from '@/features/FilterTodos/model/types/types';
-import { TodosResponseDto } from '@/entities/Todos/model/types/types';
+import { TodosResponseDto, TodoStatus } from '@/entities/Todos/model/types/types';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 
