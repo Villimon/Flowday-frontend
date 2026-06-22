@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export type FlexJustify = 'start' | 'center' | 'end' | 'between';
 export type FlexAlign = 'start' | 'center' | 'end' | 'stretch';
 export type FlexDirection = 'row' | 'column';
-export type FlexGap = '1' | '2' | '4' | '8' | '12' | '16' | '24' | '32';
+export type FlexGap = '1' | '2' | '4' | '6' | '8' | '12' | '16' | '24' | '32';
 export type FlexWrap = 'nowrap' | 'wrap';
 
 export interface FlexProps extends HTMLAttributes<HTMLElement> {
@@ -54,6 +54,7 @@ const gapClasses: Record<FlexGap, string> = {
     '1': cls.gap1,
     '2': cls.gap2,
     '4': cls.gap4,
+    '6': cls.gap6,
     '8': cls.gap8,
     '12': cls.gap12,
     '16': cls.gap16,

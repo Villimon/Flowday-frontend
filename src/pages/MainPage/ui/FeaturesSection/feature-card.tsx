@@ -21,7 +21,7 @@ export const FeatureCard: FC<FeatureCardProps> = memo(
     ({ isTablet, icon, title, text, className, fullWidth = false, gapSize }) => {
         return (
             <Card fullWidth={fullWidth} className={className} radius="xl">
-                <VStack gap={isTablet ? gapSize.desktopSize : gapSize.tableSize}>
+                <VStack gap={isTablet ? gapSize.tableSize : gapSize.desktopSize}>
                     <div className={styles.icon}>
                         <Icon width={28} height={28} Svg={icon} color="success" />
                     </div>

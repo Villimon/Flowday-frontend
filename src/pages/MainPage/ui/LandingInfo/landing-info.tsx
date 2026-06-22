@@ -10,8 +10,8 @@ export const LandingInfo = memo(() => {
 
     return (
         <section className={clsx(styles.info, 'container')}>
-            <VStack gap="16" align="center">
-                <VStack>
+            <VStack gap={isTablet ? '24' : '12'} align="center">
+                <VStack gap="4" fullWidth align="center" className={styles.titleBlock}>
                     <Text size="7xl" align="center" variant="accent" title="Планируй день." />
                     <Text
                         size="7xl"
@@ -22,15 +22,21 @@ export const LandingInfo = memo(() => {
                         headerTag="h2"
                     />
                 </VStack>
-                <VStack className={styles.description}>
+                <VStack className={styles.descriptionBlock}>
                     <Text
                         variant="secondary"
                         align="center"
                         size="3xl"
-                        text="Красивый планировщик, календарь и менеджер задач. Организуйте свою жизнь с удобными видами «День», «Неделя», «Месяц» и списком."
+                        text="Красивый планировщик, календарь и менеджер задач. Организуйте свою жизнь с удобными видами «День» и «Список»."
+                        // TODO: Вернуть когда буду добавлять Неделю и Месяц
+                        // text="Красивый планировщик, календарь и менеджер задач. Организуйте свою жизнь с удобными видами «День», «Неделя», «Месяц» и «Список»."
                     />
                 </VStack>
-                <HStack gap={isTablet ? '16' : '8'} wrap={isTablet ? 'wrap' : 'nowrap'}>
+                <HStack
+                    className={styles.buttonsBlock}
+                    gap={isTablet ? '16' : '8'}
+                    wrap={isTablet ? 'wrap' : 'nowrap'}
+                >
                     <GetStartedButton />
                     <Button
                         as={'a'}

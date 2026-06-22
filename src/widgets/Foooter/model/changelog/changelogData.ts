@@ -3,10 +3,26 @@ import { ChangeLogType } from '../types/types';
 export const changeLog: ChangeLogType[] = [
     {
         id: '1',
+        version: 'v1.0.0',
+        // TODO: поправить дату
+        dateRelese: '22.06.2026',
+        description: 'Первый релиз',
+        isActuale: true,
+        items: [
+            {
+                id: '1',
+                status: 'correction',
+                description:
+                    'Обновлена информация на главной странице. Главные заголовки отцентрованы. Добавлена анимация для главной секции.',
+            },
+        ],
+    },
+    {
+        id: '1',
         version: 'v1.0.0-beta-1',
         dateRelese: '07.05.2026',
         description: 'Первая beta версия',
-        isActuale: true,
+        isActuale: false,
         items: [
             {
                 id: '1',

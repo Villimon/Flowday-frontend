@@ -26,7 +26,7 @@ export const FeaturesSection = memo(() => {
                         {BIG_CARD_ITEMS.map(item => (
                             <FeatureCard
                                 className={styles.bigCard}
-                                gapSize={{ desktopSize: '16', tableSize: '8' }}
+                                gapSize={{ desktopSize: '4', tableSize: '12' }}
                                 icon={item.icon}
                                 isTablet={isTablet}
                                 text={item.text}
@@ -40,8 +40,10 @@ export const FeaturesSection = memo(() => {
                     <Text
                         align="center"
                         size="4xl"
-                        title="Четыре вида — один поток"
-                        text="Каждый вид заточен под свою задачу. Переключайтесь, не отвлекаясь."
+                        title="Два вида — один поток"
+                        // TODO: Вернуть когда буду добавлять Неделю и Месяц
+                        // title="Четыре вида — один поток"
+                        text="Каждый вид заточен под свою задачу. Переключайтесь, не отвлекаясь. Полностью адаптивно и удобно на мобильных."
                         headerTag="h2"
                     />
                     <HStack wrap={isTabletCard ? 'wrap' : 'nowrap'} gap={isTablet ? '16' : '8'}>
@@ -49,7 +51,7 @@ export const FeaturesSection = memo(() => {
                             <FeatureCard
                                 fullWidth={isTabletCard}
                                 className={clsx(styles.smallCard, styles[item.className])}
-                                gapSize={{ desktopSize: '8', tableSize: '4' }}
+                                gapSize={{ desktopSize: '4', tableSize: '12' }}
                                 icon={item.icon}
                                 isTablet={isTablet}
                                 text={item.text}

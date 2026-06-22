@@ -1,5 +1,8 @@
 @import 'reset';
+/* TODO: Темная тема, перенсти потом в папку variables */
 @import './styles/default.css';
+/* TODO: Светлая тема */
+/* @import './variables/light.theme.css'; */
 @import './variables/global.css';
 
 .app {
