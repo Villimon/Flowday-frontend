@@ -20,6 +20,17 @@
     }
 }
 
+.optional {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-normal);
+}
+
+.required {
+    color: var(--color-error-500);
+    margin-left: var(--space-1, 0.25rem);
+}
+
+
 .textarea {
     width: 100%;
     background: transparent;

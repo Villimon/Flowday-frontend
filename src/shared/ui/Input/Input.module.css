@@ -142,6 +142,11 @@
 .radius-xl { border-radius: var(--radius-xl, 0.5rem); }
 .radius-full { border-radius: var(--radius-full, 9999px); }
 
+.optional {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-normal);
+}
+
 .input {
     width: 100%;
     border: none;

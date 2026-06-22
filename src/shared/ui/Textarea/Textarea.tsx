@@ -45,6 +45,8 @@ interface TextareaProps extends HTMLTextareaProps {
     readOnly?: boolean;
     isLoading?: boolean;
     isInvalid?: boolean;
+    isOptional?: boolean;
+    required?: boolean;
     resize?: 'none' | 'vertical' | 'horizontal' | 'both';
 
     // Layout
@@ -87,6 +89,8 @@ export const Textarea = memo(
             fullWidth = true,
             autoResize = false,
             id,
+            isOptional = false,
+            required = false,
             'aria-label': ariaLabel,
             'aria-describedby': ariaDescribedBy,
             'aria-invalid': ariaInvalid,
@@ -139,7 +143,10 @@ export const Textarea = memo(
             <VStack gap="2" align="stretch" fullWidth={fullWidth} className={className}>
                 {label && (
                     <Text as="label" htmlFor={textareaId} size="sm" weight="medium">
-                        {label}
+                        {label} {required && !isOptional && <span className={cls.required}>*</span>}{' '}
+                        {isOptional && !required && (
+                            <span className={cls.optional}>(необязательно)</span>
+                        )}
                     </Text>
                 )}
 

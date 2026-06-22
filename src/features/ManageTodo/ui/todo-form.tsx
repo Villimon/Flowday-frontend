@@ -85,6 +85,7 @@ export const TodoForm: FC<TodoFormProps> = memo(
                                         autoResize
                                         error={fieldState.error?.message}
                                         hint="Максимум 1000 символов"
+                                        isOptional
                                         disabled={isLoading}
                                         aria-describedby={
                                             fieldState.error

@@ -44,6 +44,7 @@ interface InputProps extends HTMLInputProps {
     readOnly?: boolean;
     isLoading?: boolean;
     isInvalid?: boolean;
+    isOptional?: boolean;
 
     // Поведение
     autoFocus?: boolean;
@@ -83,6 +84,7 @@ export const Input = memo(
             readOnly = false,
             isLoading = false,
             isInvalid = false,
+            isOptional = false,
 
             // Поведение
             autoFocus = false,
@@ -154,8 +156,10 @@ export const Input = memo(
                         weight="medium"
                         className={cls.label}
                     >
-                        {label}
-                        {required && <span className={cls.required}>*</span>}
+                        {label} {required && !isOptional && <span className={cls.required}>*</span>}{' '}
+                        {isOptional && !required && (
+                            <span className={cls.optional}>(необязательно)</span>
+                        )}
                     </Text>
                 )}
 
