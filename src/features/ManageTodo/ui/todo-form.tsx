@@ -1,6 +1,6 @@
 import { ApiError } from '@/shared/types/api.types';
 import { TodoFormData, todoSchema } from '../model/schema/schema';
-import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
+import { Button, DateTimePicker, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, memo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -34,6 +34,8 @@ export const TodoForm: FC<TodoFormProps> = memo(
                 title: '',
                 description: '',
                 labels: [],
+                endDate: '',
+                startDate: '',
                 ...initialData,
             },
             mode: 'onSubmit',
@@ -128,6 +130,50 @@ export const TodoForm: FC<TodoFormProps> = memo(
                                         );
                                     }}
                                 />
+                            </VStack>
+                            <VStack fullWidth>
+                                <HStack fullWidth gap="4" justify="between">
+                                    <Controller
+                                        name="startDate"
+                                        control={control}
+                                        render={({ field, fieldState }) => (
+                                            <DateTimePicker
+                                                {...field}
+                                                data-testid="todo-date-picker-start-input"
+                                                label="Начало"
+                                                size="md"
+                                                error={fieldState.error?.message}
+                                                isOptional
+                                                disabled={isLoading}
+                                                aria-describedby={
+                                                    fieldState.error
+                                                        ? 'date-picker-start-error'
+                                                        : 'date-picker-start-description'
+                                                }
+                                            />
+                                        )}
+                                    />
+                                    <Controller
+                                        name="endDate"
+                                        control={control}
+                                        render={({ field, fieldState }) => (
+                                            <DateTimePicker
+                                                {...field}
+                                                data-testid="todo-date-picker-end-input"
+                                                label="Окончание"
+                                                size="md"
+                                                error={fieldState.error?.message}
+                                                isOptional
+                                                disabled={isLoading}
+                                                aria-describedby={
+                                                    fieldState.error
+                                                        ? 'date-picker-end-error'
+                                                        : 'date-picker-end-description'
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </HStack>
                             </VStack>
                             {error && <Text variant="error" text={error.message} size="sm" />}
                         </VStack>

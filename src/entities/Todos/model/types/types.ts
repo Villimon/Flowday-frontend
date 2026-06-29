@@ -9,6 +9,8 @@ export interface Todo {
     updatedAt: string;
     createdAt: string;
     labels?: Label[];
+    startDate?: string;
+    endDate?: string;
 }
 
 export interface TodosResponseDto {

@@ -8,6 +8,8 @@ import { Modal } from '@/shared/ui';
 import { TodoForm } from '@/features/ManageTodo';
 import { useEditTodo } from '@/features/EditTodo/api/edit-todo';
 import styles from './edit-todo.module.css';
+import { formatToBackendISO } from '@/shared/lib/formatToISO';
+import { formatToDisplay } from '@/shared/lib/formatToDisplay';
 
 interface EditTodoProps {
     todo: Todo;
@@ -34,8 +36,15 @@ export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
     const handleEditTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
+
+            const backendData = {
+                ...value,
+                startDate: formatToBackendISO(value.startDate),
+                endDate: formatToBackendISO(value.endDate),
+            };
+
             editTodoMutate(
-                { todo: value, todoId: todo.id },
+                { todo: backendData, todoId: todo.id },
                 {
                     onSuccess: () => {
                         toast.success(`Задача обновлена`);
@@ -57,8 +66,10 @@ export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
             title: todo.title,
             description: todo.description,
             labels: todo.labels?.map(label => label.id) || [],
+            startDate: formatToDisplay(todo.startDate ?? ''),
+            endDate: formatToDisplay(todo.endDate ?? ''),
         };
-    }, [isOpen, todo.description, todo.labels, todo.title]);
+    }, [isOpen, todo.description, todo.labels, todo.title, todo.startDate, todo.endDate]);
 
     return (
         <>

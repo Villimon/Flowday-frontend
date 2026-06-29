@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useCreateTodo } from '@/features/CreateTodo/api/create-todo';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import PlusIcon from '@/shared/assets/plus.svg';
+import { formatToBackendISO } from '@/shared/lib/formatToISO';
 
 export const CreateTodo = memo(() => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,14 @@ export const CreateTodo = memo(() => {
     const handleCreateTodo = useCallback(
         async (value: TodoFormData) => {
             resetMutation();
-            createTodoMutate(value, {
+
+            const backendData = {
+                ...value,
+                startDate: formatToBackendISO(value.startDate),
+                endDate: formatToBackendISO(value.endDate),
+            };
+
+            createTodoMutate(backendData, {
                 onSuccess: () => {
                     toast.success('Задача создана');
                     handleCloseModal();

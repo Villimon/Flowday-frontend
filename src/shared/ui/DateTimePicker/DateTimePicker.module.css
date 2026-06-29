@@ -1,0 +1,73 @@
+@import "../Input/Input.module.css";
+
+.dateTimeInput {
+    /* Чтобы текст даты занимал всю ширину и не обрезался */
+    width: 100%;
+    /* Сбрасываем дефолтное выравнивание в некоторых браузерах */
+    text-align: left;
+    /* Убираем нативный внутренний отступ для иконки в Firefox */
+    padding-inline-end: 0;
+}
+
+/* Кастомизация нативной иконки календаря (Webkit: Chrome, Edge, Safari, Opera) */
+.dateTimeInput::-webkit-calendar-picker-indicator {
+    position: relative;
+    cursor: pointer;
+    border-radius: var(--radius-sm, 0.125rem);
+    padding: var(--space-1, 0.25rem);
+
+    filter: invert(0.8) brightness(1.2); 
+    
+    transition: background-color var(--duration-200, 150ms) var(--ease-out);
+}
+
+/* Ховер-эффект на иконку календаря */
+.dateTimeInput::-webkit-calendar-picker-indicator:hover:not(:disabled) {
+    background-color: var(--color-surface-hover, #4b5563);
+}
+
+/* Стилизация внутренних полей ввода (символов дд.мм.гггг, чч:мм) в Webkit-браузерах */
+.dateTimeInput::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+/* Стилизация конкретного текстового куска (день, месяц, час), когда он пустой/активный */
+.dateTimeInput::-webkit-datetime-edit-text {
+    color: var(--color-text-tertiary, #6b7280);
+    padding: 0 1px;
+}
+
+/* Месяц, день, год, часы, минуты как плейсхолдеры */
+.dateTimeInput::-webkit-datetime-edit-month-field,
+.dateTimeInput::-webkit-datetime-edit-day-field,
+.dateTimeInput::-webkit-datetime-edit-year-field,
+.dateTimeInput::-webkit-datetime-edit-hour-field,
+.dateTimeInput::-webkit-datetime-edit-minute-field {
+    color: var(--color-text-secondary, #9ca3af);
+    
+    /* Когда поле не заполнено (отображается dd, mm, yyyy) */
+    &[aria-valuetext="blank"] {
+        color: var(--color-text-tertiary, #6b7280);
+        opacity: 0.7;
+    }
+    
+    /* Эффект при выделении конкретного сегмента клавиатурой или кликом */
+    &:focus {
+        background-color: var(--color-primary-500);
+        color: var(--color-text-primary, #f9fafb);
+        border-radius: 2px;
+    }
+}
+
+/* Убираем кнопку очистки (крестик) в Chrome/Edge, если она не нужна, 
+   чтобы не ломать выравнивание */
+.dateTimeInput::-webkit-clear-button {
+    display: none;
+}
+
+/* Если инпут находится в состоянии загрузки, сдвигаем иконку календаря левее спиннера */
+.loading {
+    .dateTimeInput::-webkit-calendar-picker-indicator {
+        margin-right: var(--space-6, 1.5rem);
+    }
+}

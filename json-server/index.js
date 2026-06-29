@@ -112,7 +112,7 @@ server.get('/api/auth/me', (req, res) => {
 server.post('/api/todos', (req, res) => {
     try {
         const userId = req.headers.userid;
-        const { title, description, labels } = req.body;
+        const { title, description, labels, startDate, endDate } = req.body;
 
         const newTodo = {
             id: String(Date.now()),
@@ -120,9 +120,11 @@ server.post('/api/todos', (req, res) => {
             description,
             completed: false,
             userId,
-            labels, 
+            labels,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            startDate,
+            endDate,
         };
 
         const { db } = router;
@@ -141,20 +143,19 @@ server.post('/api/todos', (req, res) => {
     }
 });
 
-
 const enrichTodoWithLabels = (todo, db) => {
     if (!todo.labels || todo.labels.length === 0) {
         return { ...todo, labels: [] };
     }
-    
+
     // Получаем полные объекты меток
     const enrichedLabels = todo.labels
         .map(labelId => db.get('labels').find({ id: labelId }).value())
         .filter(label => label !== undefined); // удаляем несуществующие
-    
+
     return {
         ...todo,
-        labels: enrichedLabels
+        labels: enrichedLabels,
     };
 };
 
@@ -252,12 +253,9 @@ server.delete('/api/todos/:id', (req, res) => {
         const userId = req.headers.userid;
         const todoId = req.params.id;
         const { db } = router;
-      
-        db.get('todos')
-            .remove({ id: todoId, userId })
-            .write();
 
-       
+        db.get('todos').remove({ id: todoId, userId }).write();
+
         res.status(200).json({
             success: true,
             message: 'Задача успешно удалена',
@@ -267,7 +265,6 @@ server.delete('/api/todos/:id', (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 });
-
 
 server.put('/api/todos/:id', (req, res) => {
     try {
@@ -290,7 +287,9 @@ server.put('/api/todos/:id', (req, res) => {
             updatedAt: new Date().toISOString(),
             title: data.title,
             description: data.description,
-            labels: data.labels
+            labels: data.labels,
+            startDate: data.startDate,
+            endDate: data.endDate,
         };
 
         db.get('todos').find({ id: todoId, userId }).assign(updatedTodo).write();
@@ -306,28 +305,27 @@ server.put('/api/todos/:id', (req, res) => {
     }
 });
 
-
 export const LABEL_COLORS = [
-	'#FF6B6B', // красный
-	'#4ECDC4', // бирюзовый
-	'#45B7D1', // голубой
-	'#96CEB4', // мятный
-	'#FFEAA7', // песочный
-	'#DDA0DD', // сливовый
-	'#98D8C8', // аквамарин
-	'#F7DC6F', // желтый
-	'#BB8FCE', // фиолетовый
-	'#85C1E2', // небесный
-	'#F1948A', // лососевый
-	'#82E0AA', // зеленый
-	'#F5B041', // оранжевый
-	'#5DADE2', // синий
-	'#E74C3C', // темно-красный
-	'#2ECC71', // изумрудный
-	'#F39C12', // мандарин
-	'#1ABC9C', // темно-бирюзовый
-	'#3498DB', // королевский синий
-	'#9B59B6', // аметист
+    '#FF6B6B', // красный
+    '#4ECDC4', // бирюзовый
+    '#45B7D1', // голубой
+    '#96CEB4', // мятный
+    '#FFEAA7', // песочный
+    '#DDA0DD', // сливовый
+    '#98D8C8', // аквамарин
+    '#F7DC6F', // желтый
+    '#BB8FCE', // фиолетовый
+    '#85C1E2', // небесный
+    '#F1948A', // лососевый
+    '#82E0AA', // зеленый
+    '#F5B041', // оранжевый
+    '#5DADE2', // синий
+    '#E74C3C', // темно-красный
+    '#2ECC71', // изумрудный
+    '#F39C12', // мандарин
+    '#1ABC9C', // темно-бирюзовый
+    '#3498DB', // королевский синий
+    '#9B59B6', // аметист
 ];
 
 // labels
@@ -337,14 +335,12 @@ server.post('/api/labels', (req, res) => {
         const { name } = req.body;
         const { db } = router;
 
-        const existingLabel = db.get('labels')
-            .find({ userId, name: name.trim() })
-            .value();
+        const existingLabel = db.get('labels').find({ userId, name: name.trim() }).value();
 
         if (existingLabel) {
             return res.status(400).json({
                 success: false,
-                message: `Метка с именем "${name}" уже существует`
+                message: `Метка с именем "${name}" уже существует`,
             });
         }
 
@@ -352,12 +348,11 @@ server.post('/api/labels', (req, res) => {
         const labelCount = userLabels.length;
         const colorIndex = labelCount % LABEL_COLORS.length;
 
-
         const newLabel = {
             id: String(Date.now()),
             name,
             userId,
-            color: LABEL_COLORS[colorIndex]
+            color: LABEL_COLORS[colorIndex],
         };
 
         const labels = db.get('labels');
@@ -381,10 +376,7 @@ server.delete('/api/labels/:id', (req, res) => {
         const labelId = req.params.id;
         const { db } = router;
 
-      
-        db.get('labels')
-            .remove({ id: labelId, userId })
-            .write();
+        db.get('labels').remove({ id: labelId, userId }).write();
 
         const todos = db.get('todos').filter({ userId }).value();
 
@@ -393,13 +385,13 @@ server.delete('/api/labels/:id', (req, res) => {
                 db.get('todos')
                     .find({ id: todo.id })
                     .assign({
-                        labels: todo.labels.filter((id) => id !== labelId),
-                        updatedAt: new Date().toISOString()
+                        labels: todo.labels.filter(id => id !== labelId),
+                        updatedAt: new Date().toISOString(),
                     })
                     .write();
             }
         });
-       
+
         res.status(200).json({
             success: true,
             message: 'Лейбл успешно удален',
@@ -417,7 +409,6 @@ server.get('/api/labels', (req, res) => {
 
         const labels = db.get('labels').filter({ userId }).value();
 
-
         res.status(200).json({
             success: true,
             message: 'Метки получены',
@@ -434,33 +425,33 @@ server.post('/api/test/reset', (req, res) => {
     try {
         const userId = req.headers.userid;
         const { db } = router;
-        
+
         // Удаляем все задачи пользователя
         const todos = db.get('todos').remove({ userId }).write();
-        
+
         // Удаляем все метки пользователя
         const labels = db.get('labels').remove({ userId }).write();
-        
-        console.log(`🧹 Database cleared for user ${userId}: deleted ${todos.length} todos and ${labels.length} labels`);
-        
+
+        console.log(
+            `🧹 Database cleared for user ${userId}: deleted ${todos.length} todos and ${labels.length} labels`
+        );
+
         res.status(200).json({
             success: true,
             message: 'Database cleared successfully',
             data: {
                 todosDeleted: todos.length,
-                labelsDeleted: labels.length
-            }
+                labelsDeleted: labels.length,
+            },
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ 
-            success: false, 
-            message: error.message 
+        return res.status(500).json({
+            success: false,
+            message: error.message,
         });
     }
 });
-
-
 
 server.use(async (req, res, next) => {
     try {
