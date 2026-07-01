@@ -16,7 +16,7 @@ import { TodoView } from '@/entities/Todos/model/types/types';
 const TodosPage = memo(() => {
     const [status, setStatus] = useState<TodoStatus>('all');
     const [view, setView] = useState<TodoView>('day');
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const [currentDate] = useState(new Date());
 
     const handleStatusChange = useCallback((newStatus: TabItem) => {
         setStatus(newStatus.value as TodoStatus);

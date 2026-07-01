@@ -25,7 +25,7 @@ export const useTodos = ({ status, view, currentDate }: UseTodosParams) => {
     const isQueryEnabled = view !== 'day' || Boolean(formattedDate);
 
     return useQuery({
-        queryKey: TODO_KEYS.list(cacheFilters),
+        queryKey: [...TODO_KEYS.list(cacheFilters), queryParams],
         queryFn: () => fetchTodo(queryParams),
         retryOnMount: false,
         refetchOnWindowFocus: false,
