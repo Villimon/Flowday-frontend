@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
-import { HStack, VStack } from '@/shared/ui';
+import { HStack, Text, VStack } from '@/shared/ui';
 import { FilterTodos } from '@/features/FilterTodos';
 import { useTodos } from '@/entities/Todos/api/use-todo';
 import { TabItem } from '@/shared/ui/Tabs/Tabs';
@@ -10,13 +10,18 @@ import { TodoList } from '@/widgets/TodoListView';
 import { TodoStatus } from '@/entities/Todos';
 import { FilterTodosView } from '@/features/FilterTodosView';
 import { TodoView } from '@/entities/Todos/model/types/types';
+import { DateNavigator } from '@/features/DateNavigator';
+import { addDays, subDays, format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 // TODO: Если захочу чтобы состояние сохранялось перейти на Стейт в URL-квери параметрах (?view=week&status=active), а внутри фич брать все из роута (url)
 // Либо сделать контекст для страницы
 const TodosPage = memo(() => {
     const [status, setStatus] = useState<TodoStatus>('all');
     const [view, setView] = useState<TodoView>('day');
-    const [currentDate] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    const formattedDate = format(currentDate, "d MMMM yyyy 'г.'", { locale: ru });
 
     const handleStatusChange = useCallback((newStatus: TabItem) => {
         setStatus(newStatus.value as TodoStatus);
@@ -24,6 +29,18 @@ const TodosPage = memo(() => {
 
     const handleViewChange = useCallback((newView: TabItem) => {
         setView(newView.value as TodoView);
+    }, []);
+
+    const handleResetToToday = useCallback(() => {
+        setCurrentDate(new Date());
+    }, []);
+
+    const handlePrevDate = useCallback(() => {
+        setCurrentDate(prev => subDays(prev, 1));
+    }, []);
+
+    const handleNextDate = useCallback(() => {
+        setCurrentDate(prev => addDays(prev, 1));
     }, []);
 
     const { data, isLoading, isError } = useTodos({ status, view, currentDate });
@@ -46,6 +63,12 @@ const TodosPage = memo(() => {
                     <VStack className={'container'} gap="8" fullWidth>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="between">
                             <FilterTodosView currentView={view} onViewChange={handleViewChange} />
+                            <DateNavigator
+                                handleResetToToday={handleResetToToday}
+                                handlePrevDate={handlePrevDate}
+                                handleNextDate={handleNextDate}
+                            />
+                            <Text text={formattedDate} weight="bold" />
                         </HStack>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
                             <FilterTodos
