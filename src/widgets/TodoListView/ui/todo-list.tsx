@@ -1,21 +1,22 @@
 import { Loader } from '@/shared/ui/Loader/Loader';
 import { Card, HStack, Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../../../entities/Todos/ui/TodoCard/todo-card';
-import { Todo } from '../../../entities/Todos/model/types/types';
 import { FC, memo, useCallback } from 'react';
 import { EditTodo } from '@/features/EditTodo';
 import { DeleteTodo } from '@/features/DeleteTodo';
 import { useToggleTodo } from '@/features/ToggleTodo';
 import { toast } from 'react-toastify';
+import { Todo, TodoStatus, TodoView } from '@/entities/Todos';
 
 interface TodoListProps {
     todos?: Todo[];
     isLoading: boolean;
     isError: boolean;
-    status: string;
+    status: TodoStatus;
+    view: TodoView;
 }
 
-export const TodoList: FC<TodoListProps> = memo(({ isError, isLoading, todos, status }) => {
+export const TodoList: FC<TodoListProps> = memo(({ isError, isLoading, todos, status, view }) => {
     const { mutate: toggleTodoMutate } = useToggleTodo();
 
     const handleToggleTodo = useCallback(
@@ -60,6 +61,7 @@ export const TodoList: FC<TodoListProps> = memo(({ isError, isLoading, todos, st
 
     return (
         <VStack gap="4" fullWidth>
+            <div>{view}</div>
             {todos?.map(todo => (
                 <TodoCard
                     key={todo.id}

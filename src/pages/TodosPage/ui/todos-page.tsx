@@ -8,17 +8,27 @@ import { TabItem } from '@/shared/ui/Tabs/Tabs';
 import clsx from 'clsx';
 import { TodoList } from '@/widgets/TodoListView';
 import { TodoStatus } from '@/entities/Todos';
+import { FilterTodosView } from '@/features/FilterTodosView';
+import { TodoView } from '@/entities/Todos/model/types/types';
 
+// TODO: Если захочу чтобы состояние сохранялось перейти на Стейт в URL-квери параметрах (?view=week&status=active), а внутри фич брать все из роута (url)
+// Либо сделать контекст для страницы
 const TodosPage = memo(() => {
     const [status, setStatus] = useState<TodoStatus>('all');
+    const [view, setView] = useState<TodoView>('day');
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     const handleStatusChange = useCallback((newStatus: TabItem) => {
         setStatus(newStatus.value as TodoStatus);
     }, []);
 
-    const { data, isLoading, isError } = useTodos({ status });
+    const handleViewChange = useCallback((newView: TabItem) => {
+        setView(newView.value as TodoView);
+    }, []);
+
+    const { data, isLoading, isError } = useTodos({ status, view, currentDate });
     // TODO: убрать когда добавлю каунтер на бэк
-    const { data: allTodosData } = useTodos({ status: 'all' });
+    const { data: allTodosData } = useTodos({ status: 'all', view });
 
     const todoStats = useMemo(() => {
         const all = allTodosData?.data || [];
@@ -34,13 +44,9 @@ const TodosPage = memo(() => {
             <VStack gap="8" fullWidth className={styles.wrapper}>
                 <div className={styles.filterSection}>
                     <VStack className={'container'} gap="8" fullWidth>
-                        {/* <HStack fullWidth wrap="wrap" gap="4" align="center" justify="between">
-                            <FilterTodos
-                                currentStatus={status}
-                                onStatusChange={handleStatusChange}
-                            />
-                            <CreateTodo />
-                        </HStack> */}
+                        <HStack fullWidth wrap="wrap" gap="4" align="center" justify="between">
+                            <FilterTodosView currentView={view} onViewChange={handleViewChange} />
+                        </HStack>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
                             <FilterTodos
                                 counts={todoStats}
@@ -59,6 +65,7 @@ const TodosPage = memo(() => {
                             isLoading={isLoading}
                             isError={isError}
                             status={status}
+                            view={view}
                         />
                     </div>
                 </div>

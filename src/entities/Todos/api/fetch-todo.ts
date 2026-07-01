@@ -1,17 +1,21 @@
 import { $api } from '@/shared/api/api';
-import { TodosResponseDto } from '../model/types/types';
+import { TodosResponseDto, TodoStatus, TodoView } from '../model/types/types';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 
-interface FetchTodoParams {
-    status?: string;
+export interface FetchTodoParams {
+    status: TodoStatus;
+    view: TodoView;
+    date?: string;
 }
 
-export const fetchTodo = async ({ status }: FetchTodoParams) => {
+export const fetchTodo = async ({ status, view, date }: FetchTodoParams) => {
     try {
         const { data } = await $api.get<TodosResponseDto>('/todos', {
             params: {
                 status,
+                view,
+                date,
             },
         });
         return data;

@@ -20,3 +20,4 @@ export interface TodosResponseDto {
 }
 
 export type TodoStatus = 'all' | 'active' | 'completed';
+export type TodoView = 'day' | 'weel' | 'month' | 'list';
