@@ -16,20 +16,21 @@
 }
 
 .todoSection {
-    width: 100%; 
-    flex: 1;     
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.scrollableList {
-    width: 100%; 
-    height: 100%;
+    flex-grow: 1;
     overflow-y: auto; 
-    
+    margin-top: 24px; 
+    margin-bottom: 24px; 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
     scrollbar-gutter: stable; 
     padding-right: 8px;
 
     &::-webkit-scrollbar { width: 8px; }
+}
+
+.todoSection.loading {
+    overflow-y: hidden;
 }

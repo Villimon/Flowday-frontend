@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
 import { HStack, Text, VStack } from '@/shared/ui';
@@ -9,10 +9,11 @@ import clsx from 'clsx';
 import { TodoList } from '@/widgets/TodoListView';
 import { TodoStatus } from '@/entities/Todos';
 import { FilterTodosView } from '@/features/FilterTodosView';
-import { TodoView } from '@/entities/Todos/model/types/types';
+import { TodoListData, TodoView } from '@/entities/Todos/model/types/types';
 import { DateNavigator } from '@/features/DateNavigator';
 import { addDays, subDays, format } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { Loader } from '@/shared/ui/Loader/Loader';
 
 // TODO: Если захочу чтобы состояние сохранялось перейти на Стейт в URL-квери параметрах (?view=week&status=active), а внутри фич брать все из роута (url)
 // Либо сделать контекст для страницы
@@ -21,7 +22,7 @@ const TodosPage = memo(() => {
     const [view, setView] = useState<TodoView>('day');
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    const formattedDate = format(currentDate, "d MMMM yyyy 'г.'", { locale: ru });
+    const isDayView = view === 'day';
 
     const handleStatusChange = useCallback((newStatus: TabItem) => {
         setStatus(newStatus.value as TodoStatus);
@@ -44,53 +45,67 @@ const TodosPage = memo(() => {
     }, []);
 
     const { data, isLoading, isError } = useTodos({ status, view, currentDate });
-    // TODO: убрать когда добавлю каунтер на бэк
-    const { data: allTodosData } = useTodos({ status: 'all', view });
 
-    const todoStats = useMemo(() => {
-        const all = allTodosData?.data || [];
-        return {
-            all: all.length,
-            active: all.filter(t => !t.completed).length,
-            completed: all.filter(t => t.completed).length,
-        };
-    }, [allTodosData]);
+    const getTodoHeaderTitle = (): string => {
+        if (view === 'day') {
+            const dateObj = typeof currentDate === 'string' ? new Date(currentDate) : currentDate;
+
+            // Форматирует в вид "1 Июля 2026 г."
+            return format(dateObj, 'd MMMM yyyy г.', { locale: ru });
+        }
+
+        return 'Все Задачи';
+    };
+
+    const renderTodoContent = () => {
+        if (isLoading) {
+            return <Loader />;
+        }
+
+        if (isError || !data || !data.todos) {
+            return <Text text="Не удалось получить список задач " />;
+        }
+
+        const todosData = data.todos;
+
+        switch (view) {
+            case 'list':
+                return <TodoList todos={todosData as TodoListData} status={status} />;
+            case 'day':
+                return <div>Day view</div>;
+            default:
+                return null;
+        }
+    };
 
     return (
         <main className={clsx(styles.main)}>
-            <VStack gap="8" fullWidth className={styles.wrapper}>
+            <VStack fullWidth className={clsx(styles.wrapper)}>
                 <div className={styles.filterSection}>
-                    <VStack className={'container'} gap="8" fullWidth>
+                    <VStack className={'container'} gap="2" fullWidth>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="between">
                             <FilterTodosView currentView={view} onViewChange={handleViewChange} />
-                            <DateNavigator
-                                handleResetToToday={handleResetToToday}
-                                handlePrevDate={handlePrevDate}
-                                handleNextDate={handleNextDate}
-                            />
-                            <Text text={formattedDate} weight="bold" />
+                            {isDayView && (
+                                <DateNavigator
+                                    handleResetToToday={handleResetToToday}
+                                    handlePrevDate={handlePrevDate}
+                                    handleNextDate={handleNextDate}
+                                />
+                            )}
+                            <Text text={getTodoHeaderTitle()} weight="bold" />
                         </HStack>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
                             <FilterTodos
-                                counts={todoStats}
                                 currentStatus={status}
                                 onStatusChange={handleStatusChange}
+                                counts={data?.counts}
                             />
                             <CreateTodo />
                         </HStack>
                     </VStack>
                 </div>
-
-                <div className={clsx(styles.todoSection)}>
-                    <div className={clsx('container', styles.scrollableList)}>
-                        <TodoList
-                            todos={data?.data}
-                            isLoading={isLoading}
-                            isError={isError}
-                            status={status}
-                            view={view}
-                        />
-                    </div>
+                <div className={clsx(styles.todoSection, 'container', isLoading && styles.loading)}>
+                    {renderTodoContent()}
                 </div>
             </VStack>
         </main>

@@ -1,6 +1,7 @@
 import jsonServer from 'json-server';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import todoRoutes from './routes/todos/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -101,203 +102,6 @@ server.get('/api/auth/me', (req, res) => {
                 email: userFromBd.email,
                 id: userFromBd.id,
             },
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
-});
-
-// todos
-server.post('/api/todos', (req, res) => {
-    try {
-        const userId = req.headers.userid;
-        const { title, description, labels, startDate, endDate } = req.body;
-
-        const newTodo = {
-            id: String(Date.now()),
-            title,
-            description,
-            completed: false,
-            userId,
-            labels,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            startDate,
-            endDate,
-        };
-
-        const { db } = router;
-        const todos = db.get('todos');
-
-        todos.push(newTodo).write();
-
-        res.status(201).json({
-            success: true,
-            message: 'Задача успешно создана',
-            data: newTodo,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
-});
-
-const enrichTodoWithLabels = (todo, db) => {
-    if (!todo.labels || todo.labels.length === 0) {
-        return { ...todo, labels: [] };
-    }
-
-    // Получаем полные объекты меток
-    const enrichedLabels = todo.labels
-        .map(labelId => db.get('labels').find({ id: labelId }).value())
-        .filter(label => label !== undefined); // удаляем несуществующие
-
-    return {
-        ...todo,
-        labels: enrichedLabels,
-    };
-};
-
-// Функция для обогащения всех задач
-const enrichTodosWithLabels = (todos, db) => {
-    return todos.map(todo => enrichTodoWithLabels(todo, db));
-};
-
-server.get('/api/todos', (req, res) => {
-    try {
-        const userId = req.headers.userid;
-        const { status } = req.query;
-        let todos;
-
-        const { db } = router;
-
-        if (status === 'active') {
-            todos = db.get('todos').filter({ userId, completed: false }).value();
-        } else if (status === 'completed') {
-            todos = db.get('todos').filter({ userId, completed: true }).value();
-        } else {
-            todos = db.get('todos').filter({ userId }).value();
-        }
-
-        const activeTodos = todos.filter(t => !t.completed);
-        const completedTodos = todos.filter(t => t.completed);
-
-        // Сортируем активные по createdAt (новые сверху)
-        activeTodos.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        // Сортируем выполненные по updatedAt (новые сверху)
-        completedTodos.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
-        // Объединяем: сначала активные, потом выполненные
-        let sortedTodos = [...activeTodos, ...completedTodos];
-
-        // Если есть фильтр, применяем его
-        if (status === 'active') {
-            sortedTodos = activeTodos;
-        } else if (status === 'completed') {
-            sortedTodos = completedTodos;
-        }
-
-        const enrichedTodos = enrichTodosWithLabels(sortedTodos, db);
-
-        res.status(200).json({
-            success: true,
-            message: 'Задачи получены',
-            data: enrichedTodos,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
-});
-
-server.patch('/api/todos/:id/toggle', (req, res) => {
-    try {
-        const userId = req.headers.userid;
-        const todoId = req.params.id;
-
-        const { db } = router;
-
-        const todo = db.get('todos').find({ userId, id: todoId }).value();
-
-        if (!todo) {
-            return res.status(404).json({
-                message: 'Задача не найдена',
-            });
-        }
-
-        todo.completed = !todo.completed;
-        todo.updatedAt = new Date().toISOString();
-
-        db.get('todos')
-            .find({ id: todoId, userId })
-            .assign({
-                completed: todo.completed,
-                updatedAt: todo.updatedAt,
-            })
-            .write();
-
-        res.status(200).json({
-            success: true,
-            message: 'Статус задачи успешно изменен',
-            data: todo,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
-});
-
-server.delete('/api/todos/:id', (req, res) => {
-    try {
-        const userId = req.headers.userid;
-        const todoId = req.params.id;
-        const { db } = router;
-
-        db.get('todos').remove({ id: todoId, userId }).write();
-
-        res.status(200).json({
-            success: true,
-            message: 'Задача успешно удалена',
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: error.message });
-    }
-});
-
-server.put('/api/todos/:id', (req, res) => {
-    try {
-        const data = req.body;
-        const userId = req.headers.userid;
-        const todoId = req.params.id;
-
-        const { db } = router;
-
-        const todo = db.get('todos').find({ userId, id: todoId }).value();
-
-        if (!todo) {
-            return res.status(404).json({
-                message: 'Задача не найдена',
-            });
-        }
-
-        const updatedTodo = {
-            ...todo,
-            updatedAt: new Date().toISOString(),
-            title: data.title,
-            description: data.description,
-            labels: data.labels,
-            startDate: data.startDate,
-            endDate: data.endDate,
-        };
-
-        db.get('todos').find({ id: todoId, userId }).assign(updatedTodo).write();
-
-        res.status(200).json({
-            success: true,
-            message: 'Задачи успешно изменена',
-            data: updatedTodo,
         });
     } catch (error) {
         console.log(error);
@@ -473,9 +277,7 @@ server.use(async (req, res, next) => {
     }
 });
 
-// require('./routes/dialog/index')(server, router)
-// require('./routes/user/index')(server, router)
-// require('./routes/session/index')(server, router)
+todoRoutes(server, router);
 
 server.use('/api', router);
 

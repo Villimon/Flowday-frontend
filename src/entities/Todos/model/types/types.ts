@@ -13,10 +13,44 @@ export interface Todo {
     endDate?: string;
 }
 
+export interface TodoCounts {
+    all: number;
+    active: number;
+    completed: number;
+}
+
+export interface TodoDayData {
+    withDate: Todo[];
+    withoutDate: Todo[];
+}
+
+export interface TodoListData {
+    overdue: Todo[];
+    today: Todo[];
+    thisWeek: Todo[];
+    upcoming: Todo[];
+    withoutDate: Todo[];
+    completed: Todo[];
+}
+
+// Полный ответ для view === 'day'
+export interface GetTodosDayResponse {
+    counts: TodoCounts;
+    todos: TodoDayData;
+}
+
+// Полный ответ для view === 'list'
+export interface GetTodosListResponse {
+    counts: TodoCounts;
+    todos: TodoListData;
+}
+
+export type DataType = GetTodosDayResponse | GetTodosListResponse;
+
 export interface TodosResponseDto {
     success: boolean;
     message: string;
-    data: Todo[];
+    data: DataType;
 }
 
 export type TodoStatus = 'all' | 'active' | 'completed';

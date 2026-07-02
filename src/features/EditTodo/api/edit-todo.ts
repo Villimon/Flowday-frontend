@@ -5,10 +5,15 @@ import { ManageTodoResponseDto } from '@/features/ManageTodo';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 import { EditTodoDto } from '@/features/EditTodo/model/types/types';
-import { Todo } from '@/entities/Todos';
+import { getTodoCategory, Todo } from '@/entities/Todos';
 import { Label, LabelResponseDto } from '@/entities/Label/model/types/types';
 import { LABEL_KEYS } from '@/shared/api/keys-factories/create-label-factories';
-import { TodosResponseDto, TodoStatus } from '@/entities/Todos/model/types/types';
+import {
+    DataType,
+    GetTodosDayResponse,
+    GetTodosListResponse,
+} from '@/entities/Todos/model/types/types';
+import { sortTodosForClient } from '@/shared/lib/sortTodosForClient';
 
 export const useEditTodo = () => {
     const queryClient = useQueryClient();
@@ -32,33 +37,74 @@ export const useEditTodo = () => {
             }
         },
         onSuccess: async updatedTodo => {
-            const allLabelsInCache = queryClient.getQueryData<LabelResponseDto>(LABEL_KEYS.lists());
-            const labelsList = allLabelsInCache?.data || [];
+            queryClient.setQueriesData<DataType>({ queryKey: TODO_KEYS.lists() }, old => {
+                if (!old || !old.todos) return old;
 
-            const populatedLabels = updatedTodo?.labels
-                ?.map(labelIdOrObj => {
-                    if (typeof labelIdOrObj === 'object') return labelIdOrObj;
+                const todoId = updatedTodo.id;
 
-                    return labelsList.find(l => l.id === labelIdOrObj);
-                })
-                .filter((label): label is Label => !!label);
+                if ('withDate' in old.todos) {
+                    // Проверяем, в каком массиве она лежала раньше
+                    const isInWithDate = old.todos.withDate.some(t => t.id === todoId);
+                    const isInWithoutDate = old.todos.withoutDate.some(t => t.id === todoId);
 
-            const fullTodo = {
-                ...updatedTodo,
-                labels: populatedLabels,
-            };
+                    // Если её вообще не нашли в этом кэше (например, это другой экран), возвращаем как есть
+                    if (!isInWithDate && !isInWithoutDate) return old;
 
-            const filters: TodoStatus[] = ['all', 'active', 'completed'] as const;
+                    // Фильтруем (удаляем из старых мест)
+                    const cleanWithDate = old.todos.withDate.filter(t => t.id !== todoId);
+                    const cleanWithoutDate = old.todos.withoutDate.filter(t => t.id !== todoId);
 
-            filters.forEach(filter => {
-                queryClient.setQueryData<TodosResponseDto>(TODO_KEYS.list(filter), old => {
-                    if (!old || !Array.isArray(old.data)) return old;
+                    // Определяем новое место на режиме Дня: если даты нет — в withoutDate, если есть — в withDate
+                    const hasDate = !!(updatedTodo.startDate || updatedTodo.endDate);
 
                     return {
                         ...old,
-                        data: old.data.map(todo => (todo.id === fullTodo.id ? fullTodo : todo)),
+                        todos: {
+                            withDate: hasDate
+                                ? sortTodosForClient([updatedTodo, ...cleanWithDate])
+                                : cleanWithDate,
+                            withoutDate: !hasDate
+                                ? sortTodosForClient([updatedTodo, ...cleanWithoutDate])
+                                : cleanWithoutDate,
+                        },
+                    } as GetTodosDayResponse;
+                }
+
+                if ('today' in old.todos) {
+                    const isCompleted = updatedTodo.completed;
+
+                    const filterOut = (arr: Todo[]) => arr.filter(t => t.id !== todoId);
+
+                    const cleanTodos = {
+                        overdue: filterOut(old.todos.overdue),
+                        today: filterOut(old.todos.today),
+                        thisWeek: filterOut(old.todos.thisWeek),
+                        upcoming: filterOut(old.todos.upcoming),
+                        withoutDate: filterOut(old.todos.withoutDate),
+                        completed: filterOut(old.todos.completed),
                     };
-                });
+
+                    if (isCompleted) {
+                        cleanTodos.completed = sortTodosForClient([
+                            updatedTodo,
+                            ...cleanTodos.completed,
+                        ]);
+                    } else {
+                        const targetCategory = getTodoCategory(updatedTodo);
+
+                        cleanTodos[targetCategory] = sortTodosForClient([
+                            updatedTodo,
+                            ...cleanTodos[targetCategory],
+                        ]);
+                    }
+
+                    return {
+                        ...old,
+                        todos: cleanTodos,
+                    } as GetTodosListResponse;
+                }
+
+                return old;
             });
 
             queryClient.invalidateQueries({ queryKey: TODO_KEYS.lists() });

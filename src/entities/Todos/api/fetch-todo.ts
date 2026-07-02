@@ -11,14 +11,15 @@ export interface FetchTodoParams {
 
 export const fetchTodo = async ({ status, view, date }: FetchTodoParams) => {
     try {
-        const { data } = await $api.get<TodosResponseDto>('/todos', {
+        const response = await $api.get<TodosResponseDto>('/todos', {
             params: {
                 status,
                 view,
                 date,
             },
         });
-        return data;
+
+        return response.data.data;
     } catch (e) {
         const error = e as AxiosError<ApiError>;
         throw error.response?.data || { success: false, message: 'Ошибка получения данных' };

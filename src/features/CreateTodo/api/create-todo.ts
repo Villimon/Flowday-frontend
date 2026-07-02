@@ -5,9 +5,14 @@ import { ManageTodoResponseDto } from '@/features/ManageTodo';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
-import { Todo, TodosResponseDto } from '@/entities/Todos/model/types/types';
-import { Label, LabelResponseDto } from '@/entities/Label/model/types/types';
-import { LABEL_KEYS } from '@/shared/api/keys-factories/create-label-factories';
+import {
+    DataType,
+    GetTodosDayResponse,
+    GetTodosListResponse,
+    Todo,
+} from '@/entities/Todos/model/types/types';
+import { sortTodosForClient } from '@/shared/lib/sortTodosForClient';
+import { getTodoCategory } from '@/entities/Todos';
 
 export const useCreateTodo = () => {
     const queryClient = useQueryClient();
@@ -28,38 +33,51 @@ export const useCreateTodo = () => {
             }
         },
         onSuccess: async newTodo => {
-            const allLabelsInCache = queryClient.getQueryData<LabelResponseDto>(LABEL_KEYS.lists());
-            const labelsList = allLabelsInCache?.data || [];
+            queryClient.setQueriesData<DataType>({ queryKey: TODO_KEYS.lists() }, old => {
+                if (!old || !old.todos) return old;
 
-            const populatedLabels = newTodo?.labels
-                ?.map(labelIdOrObj => {
-                    if (typeof labelIdOrObj === 'object') return labelIdOrObj;
+                // --- ВАРИАНТ 1: Если это кэш РЕЖИМА ДНЯ ---
+                if ('withDate' in old.todos) {
+                    const isWithoutDate = !newTodo.startDate;
 
-                    return labelsList.find(l => l.id === labelIdOrObj);
-                })
-                .filter((label): label is Label => !!label);
+                    return {
+                        ...old,
+                        counts: {
+                            ...old.counts,
+                            all: old.counts.all + 1,
+                            active: old.counts.active + 1,
+                        },
+                        todos: {
+                            ...old.todos,
+                            withDate: !isWithoutDate
+                                ? [newTodo, ...old.todos.withDate]
+                                : old.todos.withDate,
+                            withoutDate: isWithoutDate
+                                ? [newTodo, ...old.todos.withoutDate]
+                                : old.todos.withoutDate,
+                        },
+                    } as GetTodosDayResponse;
+                }
 
-            const fullTodo = {
-                ...newTodo,
-                labels: populatedLabels,
-            };
+                // --- ВАРИАНТ 2: Если это кэш РЕЖИМА СПИСКА (GetTodosListResponse) ---
+                if ('today' in old.todos) {
+                    const category = getTodoCategory(newTodo);
 
-            queryClient.setQueryData<TodosResponseDto>(TODO_KEYS.list('all'), old => {
-                if (!old || !Array.isArray(old.data)) return old;
+                    return {
+                        ...old,
+                        counts: {
+                            ...old.counts,
+                            all: old.counts.all + 1,
+                            active: old.counts.active + 1,
+                        },
+                        todos: {
+                            ...old.todos,
+                            [category]: sortTodosForClient([newTodo, ...old.todos[category]]),
+                        },
+                    } as GetTodosListResponse;
+                }
 
-                return {
-                    ...old,
-                    data: [fullTodo, ...old.data],
-                };
-            });
-
-            queryClient.setQueryData<TodosResponseDto>(TODO_KEYS.list('active'), old => {
-                if (!old || !Array.isArray(old.data)) return old;
-
-                return {
-                    ...old,
-                    data: [fullTodo, ...old.data],
-                };
+                return old;
             });
 
             queryClient.invalidateQueries({
