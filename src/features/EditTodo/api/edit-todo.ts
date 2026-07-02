@@ -6,8 +6,6 @@ import { AxiosError } from 'axios';
 import { ApiError } from '@/shared/types/api.types';
 import { EditTodoDto } from '@/features/EditTodo/model/types/types';
 import { getTodoCategory, Todo } from '@/entities/Todos';
-import { Label, LabelResponseDto } from '@/entities/Label/model/types/types';
-import { LABEL_KEYS } from '@/shared/api/keys-factories/create-label-factories';
 import {
     DataType,
     GetTodosDayResponse,
