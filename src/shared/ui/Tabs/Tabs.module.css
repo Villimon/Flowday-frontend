@@ -19,7 +19,6 @@
     user-select: none;
     opacity: 0.7;
     padding: 6px 10px;
-    background-color: var(--color-surface, #1f2937);
     
     /* Focus styles for accessibility */
     &:focus-visible {

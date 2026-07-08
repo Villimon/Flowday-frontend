@@ -7,16 +7,21 @@ import { Icon } from '@/shared/ui/Icon/Icon';
 import CircleIcon from '@/shared/assets/circle.svg';
 import CircleCheckIcon from '@/shared/assets/circle-check.svg';
 import { Chip } from '@/shared/ui/Chip/Chip';
+import { getTodoDisplayDateTime } from '../../model/lib/getTodoDisplayDateTime';
 
 interface TodoCardProps {
     todo: Todo;
     isCompleted?: boolean;
     renderActions: (todo: Todo, className: string) => ReactNode;
     onToggle: (todo: Todo) => void;
+    className?: string;
+    hasDate?: boolean;
 }
 
 export const TodoCard: FC<TodoCardProps> = memo(
-    ({ todo, isCompleted, renderActions, onToggle }) => {
+    ({ todo, isCompleted, renderActions, onToggle, className, hasDate = true }) => {
+        const timeRangeText = getTodoDisplayDateTime(todo);
+
         const handleToggleTodo = useCallback(
             (e?: React.MouseEvent) => {
                 e?.stopPropagation();
@@ -32,7 +37,7 @@ export const TodoCard: FC<TodoCardProps> = memo(
                 data-testid="todo-card"
                 radius="xl"
                 variant="filled"
-                className={clsx(styles.todoCard, {
+                className={clsx(styles.todoCard, className, {
                     [styles.completed]: isCompleted,
                 })}
                 onClick={handleToggleTodo}
@@ -74,6 +79,9 @@ export const TodoCard: FC<TodoCardProps> = memo(
                             })}
                         </HStack>
                         {todo.description && <Text text={todo.description} variant="secondary" />}
+                        {hasDate && timeRangeText && (
+                            <Chip variant="filled" size="sm" label={timeRangeText} />
+                        )}
                     </VStack>
                     {renderActions(todo, styles.buttons)}
                 </HStack>

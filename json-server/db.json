@@ -101,18 +101,6 @@
       "updatedAt": "2026-07-01T16:37:18.884Z"
     },
     {
-      "id": "1777733244418",
-      "title": "s",
-      "description": "dasdasdasd as ddasd asd asd asdb ajsdhb hasbd ajsdbh ajsdhb jasdhb ajsdhb ajsdhb asjkdbh ajsdbh ajdbhsjash djashbd jabsdhjk ahsbdkjash djashbd jabshdj ashbdjh adjashbd jabshd jabsdhjashb djasbhdjash bdajshbd ajsdhbajsh bdajsdhb ajshbdj abhsdjash dajshbd jahsbd ahsdjhab sjbdhaj sdhbajsbh djashbdj asbhdjasbhd jabshdj ashbdjkashbd jashbd jdasdasdasd as ddasd asd asd asdb ajsdhb hasbd ajsdbh ajsdhb jasdhb ajsdhb ajsdhb asjkdbh ajsdbh ajdbhsjash djashbd jabsdhjk ahsbdkjash djashbd jabshdj ashbdjh adjashbd jabshd jabsdhjashb djasbhdjash bdajshbd ajsdhbajsh bdajsdhb ajshbdj abhsdjash dajshbd jahsbd ahsdjhab sjbdhaj sdhbajsbh djashbdj asbhdjasbhd jabshdj ashbdjkashbd jashbd j",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-05-02T14:47:24.418Z",
-      "updatedAt": "2026-06-16T16:06:27.066Z",
-      "labels": [
-        "1777745694141"
-      ]
-    },
-    {
       "id": "1777750500887",
       "title": "Задача с метками",
       "description": "",
@@ -285,7 +273,7 @@
         "1783005442440"
       ],
       "createdAt": "2026-06-25T12:31:45.627Z",
-      "updatedAt": "2026-07-02T15:17:25.524Z",
+      "updatedAt": "2026-07-07T14:33:23.836Z",
       "startDate": "2026-06-25T04:00:00.000Z",
       "endDate": "2026-07-04T04:00:00.000Z"
     },
@@ -546,7 +534,7 @@
       "userId": "695a986c820ddc26e77a36d1",
       "labels": [],
       "createdAt": "2026-07-02T11:33:33.309Z",
-      "updatedAt": "2026-07-02T12:11:52.898Z",
+      "updatedAt": "2026-07-08T07:23:38.553Z",
       "startDate": "2026-07-04T12:05:00.000Z",
       "endDate": "2026-07-05T10:33:00.000Z"
     },
@@ -570,7 +558,7 @@
       "userId": "695a986c820ddc26e77a36d1",
       "labels": [],
       "createdAt": "2026-07-02T11:34:15.442Z",
-      "updatedAt": "2026-07-02T11:34:15.442Z",
+      "updatedAt": "2026-07-08T07:23:39.330Z",
       "startDate": "2026-07-03T14:34:00.000Z",
       "endDate": "2026-07-04T21:00:00.000Z"
     },
@@ -700,6 +688,54 @@
       ],
       "createdAt": "2026-07-02T14:41:56.633Z",
       "updatedAt": "2026-07-02T14:41:56.633Z"
+    },
+    {
+      "id": "1783428262972",
+      "title": "Без времени",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-07-07T12:44:22.972Z",
+      "updatedAt": "2026-07-07T12:44:22.972Z",
+      "startDate": "2026-07-06T21:00:00.000Z",
+      "endDate": "2026-07-06T21:00:00.000Z"
+    },
+    {
+      "id": "1783428287494",
+      "title": "Со временем",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-07-07T12:44:47.494Z",
+      "updatedAt": "2026-07-07T14:44:10.127Z",
+      "startDate": "2026-07-07T14:44:00.000Z",
+      "endDate": "2026-07-07T16:44:00.000Z"
+    },
+    {
+      "id": "1783435601195",
+      "title": "Test",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-07-07T14:46:41.195Z",
+      "updatedAt": "2026-07-07T14:46:41.195Z",
+      "startDate": "2026-07-06T21:00:00.000Z",
+      "endDate": "2026-07-06T21:00:00.000Z"
+    },
+    {
+      "id": "1783435640321",
+      "title": "UIO",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-07-07T14:47:20.321Z",
+      "updatedAt": "2026-07-07T14:47:20.321Z",
+      "startDate": "2026-07-06T21:00:00.000Z",
+      "endDate": "2026-07-06T21:00:00.000Z"
     }
   ],
   "labels": [

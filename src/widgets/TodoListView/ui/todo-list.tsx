@@ -1,21 +1,19 @@
-import { Button, Card, HStack, Text, VStack } from '@/shared/ui';
+import { Button, HStack, Text, VStack } from '@/shared/ui';
 import { TodoCard } from '../../../entities/Todos/ui/TodoCard/todo-card';
-import { FC, memo, useCallback, useState } from 'react';
-import { EditTodo } from '@/features/EditTodo';
-import { DeleteTodo } from '@/features/DeleteTodo';
-import { useToggleTodo } from '@/features/ToggleTodo';
-import { toast } from 'react-toastify';
-import { Todo, TodoStatus } from '@/entities/Todos';
+import { FC, memo, useCallback, useState, JSX } from 'react';
+import { Todo } from '@/entities/Todos';
 import { TodoListData } from '@/entities/Todos/model/types/types';
 import { Chip } from '@/shared/ui/Chip/Chip';
 
 interface TodoListProps {
     todos?: TodoListData;
-    status: TodoStatus;
+    renderActions: (todo: Todo, className: string) => JSX.Element;
+    onToggle: (todo: Todo) => void;
+    isAllTab: boolean;
 }
 type TodoListCategory = 'overdue' | 'today' | 'thisWeek' | 'upcoming' | 'withoutDate' | 'completed';
 
-export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
+export const TodoList: FC<TodoListProps> = memo(({ todos, renderActions, onToggle, isAllTab }) => {
     const [expandedBlocks, setExpandedBlocks] = useState<Record<TodoListCategory, boolean>>({
         overdue: true,
         today: true,
@@ -29,37 +27,9 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
         setExpandedBlocks(prev => ({ ...prev, [category]: !prev[category] }));
     }, []);
 
-    const { mutate: toggleTodoMutate } = useToggleTodo();
-
-    // TODO: Вынести на уровень выше, потому что она понадобится и для других view
-    const handleToggleTodo = useCallback(
-        (todo: Todo) => {
-            toggleTodoMutate(todo, {
-                onError: error => {
-                    toast.error(error.message || 'Ошибка при изменении статуса');
-                },
-            });
-        },
-        [toggleTodoMutate]
-    );
-
-    // TODO: Вынести на уровень выше, потому что она понадобится и для других view
-    const renderActions = useCallback((todo: Todo, className: string) => {
-        return (
-            <Card className={className} radius="xl">
-                <HStack justify="center" align="center" onClick={e => e.stopPropagation()} gap="2">
-                    <EditTodo todo={todo} />
-                    <DeleteTodo todoId={todo.id} />
-                </HStack>
-            </Card>
-        );
-    }, []);
-
-    const isAllTab = status === 'all';
-
     return (
-        <VStack gap="8" fullWidth>
-            {/* TODO: Вынести в компонент */}
+        <VStack gap="8" fullWidth as="section">
+            {/* TODO: Вынести в компонент и на подумать оберуть в карточку */}
             {Boolean(todos?.overdue.length) && (
                 <VStack gap="4" fullWidth>
                     <HStack fullWidth justify="between">
@@ -77,7 +47,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 key={todo.id}
                                 todo={todo}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>
@@ -99,7 +69,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 key={todo.id}
                                 todo={todo}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>
@@ -121,7 +91,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 key={todo.id}
                                 todo={todo}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>
@@ -143,7 +113,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 key={todo.id}
                                 todo={todo}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>
@@ -168,7 +138,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 key={todo.id}
                                 todo={todo}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>
@@ -191,7 +161,7 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, status }) => {
                                 todo={todo}
                                 isCompleted={isAllTab && todo.completed}
                                 renderActions={renderActions}
-                                onToggle={handleToggleTodo}
+                                onToggle={onToggle}
                             />
                         ))}
                 </VStack>

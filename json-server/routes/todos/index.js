@@ -150,11 +150,16 @@ export default (server, router) => {
                 const allCompleted = todosToProcess.filter(todo => todo.completed);
                 const allActive = todosToProcess.filter(todo => !todo.completed);
 
+                const getTodoDeadline = todo => {
+                    return todo.endDate
+                        ? startOfDay(getZonedDate(todo.endDate))
+                        : startOfDay(getZonedDate(todo.startDate));
+                };
+
                 // 1. OVERDUE (просроченные)
                 const overdue = allActive.filter(todo => {
-                    if (!todo.endDate) return false;
-                    const todoEnd = startOfDay(getZonedDate(todo.endDate));
-                    return isBefore(todoEnd, targetToday);
+                    if (!todo.startDate && !todo.endDate) return false;
+                    return isBefore(getTodoDeadline(todo), targetToday);
                 });
 
                 // 2. TODAY (сегодня)
@@ -179,6 +184,7 @@ export default (server, router) => {
                 // 3. THIS WEEK (эта неделя)
                 const thisWeek = allActive.filter(todo => {
                     if (!todo.startDate && !todo.endDate) return false;
+
                     const todoStart = todo.startDate
                         ? startOfDay(getZonedDate(todo.startDate))
                         : startOfDay(getZonedDate(todo.endDate));
@@ -186,22 +192,15 @@ export default (server, router) => {
                         ? endOfDay(getZonedDate(todo.endDate))
                         : endOfDay(getZonedDate(todo.startDate));
 
+                    // Проверяем, что задача начинается СТРОГО позже, чем сегодня
+                    const isFutureTask = isAfter(todoStart, targetToday);
+
+                    // Попадает ли в границы текущей недели
                     const intersectsWithWeek =
                         (isBefore(todoStart, weekEnd) || isSameDay(todoStart, weekEnd)) &&
                         (isAfter(todoEnd, weekStart) || isSameDay(todoEnd, weekStart));
 
-                    const isStrictlyToday =
-                        todo.startDate && todo.endDate
-                            ? isTargetTodayInInterval(targetToday, todo.startDate, todo.endDate)
-                            : (todo.startDate &&
-                                  isSameDay(
-                                      startOfDay(getZonedDate(todo.startDate)),
-                                      targetToday
-                                  )) ||
-                              (todo.endDate &&
-                                  isSameDay(startOfDay(getZonedDate(todo.endDate)), targetToday));
-
-                    return intersectsWithWeek && !isStrictlyToday;
+                    return isFutureTask && intersectsWithWeek;
                 });
 
                 // 4. UPCOMING (будущие)
@@ -243,75 +242,110 @@ export default (server, router) => {
                         .status(400)
                         .json({ success: false, message: 'Параметр "date" обязателен для day' });
 
+                // targetDate — день, который пользователь сейчас просматривает в календаре
                 const targetDate = startOfDay(parseISO(date.split('T')[0]));
-                const dayStart = startOfDay(targetDate);
-                const dayEnd = endOfDay(targetDate);
+
+                // Получаем текущую дату пользователя (сегодня) с учетом его таймзоны
+                const userTodayStr = formatInTimeZone(new Date(), timezone, 'yyyy-MM-dd');
+                const userToday = startOfDay(parseISO(userTodayStr));
+
+                // Флаг: смотрит ли пользователь сегодняшний день
+                const isRequestedToday = isSameDay(targetDate, userToday);
 
                 let statusFiltered = enrichedTodos;
                 if (status === 'active') statusFiltered = enrichedTodos.filter(t => !t.completed);
                 if (status === 'completed') statusFiltered = enrichedTodos.filter(t => t.completed);
 
-                const withDateTodos = statusFiltered.filter(todo => {
-                    if (!todo.startDate && !todo.endDate) return false;
-                    const s = todo.startDate ? startOfDay(getZonedDate(todo.startDate)) : dayStart;
-                    const e = todo.endDate
-                        ? endOfDay(getZonedDate(todo.endDate))
-                        : endOfDay(getZonedDate(todo.startDate));
+                const withDateTodos = [];
+                const withoutDateTodos = [];
 
-                    return (
-                        (isBefore(s, dayEnd) || isSameDay(s, dayEnd)) &&
-                        (isAfter(e, dayStart) || isSameDay(e, dayStart))
-                    );
-                });
+                for (const todo of statusFiltered) {
+                    const hasStart = !!todo.startDate;
+                    const hasEnd = !!todo.endDate;
+                    const hasTime = hasRealTime(todo); // Проверка, заданы ли часы/минуты
 
-                const userTodayStr = formatInTimeZone(new Date(), timezone, 'yyyy-MM-dd');
-                const withoutDateTodos = isSameDay(targetDate, startOfDay(parseISO(userTodayStr)))
-                    ? statusFiltered.filter(todo => !todo.startDate && !todo.endDate)
-                    : [];
+                    // --- ЛОГИКА ДЛЯ БЛОКА "БЕЗ ВРЕМЕНИ" (withoutDate) ---
+                    // Если вообще нет дат ИЛИ дата есть, но время не указано
+                    if ((!hasStart && !hasEnd) || ((hasStart || hasEnd) && !hasTime)) {
+                        // Эти задачи отдаем СТРОГО только сегодня
+                        if (isRequestedToday) {
+                            withoutDateTodos.push(todo);
+                        }
+                        continue;
+                    }
 
-                const scheduleActive = withDateTodos.filter(
-                    todo => !todo.completed && hasRealTime(todo)
-                );
-                const scheduleCompleted = withDateTodos.filter(
-                    todo => todo.completed && hasRealTime(todo)
-                );
+                    // --- ЛОГИКА ДЛЯ "РАСПИСАНИЯ" (withDate) — ТУТ ВСЕ ЗАДАЧИ С ХОРОШИМ ВРЕМЕНЕМ ---
+                    let s;
+                    let e;
 
-                const noTimeActive = [
-                    ...withoutDateTodos.filter(todo => !todo.completed),
-                    ...withDateTodos.filter(todo => !todo.completed && !hasRealTime(todo)),
-                ];
+                    // 1. Есть начальная дата, нет окончания, есть время -> Задача одного конкретного дня
+                    if (hasStart && !hasEnd && hasTime) {
+                        s = startOfDay(getZonedDate(todo.startDate));
+                        e = s;
+                    }
+                    // 2. Нет начальной даты, но есть окончание и время -> Показываем каждый день, начиная с "сегодня" до дня окончания
+                    else if (!hasStart && hasEnd && hasTime) {
+                        s = userToday; // Стартует с сегодняшнего дня пользователя
+                        e = startOfDay(getZonedDate(todo.endDate));
+                    }
+                    // 3. Есть и дата начала, и дата окончания со временем -> Показывается во все дни диапазона
+                    else if (hasStart && hasEnd && hasTime) {
+                        s = startOfDay(getZonedDate(todo.startDate));
+                        e = startOfDay(getZonedDate(todo.endDate));
+                    } else {
+                        continue; // На всякий случай отсекаем непредусмотренные комбинации
+                    }
 
-                const noTimeCompleted = [
-                    ...withoutDateTodos.filter(todo => todo.completed),
-                    ...withDateTodos.filter(todo => todo.completed && !hasRealTime(todo)),
-                ];
+                    // Проверяем, попадает ли просматриваемый день в вычисленный диапазон
+                    const isWithinRange =
+                        (isAfter(targetDate, s) || isSameDay(targetDate, s)) &&
+                        (isBefore(targetDate, e) || isSameDay(targetDate, e));
 
+                    if (isWithinRange) {
+                        withDateTodos.push(todo);
+                    }
+                }
+
+                // Разделяем расписание на активные и выполненные для правильной сортировки
+                const scheduleActive = withDateTodos.filter(todo => !todo.completed);
+                const scheduleCompleted = withDateTodos.filter(todo => todo.completed);
+
+                // Разделяем блок "Без времени" на активные и выполненные
+                const noTimeActive = withoutDateTodos.filter(todo => !todo.completed);
+                const noTimeCompleted = withoutDateTodos.filter(todo => todo.completed);
+
+                // Сортировка расписания (по времени старта)
                 scheduleActive.sort((a, b) =>
                     compareAsc(parseISO(a.startDate), parseISO(b.startDate))
                 );
                 scheduleCompleted.sort((a, b) =>
                     compareAsc(parseISO(b.updatedAt), parseISO(a.updatedAt))
                 );
+
+                // Сортировка блока без времени (новые сверху / по обновлению)
+                noTimeActive.sort((a, b) =>
+                    compareAsc(parseISO(b.createdAt), parseISO(a.createdAt))
+                );
                 noTimeCompleted.sort((a, b) =>
                     compareAsc(parseISO(b.updatedAt), parseISO(a.updatedAt))
                 );
 
+                // Считаем счетчики текущего дня
                 const dayCounts = {
                     active: scheduleActive.length + noTimeActive.length,
                     completed: scheduleCompleted.length + noTimeCompleted.length,
-                    all:
-                        scheduleActive.length +
-                        noTimeActive.length +
-                        scheduleCompleted.length +
-                        noTimeCompleted.length,
+                    all: 0,
                 };
+                dayCounts.all = dayCounts.active + dayCounts.completed;
 
                 return res.status(200).json({
                     success: true,
                     message: 'Задачи получены (режим дня)',
                     data: {
                         todos: {
+                            // Строго задачи со временем, попавшие в этот день
                             withDate: sortTodosForClient([...scheduleActive, ...scheduleCompleted]),
+                            // Задачи без времени (и без дат), возвращаются только для "Сегодня"
                             withoutDate: sortTodosForClient([...noTimeActive, ...noTimeCompleted]),
                         },
                         counts: dayCounts,

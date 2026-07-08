@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
-import { HStack, Text, VStack } from '@/shared/ui';
+import { Card, HStack, Text, VStack } from '@/shared/ui';
 import { FilterTodos } from '@/features/FilterTodos';
 import { useTodos } from '@/entities/Todos/api/use-todo';
 import { TabItem } from '@/shared/ui/Tabs/Tabs';
@@ -9,11 +9,16 @@ import clsx from 'clsx';
 import { TodoList } from '@/widgets/TodoListView';
 import { TodoStatus } from '@/entities/Todos';
 import { FilterTodosView } from '@/features/FilterTodosView';
-import { TodoListData, TodoView } from '@/entities/Todos/model/types/types';
+import { Todo, TodoDayData, TodoListData, TodoView } from '@/entities/Todos/model/types/types';
 import { DateNavigator } from '@/features/DateNavigator';
 import { addDays, subDays, format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Loader } from '@/shared/ui/Loader/Loader';
+import { TodoDayView } from '@/widgets/TodoDayView';
+import { EditTodo } from '@/features/EditTodo';
+import { DeleteTodo } from '@/features/DeleteTodo';
+import { useToggleTodo } from '@/features/ToggleTodo';
+import { toast } from 'react-toastify';
 
 // TODO: Если захочу чтобы состояние сохранялось перейти на Стейт в URL-квери параметрах (?view=week&status=active), а внутри фич брать все из роута (url)
 // Либо сделать контекст для страницы
@@ -23,6 +28,20 @@ const TodosPage = memo(() => {
     const [currentDate, setCurrentDate] = useState(new Date());
 
     const isDayView = view === 'day';
+    const isAllTab = status === 'all';
+
+    const { mutate: toggleTodoMutate } = useToggleTodo();
+
+    const handleToggleTodo = useCallback(
+        (todo: Todo) => {
+            toggleTodoMutate(todo, {
+                onError: error => {
+                    toast.error(error.message || 'Ошибка при изменении статуса');
+                },
+            });
+        },
+        [toggleTodoMutate]
+    );
 
     const handleStatusChange = useCallback((newStatus: TabItem) => {
         setStatus(newStatus.value as TodoStatus);
@@ -57,6 +76,17 @@ const TodosPage = memo(() => {
         return 'Все Задачи';
     };
 
+    const renderActions = useCallback((todo: Todo, className: string) => {
+        return (
+            <Card className={className} radius="xl">
+                <HStack justify="center" align="center" onClick={e => e.stopPropagation()} gap="2">
+                    <EditTodo todo={todo} />
+                    <DeleteTodo todoId={todo.id} />
+                </HStack>
+            </Card>
+        );
+    }, []);
+
     const renderTodoContent = () => {
         if (isLoading) {
             return <Loader />;
@@ -70,9 +100,23 @@ const TodosPage = memo(() => {
 
         switch (view) {
             case 'list':
-                return <TodoList todos={todosData as TodoListData} status={status} />;
+                return (
+                    <TodoList
+                        renderActions={renderActions}
+                        todos={todosData as TodoListData}
+                        onToggle={handleToggleTodo}
+                        isAllTab={isAllTab}
+                    />
+                );
             case 'day':
-                return <div>Day view</div>;
+                return (
+                    <TodoDayView
+                        renderActions={renderActions}
+                        todos={todosData as TodoDayData}
+                        onToggle={handleToggleTodo}
+                        isAllTab={isAllTab}
+                    />
+                );
             default:
                 return null;
         }
