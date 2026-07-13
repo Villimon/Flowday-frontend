@@ -69,50 +69,65 @@ export const DayTimeline: FC<DayTimelineProps> = memo(
                             })}
                         </VStack>
                         <div className={styles.tasksContainer}>
-                            {todosWithTime?.map(todo => {
-                                const color = todo.labels?.[0]?.color ?? '#3b82f6';
+                            {todosWithTime && todosWithTime?.length > 0 ? (
+                                todosWithTime?.map(todo => {
+                                    const color = todo.labels?.[0]?.color ?? '#3b82f6';
 
-                                const timeStart = formatTooltipTime(todo.startDate);
-                                const timeEnd = formatTooltipTime(todo.endDate);
-                                const timeInterval =
-                                    timeStart && timeEnd
-                                        ? `\nВремя: ${timeStart} — ${timeEnd}`
-                                        : '';
-                                const tooltipText = `Задача: ${todo.title}${timeInterval}`;
+                                    const timeStart = formatTooltipTime(todo.startDate);
+                                    const timeEnd = formatTooltipTime(todo.endDate);
+                                    const timeInterval =
+                                        timeStart && timeEnd
+                                            ? `\nВремя: ${timeStart} — ${timeEnd}`
+                                            : '';
+                                    const tooltipText = `Задача: ${todo.title}${timeInterval}`;
 
-                                const customStyle = {
-                                    backgroundColor: `color-mix(in srgb, ${color}, transparent 60%)`,
-                                    top: `${todo.top}px`,
-                                    height: `${todo.height}px`,
-                                    borderWidth: '1px',
-                                    borderStyle: 'solid',
-                                    borderColor: color,
-                                    position: 'absolute' as const,
-                                    left: `${todo.leftPercent}%`,
-                                    width: `${todo.widthPercent}%`,
-                                    opacity: todo.completed ? 0.4 : 1,
-                                    textDecoration: todo.completed ? 'line-through' : 'none',
-                                    color: color,
-                                };
+                                    const customStyle = {
+                                        backgroundColor: `color-mix(in srgb, ${color}, transparent 60%)`,
+                                        top: `${todo.top}px`,
+                                        height: `${todo.height}px`,
+                                        borderWidth: '1px',
+                                        borderStyle: 'solid',
+                                        borderColor: color,
+                                        position: 'absolute' as const,
+                                        left: `${todo.leftPercent}%`,
+                                        width: `${todo.widthPercent}%`,
+                                        opacity: todo.completed ? 0.4 : 1,
+                                        textDecoration: todo.completed ? 'line-through' : 'none',
+                                        color: color,
+                                    };
 
-                                return (
-                                    <EditTodo
-                                        key={todo.id}
-                                        todo={todo}
-                                        renderTrigger={openModal => (
-                                            <div
-                                                key={todo.id}
-                                                className={clsx(styles.taskCard)}
-                                                style={customStyle}
-                                                title={tooltipText}
-                                                onClick={openModal}
-                                            >
-                                                {todo.title}
-                                            </div>
-                                        )}
+                                    return (
+                                        <EditTodo
+                                            key={todo.id}
+                                            todo={todo}
+                                            renderTrigger={openModal => (
+                                                <div
+                                                    key={todo.id}
+                                                    className={clsx(styles.taskCard)}
+                                                    style={customStyle}
+                                                    title={tooltipText}
+                                                    onClick={openModal}
+                                                >
+                                                    {todo.title}
+                                                </div>
+                                            )}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <VStack align="center" className={styles.emptyTodos}>
+                                    <Text
+                                        variant="secondary"
+                                        size="xs"
+                                        text="Нет задач с временем"
                                     />
-                                );
-                            })}
+                                    <Text
+                                        variant="secondary"
+                                        size="xs"
+                                        text="Нажмите на любой час, чтобы добавить"
+                                    />
+                                </VStack>
+                            )}
                         </div>
                         {showTimeline && (
                             <CurrentTimeline endHour={endHour} startHour={startHour} />

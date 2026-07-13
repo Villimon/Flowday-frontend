@@ -1,4 +1,4 @@
-import { FC, memo, useState, JSX, useMemo } from 'react';
+import { FC, memo, useState, JSX } from 'react';
 import styles from './TodoDayView.module.css';
 import clsx from 'clsx';
 import { Card, HStack, Text, VStack } from '@/shared/ui';
