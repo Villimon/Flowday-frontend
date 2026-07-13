@@ -1,0 +1,27 @@
+.currentTimeLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #ef4444; 
+    z-index: 30; 
+    pointer-events: none; 
+    width: 100%;
+    
+    transition: top 0.5s ease-in-out; 
+    
+    display: flex;
+    align-items: center;
+}
+
+.currentTimeLine::before {
+   content: '';
+    position: absolute;
+    left: 0px; 
+    top: -3px; 
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ef4444;
+}

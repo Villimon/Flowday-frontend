@@ -3,48 +3,55 @@ import { parseISO, format, isSameDay } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
 export const getTodoDisplayDateTime = (todo: Todo): string => {
-    if (!todo.startDate) return '';
+    if (!todo.startDate && !todo.endDate) return '';
 
-    const start = parseISO(todo.startDate);
+    const start = todo.startDate ? parseISO(todo.startDate) : null;
     const end = todo.endDate ? parseISO(todo.endDate) : null;
 
-    const hasStartTime = start.getHours() !== 0 || start.getMinutes() !== 0;
+    const hasStartTime = start ? start.getHours() !== 0 || start.getMinutes() !== 0 : false;
     const hasEndTime = end ? end.getHours() !== 0 || end.getMinutes() !== 0 : false;
 
-    const startDateTimeStr = format(start, 'd MMMM HH:mm', { locale: ru });
+    // === КЕЙС 1: ИЗОЛИРОВАННЫЕ ДАТЫ (Есть только что-то одно) ===
 
-    if (!hasStartTime) {
-        const startDayStr = format(start, 'd MMMM', { locale: ru });
-
-        if (end && !isSameDay(start, end)) {
-            const endDayStr = hasEndTime
-                ? format(end, 'd MMMM HH:mm', { locale: ru }) // Если у конца есть время
-                : format(end, 'd MMMM', { locale: ru }); // Если у конца тоже 00:00
-            return `${startDayStr} – ${endDayStr}`;
-        }
-
-        return startDayStr;
+    // Есть только СТАРТ
+    if (start && !end) {
+        return hasStartTime
+            ? format(start, 'd MMMM с HH:mm', { locale: ru })
+            : format(start, 'd MMMM', { locale: ru });
     }
 
-    if (end) {
-        // 1. Если старт и конец в один день
-        if (isSameDay(start, end)) {
-            if (hasEndTime) {
-                return `${startDateTimeStr} – ${format(end, 'HH:mm')}`; // "2 июля 05:00 – 14:32"
-            }
-            return startDateTimeStr; // Если время конца 00:00 в тот же день — показываем просто старт
-        }
+    // Есть только КОНЕЦ
+    if (!start && end) {
+        return hasEndTime
+            ? format(end, 'd MMMM до HH:mm', { locale: ru })
+            : format(end, 'd MMMM', { locale: ru });
+    }
 
-        // 2. Если дни разные
+    // === КЕЙС 2: ЕСТЬ ОБЕ ДАТЫ (start и end гарантированно не null) ===
+    const startDateTimeStr = hasStartTime
+        ? format(start!, 'd MMMM HH:mm', { locale: ru })
+        : format(start!, 'd MMMM', { locale: ru });
+
+    // 2.1. Если старт и конец в один и тот же день
+    if (isSameDay(start!, end!)) {
         if (hasEndTime) {
-            // Если у конца есть нормальное время
-            const endDateTimeStr = format(end, 'd MMMM HH:mm', { locale: ru });
-            return `${startDateTimeStr} – ${endDateTimeStr}`; // "30 июня 04:00 – 2 июля 06:00"
-        } else {
-            const endDayStr = format(end, 'd MMMM', { locale: ru });
-            return `${startDateTimeStr} – ${endDayStr}`; // "3 июля 17:34 – 5 июля"
+            // Если у старта не было времени, а у конца есть,
+            // лучше вывести полный старт и время конца: "2 июля с 00:00" -> "2 июля 00:00 – 14:32"
+            const baseStartStr = hasStartTime
+                ? format(start!, 'd MMMM HH:mm', { locale: ru })
+                : format(start!, 'd MMMM HH:mm', { locale: ru }); // Выведет 00:00 для наглядности интервала
+            return `${baseStartStr} – ${format(end!, 'HH:mm')}`;
         }
+        // Если время конца 00:00 в тот же день — показываем просто красивый старт
+        return hasStartTime
+            ? format(start!, 'd MMMM с HH:mm', { locale: ru })
+            : format(start!, 'd MMMM', { locale: ru });
     }
 
-    return startDateTimeStr;
+    // 2.2. Если дни разные
+    const endDateTimeStr = hasEndTime
+        ? format(end!, 'd MMMM HH:mm', { locale: ru })
+        : format(end!, 'd MMMM', { locale: ru });
+
+    return `${startDateTimeStr} – ${endDateTimeStr}`;
 };

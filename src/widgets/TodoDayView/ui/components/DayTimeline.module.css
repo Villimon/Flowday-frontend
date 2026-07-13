@@ -1,0 +1,95 @@
+.timelineWrapper {
+    padding: 16px 0 0; 
+    background: rgba(15, 23, 42, 0.4);  
+    border:  1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    position: relative;
+}
+
+.title {
+    padding: 0 16px 16px;
+    border-bottom: 1px solid var(--color-border-heavy);
+    width: 100%;
+}
+
+.gridContainer {
+    width: 100%;
+    position: relative;
+    padding-top: var(--padding-top);
+}
+
+.timeBlock {
+    height: 60px;
+    position: relative;
+    width: 100%;
+    border-top: 1px solid var(--color-border-heavy); 
+    box-sizing: border-box;
+}
+
+.time {
+    position: absolute;
+    top: -10px; 
+    left: 16px;
+    background: transparent;
+    pointer-events: none; 
+    z-index: 2;
+}
+
+.createButton {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, opacity 0.2s ease; 
+    cursor: pointer;
+    z-index: 1;
+    
+    &:hover {
+        opacity: 1;
+        background-color: var(--color-surface, #1f2937); 
+    }
+}
+
+.button {
+    width: 100%;
+    height: 100%;
+
+}
+
+.tasksContainer {
+    position: absolute;
+    top: 0;
+    left: 68px; 
+    right: 12px; 
+    bottom: 0;
+    pointer-events: none; 
+}
+
+.taskCard {
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: auto;
+    border-radius: 12px;
+    background-color: red;
+    padding: 8px;
+    z-index: 5;
+    padding-right: 6px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        filter: brightness(1.25)
+    }
+}

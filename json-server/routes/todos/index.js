@@ -76,13 +76,16 @@ export default (server, router) => {
 
             // --- ФУНКЦИЯ ПРОВЕРКИ: ЕСТЬ ЛИ У ЗАДАЧИ РЕАЛЬНОЕ ВРЕМЯ? ---
             const hasRealTime = todo => {
-                if (!todo.startDate) return false;
-                const zonedStart = getZonedDate(todo.startDate);
-                // Если часы, минуты и секунды по нулям — значит времени нет (полночь)
+                const dateToCheck = todo.startDate || todo.endDate;
+
+                if (!dateToCheck) return false;
+
+                const zonedDate = getZonedDate(dateToCheck);
+
                 return !(
-                    zonedStart.getHours() === 0 &&
-                    zonedStart.getMinutes() === 0 &&
-                    zonedStart.getSeconds() === 0
+                    zonedDate.getHours() === 0 &&
+                    zonedDate.getMinutes() === 0 &&
+                    zonedDate.getSeconds() === 0
                 );
             };
 
@@ -101,14 +104,17 @@ export default (server, router) => {
 
                 // 2. Активные: сначала те, у которых есть startDate (хронологически), затем без даты
                 active.sort((a, b) => {
-                    if (!a.startDate && !b.startDate) {
+                    const dateA = a.startDate || a.endDate;
+                    const dateB = b.startDate || b.endDate;
+
+                    if (!dateA && !dateB) {
                         return new Date(b.createdAt) - new Date(a.createdAt); // Новые сверху
                     }
-                    if (!a.startDate) return 1;
-                    if (!b.startDate) return -1;
+                    if (!dateA) return 1;
+                    if (!dateB) return -1;
 
                     // Сортировка по возрастанию времени старта
-                    const compareStart = new Date(a.startDate) - new Date(b.startDate);
+                    const compareStart = new Date(dateA) - new Date(dateB);
                     if (compareStart !== 0) return compareStart;
 
                     if (a.endDate && b.endDate) {
@@ -315,9 +321,11 @@ export default (server, router) => {
                 const noTimeCompleted = withoutDateTodos.filter(todo => todo.completed);
 
                 // Сортировка расписания (по времени старта)
-                scheduleActive.sort((a, b) =>
-                    compareAsc(parseISO(a.startDate), parseISO(b.startDate))
-                );
+                scheduleActive.sort((a, b) => {
+                    const dateA = a.startDate || a.endDate;
+                    const dateB = b.startDate || b.endDate;
+                    return compareAsc(parseISO(dateA), parseISO(dateB));
+                });
                 scheduleCompleted.sort((a, b) =>
                     compareAsc(parseISO(b.updatedAt), parseISO(a.updatedAt))
                 );

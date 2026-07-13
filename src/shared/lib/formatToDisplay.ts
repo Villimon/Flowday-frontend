@@ -1,3 +1,5 @@
+import { format, parseISO } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 // Парсит внутренний формат datetime-local (YYYY-MM-DDTHH:mm) наружу в твой ДД.ММ.ГГГГ ЧЧ:ММ
 export const formatToDisplay = (isoString: string): string => {
     if (!isoString) return '';
@@ -8,18 +10,11 @@ export const formatToDisplay = (isoString: string): string => {
         return `${day}.${month}.${year}`; // Возвращаем только дату без времени
     }
 
-    let cleanString = isoString.replace(/\.\d{3}Z$/, '');
+    const utcDate = parseISO(isoString);
 
-    const parts = cleanString.split('T');
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    if (parts.length === 2) {
-        const timeParts = parts[1].split(':');
-        if (timeParts.length >= 2) {
-            cleanString = `${parts[0]} ${timeParts[0]}:${timeParts[1]}`;
-        }
-    }
+    const zonedDate = toZonedTime(utcDate, userTimeZone || 'UTC');
 
-    const [date, time] = cleanString.split(' ');
-    const [year, month, day] = date.split('-');
-    return `${day}.${month}.${year} ${time}`;
+    return format(zonedDate, 'dd.MM.yyyy HH:mm');
 };

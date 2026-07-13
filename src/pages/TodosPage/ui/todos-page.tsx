@@ -115,6 +115,7 @@ const TodosPage = memo(() => {
                         todos={todosData as TodoDayData}
                         onToggle={handleToggleTodo}
                         isAllTab={isAllTab}
+                        currentDate={currentDate}
                     />
                 );
             default:

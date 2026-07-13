@@ -1,6 +1,6 @@
 import { Icon } from '@/shared/ui/Icon/Icon';
 import EditIcon from '@/shared/assets/edit-pen.svg';
-import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { FC, memo, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Todo } from '@/entities/Todos';
 import { TodoFormData } from '@/features/ManageTodo/model/schema/schema';
 import { toast } from 'react-toastify';
@@ -13,9 +13,11 @@ import { formatToDisplay } from '@/shared/lib/formatToDisplay';
 
 interface EditTodoProps {
     todo: Todo;
+    renderTrigger?: (openModal: () => void) => ReactNode;
+    className?: string;
 }
 
-export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
+export const EditTodo: FC<EditTodoProps> = memo(({ todo, className, renderTrigger }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenModal = useCallback(() => {
@@ -72,18 +74,22 @@ export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
     }, [isOpen, todo.description, todo.labels, todo.title, todo.startDate, todo.endDate]);
 
     return (
-        <>
-            <div data-testid="edit-todo-button" className={styles.icon}>
-                <Icon
-                    clickable
-                    onClick={handleOpenModal}
-                    aria-label="Редактирование задачи"
-                    Svg={EditIcon}
-                    color="primary"
-                    width={22}
-                    height={22}
-                />
-            </div>
+        <div className={className}>
+            {renderTrigger ? (
+                renderTrigger(handleOpenModal)
+            ) : (
+                <div data-testid="edit-todo-button" className={styles.icon}>
+                    <Icon
+                        clickable
+                        onClick={handleOpenModal}
+                        aria-label="Редактирование задачи"
+                        Svg={EditIcon}
+                        color="primary"
+                        width={22}
+                        height={22}
+                    />
+                </div>
+            )}
             {isOpen && initialFormData && (
                 <Modal
                     isOpen={isOpen}
@@ -102,7 +108,7 @@ export const EditTodo: FC<EditTodoProps> = memo(({ todo }) => {
                     />
                 </Modal>
             )}
-        </>
+        </div>
     );
 });
 
