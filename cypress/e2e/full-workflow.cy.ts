@@ -254,7 +254,6 @@ describe('Полный workflow приложения', () => {
             expect(interception.response?.statusCode).to.be.oneOf([200, 204]);
         });
         cy.contains(label2).should('not.exist');
-        cy.wait(500);
         cy.contains(todo2.title)
             .closest('[data-testid="todo-card"]')
             .within(() => {
@@ -265,11 +264,15 @@ describe('Полный workflow приложения', () => {
 
     it('10. Удаление задачи', () => {
         cy.login();
+        cy.intercept('DELETE', '**/todos/*').as('deleteTodosRequest');
         cy.deleteTodoViaUI('Измененная первая задача');
-        cy.wait(1000);
-        cy.contains('Измененная первая задача').should('not.exist');
-
-        cy.contains(todo2.title).should('be.visible');
+        cy.wait('@deleteTodosRequest').then(interception => {
+            expect(interception.response?.statusCode).to.be.oneOf([200, 204]);
+        });
+        cy.get('[class*="cardsColumn"]').within(() => {
+            cy.contains('Измененная первая задача').should('not.exist');
+        });
+        cy.contains(todo2.title).scrollIntoView().should('be.visible');
     });
 
     it('11. Проверка API после всех операций', () => {
