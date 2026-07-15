@@ -7,7 +7,7 @@ import {
     forwardRef,
     useId,
 } from 'react';
-import cls from './DateTimePicker.module.css'; // Наследует стили твоего инпута
+import cls from './DateTimePicker.module.css';
 import { Text } from '../Text/Text';
 import { VStack } from '../Stack/VStack/VStack';
 import clsx from 'clsx';
@@ -60,6 +60,7 @@ interface DateTimePickerProps extends HTMLDateTimeInputProps {
     'aria-errormessage'?: string;
 }
 
+// TODO: Не используется react-datepicker, понять что сделать убрать либо или внедрить
 export const DateTimePicker = memo(
     forwardRef<HTMLInputElement, DateTimePickerProps>((props, ref) => {
         const {

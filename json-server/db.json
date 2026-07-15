@@ -944,42 +944,6 @@
       "endDate": "2026-07-09T05:00:00.000Z"
     },
     {
-      "id": "1783937944657",
-      "title": "Тестовая задача",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-13T10:19:04.657Z",
-      "updatedAt": "2026-07-13T10:19:04.657Z",
-      "startDate": "2026-07-13T20:18:00.000Z",
-      "endDate": "2026-07-13T23:18:00.000Z"
-    },
-    {
-      "id": "1783938298223",
-      "title": "Тест",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-13T10:24:58.223Z",
-      "updatedAt": "2026-07-13T10:24:58.223Z",
-      "startDate": "2026-07-13T00:00:00.000Z",
-      "endDate": "2026-07-13T01:24:00.000Z"
-    },
-    {
-      "id": "1783938328790",
-      "title": "Тест",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-13T10:25:28.790Z",
-      "updatedAt": "2026-07-13T10:25:28.790Z",
-      "startDate": "2026-07-13T20:25:00.000Z",
-      "endDate": "2026-07-13T20:29:00.000Z"
-    },
-    {
       "id": "1783938661431",
       "title": "Динамическая Просроченная",
       "description": "Тест",
@@ -1030,6 +994,17 @@
       ],
       "createdAt": "2026-07-13T10:31:53.513Z",
       "updatedAt": "2026-07-13T10:32:12.004Z"
+    },
+    {
+      "id": "1783939110657",
+      "title": "Задача",
+      "description": "",
+      "completed": false,
+      "userId": "695a986c820ddc26e77a36d1",
+      "labels": [],
+      "createdAt": "2026-07-13T10:38:30.657Z",
+      "updatedAt": "2026-07-13T10:38:30.657Z",
+      "endDate": "2026-07-13T15:00:00.000Z"
     }
   ],
   "labels": [
