@@ -34,14 +34,33 @@
     border: 1px solid rgba(255,255,255,0.06)
 }
 
+.card {
+    padding: 4px;
+}
+
+.emptyBlock {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--button-bg-primary);
+}
 
 /* --- АДАПТИВ (Мобилки / Планшеты) --- */
 @media (max-width: 1024px) {
     .mobileToggleWrapper {
         display: flex;
         justify-content: center;
-        padding: 12px 0;
-        background-color: #fff;
+        padding-bottom: 24px;
     }
 
     .layoutContainer {
@@ -51,6 +70,7 @@
 
     /* Скрываем обе части на мобилке по умолчанию */
     .scheduleColumn,
+    .emptyBlock,
     .cardsColumn {
         display: none;
         height: 100%;
@@ -60,6 +80,11 @@
     .scheduleColumn.showMobile {
         display: flex;
         flex-direction: column;
+    }
+    
+    .emptyBlock.showMobile {
+        display: flex;
+        height: 250px;
     }
     
     .cardsColumn.showMobile {

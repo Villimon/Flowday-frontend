@@ -105,7 +105,7 @@ export const Tabs = memo(
                             <Flex gap="2" align="center">
                                 {tab.Icon && (
                                     <span className={cls.icon} aria-hidden="true">
-                                        <Icon Svg={tab.Icon} />
+                                        <Icon Svg={tab.Icon} width={14} height={14} />
                                     </span>
                                 )}
 

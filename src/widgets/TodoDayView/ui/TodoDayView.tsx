@@ -1,7 +1,7 @@
-import { FC, memo, useState, JSX } from 'react';
+import { FC, memo, useState, JSX, useMemo, useCallback } from 'react';
 import styles from './TodoDayView.module.css';
 import clsx from 'clsx';
-import { Card, HStack, Text, VStack } from '@/shared/ui';
+import { Button, Card, HStack, Text, VStack } from '@/shared/ui';
 import { Todo, TodoDayData } from '@/entities/Todos/model/types/types';
 import { TodoCard } from '@/entities/Todos/ui/TodoCard/todo-card';
 import { Chip } from '@/shared/ui/Chip/Chip';
@@ -10,6 +10,12 @@ import CalendarIcon from '@/shared/assets/calendar-card.svg';
 import LayersIcon from '@/shared/assets/layers.svg';
 import { DayTimeline } from './components/DayTimeline';
 import { useDayTimelineData } from '../model/hooks/useDayTimelineData';
+import { TabItem, Tabs } from '@/shared/ui/Tabs/Tabs';
+import ScheduleIcon from '@/shared/assets/calendar-card.svg';
+import CardsIcon from '@/shared/assets/list.svg';
+import { CreateTodo } from '@/features/CreateTodo';
+import { addHours, format, setHours, setMinutes } from 'date-fns';
+import { useMedia } from '@/shared/hooks/useDevice/useDevice';
 
 type MobileTab = 'cards' | 'schedule';
 
@@ -23,34 +29,48 @@ interface TodoDayView {
 
 export const TodoDayView: FC<TodoDayView> = memo(
     ({ todos, renderActions, onToggle, isAllTab, currentDate }) => {
-        const [activeTab] = useState<MobileTab>('cards');
+        const [activeTab, setActiveTab] = useState<MobileTab>('cards');
+        const isMobile = useMedia('(max-width: 1024px)');
 
         const { totalHours, startHour, endHour, finalTodosToRender } = useDayTimelineData(todos);
 
+        const handleChangeTab = useCallback((value: TabItem) => {
+            setActiveTab(value.value as MobileTab);
+        }, []);
+
+        const filterItems: TabItem[] = useMemo(
+            () => [
+                { value: 'cards', content: 'Карточки', Icon: CardsIcon },
+                { value: 'schedule', content: 'График', Icon: ScheduleIcon },
+            ],
+            []
+        );
+
+        const getDefaultTaskRange = useMemo(() => {
+            const start = setMinutes(setHours(new Date(currentDate), 9), 0);
+            const end = addHours(start, 1);
+
+            return {
+                startDate: format(start, 'dd.MM.yyyy HH:mm'),
+                endDate: format(end, 'dd.MM.yyyy HH:mm'),
+            };
+        }, [currentDate]);
+
         return (
             <section className={styles.main}>
-                {/* <div className={styles.mobileToggleWrapper}>
-                <div className={styles.segmentedControl}>
-                    <button
-                        className={clsx(styles.toggleBtn, activeTab === 'cards' && styles.active)}
-                        onClick={() => setActiveTab('cards')}
-                    >
-                        Карточки
-                    </button>
-                    <button
-                        className={clsx(
-                            styles.toggleBtn,
-                            activeTab === 'schedule' && styles.active
-                        )}
-                        onClick={() => setActiveTab('schedule')}
-                    >
-                        График
-                    </button>
+                <div className={styles.mobileToggleWrapper}>
+                    <Card variant="elevated" className={styles.card} radius="xl">
+                        <Tabs tabs={filterItems} onTabClick={handleChangeTab} value={activeTab} />
+                    </Card>
                 </div>
-            </div> */}
 
                 <div className={styles.layoutContainer}>
-                    <div className={clsx(activeTab === 'schedule' && styles.showMobile)}>
+                    <div
+                        className={clsx(
+                            styles.scheduleColumn,
+                            activeTab === 'schedule' && styles.showMobile
+                        )}
+                    >
                         <DayTimeline
                             todosWithTime={finalTodosToRender}
                             totalBlock={totalHours}
@@ -59,7 +79,7 @@ export const TodoDayView: FC<TodoDayView> = memo(
                             currentDate={currentDate}
                         />
                     </div>
-                    {(Boolean(todos?.withoutDate.length) || Boolean(todos?.withDate.length)) && (
+                    {Boolean(todos?.withoutDate.length) || Boolean(todos?.withDate.length) ? (
                         <VStack
                             gap="8"
                             fullWidth
@@ -120,6 +140,41 @@ export const TodoDayView: FC<TodoDayView> = memo(
                                 </Card>
                             )}
                         </VStack>
+                    ) : (
+                        <Card
+                            radius="xl"
+                            className={clsx(
+                                styles.emptyBlock,
+                                activeTab === 'cards' && styles.showMobile
+                            )}
+                        >
+                            <VStack gap="8" fullWidth align="center">
+                                <div className={styles.emptyIcon}>
+                                    <Icon Svg={CalendarIcon} />
+                                </div>
+                                <VStack fullWidth align="center">
+                                    <Text text="Свободный день" weight="bold" />
+                                    <Text
+                                        text={
+                                            isMobile
+                                                ? 'Нажмите «Добавить задачу» или кликните по времени на оси в блоке «График».'
+                                                : 'Нажмите «Добавить задачу» или кликните по времени на оси сверху.'
+                                        }
+                                        size="xs"
+                                        variant="secondary"
+                                        align="center"
+                                    />
+                                </VStack>
+                                <CreateTodo
+                                    renderTrigger={openModal => (
+                                        <Button radius="xl" size="sm" onClick={openModal}>
+                                            Добавить задачу
+                                        </Button>
+                                    )}
+                                    initialValues={getDefaultTaskRange}
+                                />
+                            </VStack>
+                        </Card>
                     )}
                 </div>
             </section>
