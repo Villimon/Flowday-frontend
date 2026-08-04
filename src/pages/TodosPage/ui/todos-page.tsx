@@ -19,6 +19,7 @@ import { EditTodo } from '@/features/EditTodo';
 import { DeleteTodo } from '@/features/DeleteTodo';
 import { useToggleTodo } from '@/features/ToggleTodo';
 import { toast } from 'react-toastify';
+import { RemoveCompletedTodos } from '@/features/RemoveCompletedTodos';
 
 // TODO: Если захочу чтобы состояние сохранялось перейти на Стейт в URL-квери параметрах (?view=week&status=active), а внутри фич брать все из роута (url)
 // Либо сделать контекст для страницы
@@ -140,6 +141,18 @@ const TodosPage = memo(() => {
                             <Text text={getTodoHeaderTitle()} weight="bold" />
                         </HStack>
                         <HStack fullWidth wrap="wrap" gap="4" align="center" justify="end">
+                            {status === 'completed' && (
+                                <RemoveCompletedTodos
+                                    date={currentDate}
+                                    status={status}
+                                    view={view}
+                                    title={
+                                        isDayView
+                                            ? 'Очистить выполненные за день'
+                                            : 'Очистить все выполненные'
+                                    }
+                                />
+                            )}
                             <FilterTodos
                                 currentStatus={status}
                                 onStatusChange={handleStatusChange}

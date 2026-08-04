@@ -403,6 +403,98 @@ export default (server, router) => {
         }
     });
 
+    server.delete('/api/todos/completed', (req, res) => {
+        try {
+            const userId = req.headers.userid;
+            const timezone = req.headers['x-timezone'];
+
+            const { view, date } = req.query;
+
+            const { db } = router;
+
+            if (view === 'day' && !date) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Параметр "date" обязателен для day',
+                });
+            }
+
+            let targetDateStr = '';
+            let userTodayStr = '';
+            let isRequestedToday = false;
+
+            if (view === 'day') {
+                // YYYY-MM-DD дня, который смотрит пользователь
+                targetDateStr = String(date);
+                // YYYY-MM-DD сегодняшнего дня в таймзоне пользователя
+                userTodayStr = formatInTimeZone(new Date(), timezone, 'yyyy-MM-dd');
+                // Флаг: смотрит ли юзер СЕГОДНЯ
+                isRequestedToday = targetDateStr === userTodayStr;
+            }
+
+            const isUnscheduledTask = todo => {
+                const dateToCheck = todo.startDate || todo.endDate;
+                if (!dateToCheck) return true;
+
+                const zonedDate = toZonedTime(new Date(dateToCheck), timezone);
+                return (
+                    zonedDate.getHours() === 0 &&
+                    zonedDate.getMinutes() === 0 &&
+                    zonedDate.getSeconds() === 0
+                );
+            };
+
+            const getTaskDateStr = todo => {
+                const rawDate = todo.startDate || todo.endDate;
+                if (!rawDate) return null;
+                return formatInTimeZone(new Date(rawDate), timezone, 'yyyy-MM-dd');
+            };
+
+            db.get('todos')
+                .remove(todo => {
+                    if (!todo.completed || userId !== todo.userId) {
+                        return false;
+                    }
+
+                    if (view === 'list') {
+                        return true;
+                    }
+
+                    if (view === 'day') {
+                        const taskDateStr = getTaskDateStr(todo);
+
+                        // 1. Задача привязана к просматриваемому дню
+                        const isTaskOnTargetDate =
+                            taskDateStr !== null && taskDateStr === targetDateStr;
+
+                        // 2. Задача "без даты" (даты нет вообще ИЛИ время 00:00:00)
+                        const isUnscheduled = isUnscheduledTask(todo);
+
+                        // 1. Если дата задачи = просматриваемый день -> УДАЛЯЕМ
+                        if (isTaskOnTargetDate) {
+                            return true;
+                        }
+
+                        // 2. Если смотрит "Сегодня" И задача "без времени" -> УДАЛЯЕМ
+                        if (isRequestedToday && isUnscheduled) {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                })
+                .write();
+
+            res.status(200).json({
+                success: true,
+                message: 'Все выполненные задачи удалены',
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: error.message });
+        }
+    });
+
     server.delete('/api/todos/:id', (req, res) => {
         try {
             const userId = req.headers.userid;

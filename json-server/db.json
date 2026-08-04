@@ -24,143 +24,6 @@
   ],
   "todos": [
     {
-      "id": "1772806436732",
-      "title": "Покурить кальян",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": 1772806436732,
-      "updatedAt": "2026-07-01T16:31:55.574Z"
-    },
-    {
-      "id": "1772806444863",
-      "title": "Помыть кальян",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": 1772806444863,
-      "updatedAt": "2026-05-02T12:44:42.996Z"
-    },
-    {
-      "id": "1773251149660",
-      "title": "Делаем нормальное название",
-      "description": "И добавляем описание",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-11T17:45:49.660Z",
-      "updatedAt": "2026-05-02T12:44:42.577Z"
-    },
-    {
-      "id": "1773251901162",
-      "title": "Задача для теста, у которой мы поменяли название",
-      "description": "Текст для теста, чтобы посомтреть как будет выглядеть. И поменяли описание",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-11T17:58:21.162Z",
-      "updatedAt": "2026-07-01T16:31:56.794Z"
-    },
-    {
-      "id": "1773252431335",
-      "title": "Последняя проверка",
-      "description": "Проверяем что все создается и работает",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-11T18:07:11.335Z",
-      "updatedAt": "2026-07-01T16:37:13.679Z"
-    },
-    {
-      "id": "1773300693464",
-      "title": "Это измененное название",
-      "description": "А это измененное описание задачи",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-12T07:31:33.464Z",
-      "updatedAt": "2026-07-01T16:37:16.371Z"
-    },
-    {
-      "id": "1773301091983",
-      "title": "Название мы меняем и теперь оно такое",
-      "description": "Описание по приколу. А тут добавили еще одно предложение",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-12T07:38:11.983Z",
-      "updatedAt": "2026-07-01T16:37:18.385Z",
-      "labels": [
-        "1777745694141",
-        "1777745760861",
-        "1777748020469"
-      ]
-    },
-    {
-      "id": "1773400966411",
-      "title": "Новая задача",
-      "description": "Описание по приколу",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "createdAt": "2026-03-13T11:22:46.411Z",
-      "updatedAt": "2026-07-01T16:37:18.884Z"
-    },
-    {
-      "id": "1777750500887",
-      "title": "Задача с метками",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777745694141",
-        "1777748020469"
-      ],
-      "createdAt": "2026-05-02T19:35:00.887Z",
-      "updatedAt": "2026-06-16T16:06:26.743Z"
-    },
-    {
-      "id": "1777795226869",
-      "title": "Тест лейблов",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777748020469",
-        "1777745694141"
-      ],
-      "createdAt": "2026-05-03T08:00:26.869Z",
-      "updatedAt": "2026-07-01T16:37:19.290Z"
-    },
-    {
-      "id": "1777795237873",
-      "title": "Без лейбла",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-05-03T08:00:37.873Z",
-      "updatedAt": "2026-06-16T16:06:25.516Z"
-    },
-    {
-      "id": "1781628890996",
-      "title": "Привет",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777748020469"
-      ],
-      "createdAt": "2026-06-16T16:54:50.996Z",
-      "updatedAt": "2026-07-01T16:37:21.208Z"
-    },
-    {
-      "id": "1781628902780",
-      "title": "Новая тестовая задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777748020469"
-      ],
-      "createdAt": "2026-06-16T16:55:02.780Z",
-      "updatedAt": "2026-07-02T10:54:08.821Z"
-    },
-    {
       "id": "1781628931328",
       "title": "Новая тестовая задача с лейбалми",
       "description": "",
@@ -187,16 +50,6 @@
       "updatedAt": "2026-07-02T10:54:13.415Z"
     },
     {
-      "id": "1781631780095",
-      "title": "Новая задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-06-16T17:43:00.095Z",
-      "updatedAt": "2026-06-16T17:43:05.305Z"
-    },
-    {
       "id": "1781631792063",
       "title": "Новая задача",
       "description": "",
@@ -220,36 +73,6 @@
       ],
       "createdAt": "2026-06-16T17:43:25.515Z",
       "updatedAt": "2026-06-17T17:05:13.377Z"
-    },
-    {
-      "id": "1782389553956",
-      "title": "фыв",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-06-25T12:12:33.956Z",
-      "updatedAt": "2026-06-25T12:12:33.956Z"
-    },
-    {
-      "id": "1782389948670",
-      "title": "qwewqe",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-06-25T12:19:08.670Z",
-      "updatedAt": "2026-07-01T16:31:46.721Z"
-    },
-    {
-      "id": "1782389991405",
-      "title": "asdasd",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-06-25T12:19:51.405Z",
-      "updatedAt": "2026-07-01T16:31:45.505Z"
     },
     {
       "id": "1782390705627",
@@ -295,82 +118,6 @@
       "endDate": "2026-07-02T21:00:00.000Z"
     },
     {
-      "id": "1782916098805",
-      "title": "test123",
-      "description": "12312qweqweasd",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777748020469"
-      ],
-      "createdAt": "2026-07-01T14:28:18.805Z",
-      "updatedAt": "2026-07-01T14:28:18.805Z",
-      "startDate": "2026-07-01T21:00:00.000Z",
-      "endDate": "2026-07-16T21:00:00.000Z"
-    },
-    {
-      "id": "1782916112180",
-      "title": "sdfsdf",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-01T14:28:32.180Z",
-      "updatedAt": "2026-07-01T16:25:14.132Z"
-    },
-    {
-      "id": "1782916160839",
-      "title": "qwe",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777745694141"
-      ],
-      "createdAt": "2026-07-01T14:29:20.839Z",
-      "updatedAt": "2026-07-01T16:25:10.171Z"
-    },
-    {
-      "id": "1782916237031",
-      "title": "ASD",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-01T14:30:37.031Z",
-      "updatedAt": "2026-07-01T16:18:10.902Z"
-    },
-    {
-      "id": "1782916253517",
-      "title": "qwe",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-01T14:30:53.517Z",
-      "updatedAt": "2026-07-01T16:17:28.149Z"
-    },
-    {
-      "id": "1782916368911",
-      "title": "йцуйцу",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-01T14:32:48.911Z",
-      "updatedAt": "2026-07-01T16:16:48.563Z"
-    },
-    {
-      "id": "1782916523800",
-      "title": "ТЕСТ123132",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-01T14:35:23.800Z",
-      "updatedAt": "2026-07-01T16:16:42.894Z"
-    },
-    {
       "id": "1782989213577",
       "title": "Просроченная задача",
       "description": "",
@@ -380,18 +127,6 @@
       "createdAt": "2026-07-02T10:46:53.577Z",
       "updatedAt": "2026-07-02T10:46:53.577Z",
       "startDate": "2026-06-29T21:00:00.000Z"
-    },
-    {
-      "id": "1782989315255",
-      "title": "Просроченная задача",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T10:48:35.255Z",
-      "updatedAt": "2026-07-02T12:14:04.126Z",
-      "startDate": "2026-06-29T21:00:00.000Z",
-      "endDate": "2026-06-30T21:00:00.000Z"
     },
     {
       "id": "1782989341416",
@@ -429,18 +164,6 @@
       "endDate": "2026-07-04T21:00:00.000Z"
     },
     {
-      "id": "1782989571946",
-      "title": "Задача на этой недели 2",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T10:52:51.946Z",
-      "updatedAt": "2026-07-02T10:52:51.946Z",
-      "startDate": "2026-07-03T21:00:00.000Z",
-      "endDate": "2026-07-04T21:00:00.000Z"
-    },
-    {
       "id": "1782989591039",
       "title": "Задача без даты",
       "description": "",
@@ -459,16 +182,6 @@
       "labels": [],
       "createdAt": "2026-07-02T10:53:53.093Z",
       "updatedAt": "2026-07-02T12:06:11.466Z"
-    },
-    {
-      "id": "1782991928159",
-      "title": "ПРОСРОЧЕННАЯ ЗАДАЧА",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T11:32:08.159Z",
-      "updatedAt": "2026-07-02T11:32:08.159Z"
     },
     {
       "id": "1782991939451",
@@ -529,18 +242,6 @@
       "endDate": "2026-07-05T10:33:00.000Z"
     },
     {
-      "id": "1782992026567",
-      "title": "СЕГОДНЯШНЯЯ ЗАДАЧА 4",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T11:33:46.567Z",
-      "updatedAt": "2026-07-02T11:33:46.567Z",
-      "startDate": "2026-06-30T21:00:00.000Z",
-      "endDate": "2026-07-03T21:00:00.000Z"
-    },
-    {
       "id": "1782992055442",
       "title": "НА ЭТОЙ НЕДЕЛИ",
       "description": "",
@@ -564,16 +265,6 @@
       "startDate": "2026-07-07T21:00:00.000Z"
     },
     {
-      "id": "1782992076708",
-      "title": "БЕЗ ДАТЫ",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T11:34:36.708Z",
-      "updatedAt": "2026-07-02T12:10:40.989Z"
-    },
-    {
       "id": "1783000090249",
       "title": "Название название",
       "description": "",
@@ -588,113 +279,6 @@
       "endDate": "2026-07-09T15:10:00.000Z"
     },
     {
-      "id": "1783002439956",
-      "title": "asdasd",
-      "description": "asdasdasd",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777745694141",
-        "1777748020469"
-      ],
-      "createdAt": "2026-07-02T14:27:19.956Z",
-      "updatedAt": "2026-07-02T14:27:19.956Z"
-    },
-    {
-      "id": "1783003041471",
-      "title": "asdasd",
-      "description": "asdasd",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        {
-          "id": "1777745694141",
-          "name": "Работа",
-          "userId": "695a986c820ddc26e77a36d1",
-          "color": "#4ECDC4"
-        },
-        {
-          "id": "1777748020469",
-          "name": "Спорт",
-          "userId": "695a986c820ddc26e77a36d1",
-          "color": "#DDA0DD"
-        }
-      ],
-      "createdAt": "2026-07-02T14:37:21.471Z",
-      "updatedAt": "2026-07-02T14:37:21.471Z"
-    },
-    {
-      "id": "1783003073055",
-      "title": "qwe",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-02T14:37:53.055Z",
-      "updatedAt": "2026-07-02T14:37:53.055Z"
-    },
-    {
-      "id": "1783003080009",
-      "title": "qweqwe",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        {
-          "id": "1777745694141",
-          "name": "Работа",
-          "userId": "695a986c820ddc26e77a36d1",
-          "color": "#4ECDC4"
-        },
-        {
-          "id": "1777748020469",
-          "name": "Спорт",
-          "userId": "695a986c820ddc26e77a36d1",
-          "color": "#DDA0DD"
-        }
-      ],
-      "createdAt": "2026-07-02T14:38:00.009Z",
-      "updatedAt": "2026-07-02T14:38:00.009Z"
-    },
-    {
-      "id": "1783003229585",
-      "title": "zxc",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777745694141",
-        "1777748020469"
-      ],
-      "createdAt": "2026-07-02T14:40:29.585Z",
-      "updatedAt": "2026-07-02T14:40:29.585Z"
-    },
-    {
-      "id": "1783003316633",
-      "title": "zxc123",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777745694141",
-        "1777748020469"
-      ],
-      "createdAt": "2026-07-02T14:41:56.633Z",
-      "updatedAt": "2026-07-02T14:41:56.633Z"
-    },
-    {
-      "id": "1783428262972",
-      "title": "Без времени",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-07T12:44:22.972Z",
-      "updatedAt": "2026-07-07T12:44:22.972Z",
-      "startDate": "2026-07-06T21:00:00.000Z",
-      "endDate": "2026-07-06T21:00:00.000Z"
-    },
-    {
       "id": "1783428287494",
       "title": "Со временем",
       "description": "",
@@ -705,53 +289,6 @@
       "updatedAt": "2026-07-07T14:44:10.127Z",
       "startDate": "2026-07-07T14:44:00.000Z",
       "endDate": "2026-07-07T16:44:00.000Z"
-    },
-    {
-      "id": "1783435601195",
-      "title": "Test",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-07T14:46:41.195Z",
-      "updatedAt": "2026-07-07T14:46:41.195Z",
-      "startDate": "2026-07-06T21:00:00.000Z",
-      "endDate": "2026-07-06T21:00:00.000Z"
-    },
-    {
-      "id": "1783435640321",
-      "title": "UIO",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-07T14:47:20.321Z",
-      "updatedAt": "2026-07-07T14:47:20.321Z",
-      "startDate": "2026-07-06T21:00:00.000Z",
-      "endDate": "2026-07-06T21:00:00.000Z"
-    },
-    {
-      "id": "1783589863630",
-      "title": "Test",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-09T09:37:43.630Z",
-      "updatedAt": "2026-07-09T15:21:42.185Z",
-      "startDate": "2026-07-09T07:00:00.000Z"
-    },
-    {
-      "id": "1783590404239",
-      "title": "Test",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-09T09:46:44.239Z",
-      "updatedAt": "2026-07-09T15:21:41.080Z",
-      "startDate": "2026-07-09T06:10:00.000Z",
-      "endDate": "2026-07-09T09:46:00.000Z"
     },
     {
       "id": "1783591574866",
@@ -768,18 +305,6 @@
       "endDate": "2026-07-09T12:06:00.000Z"
     },
     {
-      "id": "1783596841306",
-      "title": "Тест",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-09T11:34:01.306Z",
-      "updatedAt": "2026-07-09T15:21:41.623Z",
-      "startDate": "2026-07-09T10:36:00.000Z",
-      "endDate": "2026-07-09T15:33:00.000Z"
-    },
-    {
       "id": "1783596884937",
       "title": "Тест йцуйцу",
       "description": "",
@@ -792,44 +317,6 @@
       "updatedAt": "2026-07-10T13:08:30.055Z",
       "startDate": "2026-07-09T16:34:00.000Z",
       "endDate": "2026-07-09T19:34:00.000Z"
-    },
-    {
-      "id": "1783606422552",
-      "title": "Первая задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-09T14:13:42.552Z",
-      "updatedAt": "2026-07-09T15:33:35.449Z",
-      "startDate": "2026-07-10T01:00:00.000Z"
-    },
-    {
-      "id": "1783606472366",
-      "title": "Вторая задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1777748020469"
-      ],
-      "createdAt": "2026-07-09T14:14:32.366Z",
-      "updatedAt": "2026-07-09T15:33:43.748Z",
-      "startDate": "2026-07-10T07:00:00.000Z",
-      "endDate": "2026-07-10T12:00:00.000Z"
-    },
-    {
-      "id": "1783606489389",
-      "title": "Третья задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [
-        "1783005442440"
-      ],
-      "createdAt": "2026-07-09T14:14:49.389Z",
-      "updatedAt": "2026-07-09T15:33:53.112Z",
-      "endDate": "2026-07-10T17:00:00.000Z"
     },
     {
       "id": "1783606601514",
@@ -864,30 +351,6 @@
       "updatedAt": "2026-07-10T13:06:16.038Z",
       "startDate": "2026-07-11T06:34:00.000Z",
       "endDate": "2026-07-11T17:34:00.000Z"
-    },
-    {
-      "id": "1783687776238",
-      "title": "Тест задача",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-10T12:49:36.238Z",
-      "updatedAt": "2026-07-28T07:51:06.271Z",
-      "startDate": "2026-07-11T12:00:00.000Z",
-      "endDate": "2026-07-11T16:00:00.000Z"
-    },
-    {
-      "id": "1783687787787",
-      "title": "Тест задача времени",
-      "description": "",
-      "completed": true,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-10T12:49:47.787Z",
-      "updatedAt": "2026-07-28T07:51:07.899Z",
-      "startDate": "2026-07-11T18:00:00.000Z",
-      "endDate": "2026-07-11T19:00:00.000Z"
     },
     {
       "id": "1783687799875",
@@ -1005,90 +468,6 @@
       "createdAt": "2026-07-13T10:38:30.657Z",
       "updatedAt": "2026-07-13T10:38:30.657Z",
       "endDate": "2026-07-13T15:00:00.000Z"
-    },
-    {
-      "id": "1785225229347",
-      "title": "Test",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T07:53:49.347Z",
-      "updatedAt": "2026-07-28T07:53:49.347Z",
-      "startDate": "2026-07-11T21:00:00.000Z",
-      "endDate": "2026-07-11T21:00:00.000Z"
-    },
-    {
-      "id": "1785225348317",
-      "title": "12.07",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T07:55:48.317Z",
-      "updatedAt": "2026-07-28T07:55:48.317Z",
-      "startDate": "2026-07-11T21:00:00.000Z",
-      "endDate": "2026-07-11T21:00:00.000Z"
-    },
-    {
-      "id": "1785225715687",
-      "title": "28.07",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T08:01:55.687Z",
-      "updatedAt": "2026-07-28T08:01:55.687Z",
-      "startDate": "2026-07-27T21:00:00.000Z",
-      "endDate": "2026-07-27T21:00:00.000Z"
-    },
-    {
-      "id": "1785225858996",
-      "title": "28.07 (2)",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T08:04:18.996Z",
-      "updatedAt": "2026-07-28T08:04:18.996Z",
-      "startDate": "2026-07-27T21:00:00.000Z",
-      "endDate": "2026-07-27T21:00:00.000Z"
-    },
-    {
-      "id": "1785226109417",
-      "title": "29.07",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T08:08:29.417Z",
-      "updatedAt": "2026-07-28T08:08:29.417Z",
-      "startDate": "2026-07-29T07:00:00.000Z",
-      "endDate": "2026-07-29T08:00:00.000Z"
-    },
-    {
-      "id": "1785226512795",
-      "title": "30.07",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T08:15:12.795Z",
-      "updatedAt": "2026-07-28T08:15:12.795Z",
-      "startDate": "2026-07-30T06:00:00.000Z",
-      "endDate": "2026-07-30T07:00:00.000Z"
-    },
-    {
-      "id": "1785226789554",
-      "title": "01.08",
-      "description": "",
-      "completed": false,
-      "userId": "695a986c820ddc26e77a36d1",
-      "labels": [],
-      "createdAt": "2026-07-28T08:19:49.554Z",
-      "updatedAt": "2026-07-28T08:19:49.554Z",
-      "startDate": "2026-08-01T06:00:00.000Z",
-      "endDate": "2026-08-01T07:00:00.000Z"
     }
   ],
   "labels": [
