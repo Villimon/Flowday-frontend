@@ -1,24 +1,10 @@
-import { useCallback } from 'react';
 import styles from './error-page.module.css';
-import { Button, Text, VStack } from '@/shared/ui';
-import { useNavigate } from 'react-router-dom';
-import { getRouteMain } from '@/shared/constants/router';
+import { ErrorFallback } from '@/widgets/ErrorFallback';
 
 const ErrorPage = () => {
-    const navigate = useNavigate();
-
-    const handleRedirect = useCallback(() => {
-        navigate(getRouteMain());
-    }, [navigate]);
-
     return (
         <div className={styles.block} role="main">
-            <VStack gap="8" align="center">
-                <Text title="Упс, такой страницы нет" size="4xl" />
-                <Button onClick={handleRedirect} size="xl">
-                    Вернуться на главную
-                </Button>
-            </VStack>
+            <ErrorFallback title="Упс, такой страницы нет" />
         </div>
     );
 };
