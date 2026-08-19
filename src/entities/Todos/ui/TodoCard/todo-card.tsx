@@ -40,11 +40,11 @@ export const TodoCard: FC<TodoCardProps> = memo(
                 className={clsx(styles.todoCard, className, {
                     [styles.completed]: isCompleted,
                 })}
-                onClick={handleToggleTodo}
                 lang="ru"
             >
                 <HStack gap="8" align="start" className={styles.body}>
                     <Icon
+                        onClick={handleToggleTodo}
                         aria-label={
                             todo.completed
                                 ? 'Отметить как невыполненное'

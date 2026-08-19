@@ -1,4 +1,4 @@
-import { Button, Input, Text, VStack } from '@/shared/ui';
+import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, memo, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -111,15 +111,20 @@ export const LoginForm: FC<LoginFormProps> = memo(({ onClose, isRedirect = false
                         <Text variant="error" text={mutationError.message} size="sm" />
                     )}
                 </VStack>
-                <Button
-                    data-testid="submit-login-button"
-                    loading={isLoggingIn}
-                    disabled={isLoggingIn}
-                    fullWidth
-                    type="submit"
-                >
-                    Войти
-                </Button>
+                <HStack fullWidth gap="4" justify="end">
+                    <Button disabled={isLoggingIn} variant="outline" onClick={handleCloseModal}>
+                        Закрыть
+                    </Button>
+                    <Button
+                        loading={isLoggingIn}
+                        disabled={isLoggingIn}
+                        variant="filled"
+                        type="submit"
+                        data-testid="submit-login-button"
+                    >
+                        Войти
+                    </Button>
+                </HStack>
             </VStack>
         </form>
     );

@@ -7,18 +7,15 @@
     background-color: var(--color-surface, #1f2937);
     
     &:focus-within {
-        outline: 2px solid var(--color-primary-500);
-        outline-offset: 2px;
         border-color: var(--color-primary-500);
-        box-shadow: 0 0 0 3px var(--color-primary-900);
+        box-shadow: 0 0 0 2px var(--color-primary-900);
     }
     
     &.error {
         border-color: var(--color-error-500) !important;
         
         &:focus-within {
-            outline-color: var(--color-error-500);
-            box-shadow: 0 0 0 3px var(--color-error-900);
+            box-shadow: 0 0 0 2px var(--color-error-900);
         }
     }
     
@@ -98,11 +95,11 @@
     border-color: var(--color-border, #374151);
     background-color: transparent;
     
-    &:hover:not(.disabled):not(.readOnly) {
-        border-color: var(--color-border-heavy, #4b5563);
+    &:hover:not(.disabled):not(.readOnly):not(:focus-within) {
+        border-color: var(--color-border-focused);
     }
     
-    &.focused:not(.error) {
+    &:focus-within:not(.error) {
         border-color: var(--color-primary-500);
     }
 }
@@ -111,12 +108,11 @@
     border-color: transparent;
     background-color: var(--color-surface-elevated, #374151);
     
-    &:hover:not(.disabled):not(.readOnly) {
-        background-color: var(--color-surface-hover, #4b5563);
+    &:hover:not(.disabled):not(.readOnly):not(:focus-within) {
+        border-color: var(--color-surface-hover);
     }
-    
-    &.focused:not(.error) {
-        background-color: var(--color-surface-elevated, #374151);
+  
+    &:focus-within:not(.error) {
         border-color: var(--color-primary-500);
     }
 }
@@ -124,12 +120,12 @@
 .variant-ghost {
     border-color: transparent;
     background-color: transparent;
-    
-    &:hover:not(.disabled):not(.readOnly) {
-        background-color: var(--color-surface-hover, #374151);
+
+    &:hover:not(.disabled):not(.readOnly):not(:focus-within) {
+        border-color: var(--color-surface-hover);
     }
-    
-    &.focused:not(.error) {
+  
+    &:focus-within:not(.error) {
         background-color: var(--color-surface, #1f2937);
         border-color: var(--color-primary-500);
     }

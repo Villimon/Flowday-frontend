@@ -1,4 +1,4 @@
-import { Button, Input, Text, VStack } from '@/shared/ui';
+import { Button, HStack, Input, Text, VStack } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, memo, useCallback, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -125,14 +125,24 @@ export const RegisterForm: FC<RegisterFormProps> = memo(({ onClose }) => {
                         <Text variant="error" text={registerError.message} size="sm" />
                     )}
                 </VStack>
-                <Button
-                    loading={isFormSubmitting}
-                    disabled={isFormSubmitting}
-                    fullWidth
-                    type="submit"
-                >
-                    Зарегистроваться
-                </Button>
+                <HStack fullWidth gap="4" justify="end">
+                    <Button
+                        disabled={isFormSubmitting}
+                        variant="outline"
+                        onClick={handleCloseModal}
+                    >
+                        Закрыть
+                    </Button>
+                    <Button
+                        loading={isFormSubmitting}
+                        disabled={isFormSubmitting}
+                        variant="filled"
+                        type="submit"
+                        data-testid="submit-register-button"
+                    >
+                        Зарегистроваться
+                    </Button>
+                </HStack>
             </VStack>
         </form>
     );
