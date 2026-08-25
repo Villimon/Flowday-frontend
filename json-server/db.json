@@ -257,11 +257,11 @@
       "id": "1782992069481",
       "title": "БУДУЩАЯ ЗАДАЧА",
       "description": "",
-      "completed": false,
+      "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "labels": [],
       "createdAt": "2026-07-02T11:34:29.481Z",
-      "updatedAt": "2026-07-02T12:13:55.652Z",
+      "updatedAt": "2026-08-25T14:29:25.194Z",
       "startDate": "2026-07-07T21:00:00.000Z"
     },
     {
@@ -398,11 +398,11 @@
       "id": "1783688949755",
       "title": "Прикол",
       "description": "",
-      "completed": false,
+      "completed": true,
       "userId": "695a986c820ddc26e77a36d1",
       "labels": [],
       "createdAt": "2026-07-10T13:09:09.755Z",
-      "updatedAt": "2026-07-10T13:09:09.755Z",
+      "updatedAt": "2026-08-25T14:29:25.942Z",
       "startDate": "2026-07-09T04:00:00.000Z",
       "endDate": "2026-07-09T05:00:00.000Z"
     },

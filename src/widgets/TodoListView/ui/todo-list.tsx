@@ -145,21 +145,26 @@ export const TodoList: FC<TodoListProps> = memo(({ todos, renderActions, onToggl
             )}
             {Boolean(todos?.completed.length) && (
                 <VStack gap="4" fullWidth>
-                    <HStack fullWidth justify="between">
-                        <HStack fullWidth gap="4" align="center">
-                            <Text text="Завершённые" variant="tertiary" weight="bold" />
-                            <Chip label={String(todos?.completed.length)} />
+                    {isAllTab && (
+                        <HStack fullWidth justify="between">
+                            <HStack fullWidth gap="4" align="center">
+                                <Text text="Завершённые" variant="tertiary" weight="bold" />
+                                <Chip label={String(todos?.completed.length)} />
+                            </HStack>
+                            <Button
+                                onClick={() => toggleBlockVisibility('completed')}
+                                variant="clear"
+                            >
+                                {expandedBlocks['completed'] ? 'Скрыть' : 'Показать'}
+                            </Button>
                         </HStack>
-                        <Button onClick={() => toggleBlockVisibility('completed')} variant="clear">
-                            {expandedBlocks['completed'] ? 'Скрыть' : 'Показать'}
-                        </Button>
-                    </HStack>
-                    {expandedBlocks['completed'] &&
+                    )}
+                    {(isAllTab ? expandedBlocks['completed'] : true) &&
                         todos?.completed.map(todo => (
                             <TodoCard
                                 key={todo.id}
                                 todo={todo}
-                                isCompleted={isAllTab && todo.completed}
+                                isCompleted={isAllTab}
                                 renderActions={renderActions}
                                 onToggle={onToggle}
                             />
