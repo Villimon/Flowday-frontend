@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import styles from './todos-page.module.css';
 import { CreateTodo } from '@/features/CreateTodo';
 import { Card, HStack, Text, VStack } from '@/shared/ui';
@@ -32,6 +32,13 @@ const TodosPage = memo(() => {
     const isAllTab = status === 'all';
 
     const { mutate: toggleTodoMutate } = useToggleTodo();
+    const { data, isLoading, isError } = useTodos({ status, view, currentDate });
+
+    const lastCountsRef = useRef(data?.counts);
+
+    if (data?.counts) {
+        lastCountsRef.current = data.counts;
+    }
 
     const handleToggleTodo = useCallback(
         (todo: Todo) => {
@@ -63,8 +70,6 @@ const TodosPage = memo(() => {
     const handleNextDate = useCallback(() => {
         setCurrentDate(prev => addDays(prev, 1));
     }, []);
-
-    const { data, isLoading, isError } = useTodos({ status, view, currentDate });
 
     const getTodoHeaderTitle = (): string => {
         if (view === 'day') {
@@ -156,7 +161,7 @@ const TodosPage = memo(() => {
                             <FilterTodos
                                 currentStatus={status}
                                 onStatusChange={handleStatusChange}
-                                counts={data?.counts}
+                                counts={data?.counts ?? lastCountsRef.current}
                             />
                             <CreateTodo />
                         </HStack>
