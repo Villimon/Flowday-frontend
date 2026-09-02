@@ -44,6 +44,7 @@ export const TodoCard: FC<TodoCardProps> = memo(
             >
                 <HStack gap="8" align="start" className={styles.body}>
                     <Icon
+                        data-testid="todo-icon"
                         onClick={handleToggleTodo}
                         aria-label={
                             todo.completed

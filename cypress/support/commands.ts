@@ -99,7 +99,10 @@ Cypress.Commands.add('deleteTodoViaUI', (title: string) => {
 });
 
 Cypress.Commands.add('toggleTodoStatus', (title: string) => {
-    cy.contains('[data-testid="todo-card"]', title).click();
+    cy.contains(title)
+        .closest('[data-testid="todo-card"]')
+        .find('[data-testid="todo-icon"]')
+        .click();
 });
 
 Cypress.Commands.add(
