@@ -258,14 +258,10 @@ export default (server, router) => {
                 // Флаг: смотрит ли пользователь сегодняшний день
                 const isRequestedToday = isSameDay(targetDate, userToday);
 
-                let statusFiltered = enrichedTodos;
-                if (status === 'active') statusFiltered = enrichedTodos.filter(t => !t.completed);
-                if (status === 'completed') statusFiltered = enrichedTodos.filter(t => t.completed);
-
                 const withDateTodos = [];
                 const withoutDateTodos = [];
 
-                for (const todo of statusFiltered) {
+                for (const todo of enrichedTodos) {
                     const hasStart = !!todo.startDate;
                     const hasEnd = !!todo.endDate;
                     const hasTime = hasRealTime(todo); // Проверка, заданы ли часы/минуты
@@ -312,13 +308,32 @@ export default (server, router) => {
                     }
                 }
 
+                const allDayTodos = [...withDateTodos, ...withoutDateTodos];
+
+                const counts = {
+                    active: allDayTodos.filter(t => !t.completed).length,
+                    completed: allDayTodos.filter(t => t.completed).length,
+                    all: allDayTodos.length,
+                };
+
+                let filteredWithDate = withDateTodos;
+                let filteredWithoutDate = withoutDateTodos;
+
+                if (status === 'active') {
+                    filteredWithDate = withDateTodos.filter(t => !t.completed);
+                    filteredWithoutDate = withoutDateTodos.filter(t => !t.completed);
+                } else if (status === 'completed') {
+                    filteredWithDate = withDateTodos.filter(t => t.completed);
+                    filteredWithoutDate = withoutDateTodos.filter(t => t.completed);
+                }
+
                 // Разделяем расписание на активные и выполненные для правильной сортировки
-                const scheduleActive = withDateTodos.filter(todo => !todo.completed);
-                const scheduleCompleted = withDateTodos.filter(todo => todo.completed);
+                const scheduleActive = filteredWithDate.filter(todo => !todo.completed);
+                const scheduleCompleted = filteredWithDate.filter(todo => todo.completed);
 
                 // Разделяем блок "Без времени" на активные и выполненные
-                const noTimeActive = withoutDateTodos.filter(todo => !todo.completed);
-                const noTimeCompleted = withoutDateTodos.filter(todo => todo.completed);
+                const noTimeActive = filteredWithoutDate.filter(todo => !todo.completed);
+                const noTimeCompleted = filteredWithoutDate.filter(todo => todo.completed);
 
                 // Сортировка расписания (по времени старта)
                 scheduleActive.sort((a, b) => {
@@ -338,14 +353,6 @@ export default (server, router) => {
                     compareAsc(parseISO(b.updatedAt), parseISO(a.updatedAt))
                 );
 
-                // Считаем счетчики текущего дня
-                const dayCounts = {
-                    active: scheduleActive.length + noTimeActive.length,
-                    completed: scheduleCompleted.length + noTimeCompleted.length,
-                    all: 0,
-                };
-                dayCounts.all = dayCounts.active + dayCounts.completed;
-
                 return res.status(200).json({
                     success: true,
                     message: 'Задачи получены (режим дня)',
@@ -356,7 +363,7 @@ export default (server, router) => {
                             // Задачи без времени (и без дат), возвращаются только для "Сегодня"
                             withoutDate: sortTodosForClient([...noTimeActive, ...noTimeCompleted]),
                         },
-                        counts: dayCounts,
+                        counts,
                     },
                 });
             }
