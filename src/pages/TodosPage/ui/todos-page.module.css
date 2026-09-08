@@ -8,11 +8,10 @@
 }
 
 .filterSection {
-    background-color: var(--color-surface-elevated, #374151);
+    background-color: var(--color-gray-850);
     padding: 16px 0; 
     width: 100%;
     border-bottom: 1px solid var(--color-border-heavy);
-    border-top: 1px solid var(--color-border-heavy);
 }
 
 .todoSection {

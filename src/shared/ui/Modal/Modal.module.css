@@ -84,6 +84,10 @@
     height: 95vh;
 }
 
+.variant-default {
+    background-color: var(--color-gray-850) !important;
+}
+
 /* Варианты через border */
 .variant-danger {
     border-color: var(--color-error-500) !important;

@@ -332,7 +332,7 @@
 
         &:hover:not(.disabled):not([disabled]) {
             border-color: var(--color-primary-400, #60a5fa);
-            background-color: var(--color-primary-50, #eff6ff);
+            background-color: var(--color-primary-300, #eff6ff);
         }
     }
 

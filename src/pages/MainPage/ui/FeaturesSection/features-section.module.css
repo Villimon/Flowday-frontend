@@ -1,6 +1,6 @@
 .features {
     padding: calc(var(--space-1) * 32) 0;
-    background-color: var(--color-glow-violet);
+    background-color: var(--color-surface);
 
     @media (max-width: 768px) {
         padding: calc(var(--space-1) * 22) 0;
