@@ -132,7 +132,12 @@ export const TodoForm: FC<TodoFormProps> = memo(
                                 />
                             </VStack>
                             <VStack fullWidth>
-                                <HStack fullWidth gap="4" justify="between">
+                                <HStack
+                                    fullWidth
+                                    gap="4"
+                                    justify="between"
+                                    wrap={isTablet ? 'wrap' : 'nowrap'}
+                                >
                                     <Controller
                                         name="startDate"
                                         control={control}
