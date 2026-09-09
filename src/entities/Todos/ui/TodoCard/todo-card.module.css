@@ -39,6 +39,12 @@
     }
 }
 
+.todoCard {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 .buttons {
     opacity: 0;
     display: flex;
