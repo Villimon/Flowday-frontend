@@ -16,21 +16,21 @@ export const getTodoDisplayDateTime = (todo: Todo): string => {
     // Есть только СТАРТ
     if (start && !end) {
         return hasStartTime
-            ? format(start, 'd MMMM с HH:mm', { locale: ru })
-            : format(start, 'd MMMM', { locale: ru });
+            ? format(start, 'd MMMM с HH:mm', { locale: ru }).replace(/ /g, '\u00A0')
+            : format(start, 'd MMMM', { locale: ru }).replace(/ /g, '\u00A0');
     }
 
     // Есть только КОНЕЦ
     if (!start && end) {
         return hasEndTime
-            ? format(end, 'd MMMM до HH:mm', { locale: ru })
-            : format(end, 'd MMMM', { locale: ru });
+            ? format(end, 'd MMMM до HH:mm', { locale: ru }).replace(/ /g, '\u00A0')
+            : format(end, 'd MMMM', { locale: ru }).replace(/ /g, '\u00A0');
     }
 
     // === КЕЙС 2: ЕСТЬ ОБЕ ДАТЫ (start и end гарантированно не null) ===
     const startDateTimeStr = hasStartTime
-        ? format(start!, 'd MMMM HH:mm', { locale: ru })
-        : format(start!, 'd MMMM', { locale: ru });
+        ? format(start!, 'd MMMM HH:mm', { locale: ru }).replace(/ /g, '\u00A0')
+        : format(start!, 'd MMMM', { locale: ru }).replace(/ /g, '\u00A0');
 
     // 2.1. Если старт и конец в один и тот же день
     if (isSameDay(start!, end!)) {
@@ -38,8 +38,8 @@ export const getTodoDisplayDateTime = (todo: Todo): string => {
             // Если у старта не было времени, а у конца есть,
             // лучше вывести полный старт и время конца: "2 июля с 00:00" -> "2 июля 00:00 – 14:32"
             const baseStartStr = hasStartTime
-                ? format(start!, 'd MMMM HH:mm', { locale: ru })
-                : format(start!, 'd MMMM HH:mm', { locale: ru }); // Выведет 00:00 для наглядности интервала
+                ? format(start!, 'd MMMM HH:mm', { locale: ru }).replace(/ /g, '\u00A0')
+                : format(start!, 'd MMMM HH:mm', { locale: ru }).replace(/ /g, '\u00A0'); // Выведет 00:00 для наглядности интервала
             return `${baseStartStr} – ${format(end!, 'HH:mm')}`;
         }
         // Если время конца 00:00 в тот же день — показываем просто красивый старт
@@ -50,8 +50,8 @@ export const getTodoDisplayDateTime = (todo: Todo): string => {
 
     // 2.2. Если дни разные
     const endDateTimeStr = hasEndTime
-        ? format(end!, 'd MMMM HH:mm', { locale: ru })
-        : format(end!, 'd MMMM', { locale: ru });
+        ? format(end!, 'd MMMM HH:mm', { locale: ru }).replace(/ /g, '\u00A0')
+        : format(end!, 'd MMMM', { locale: ru }).replace(/ /g, '\u00A0');
 
     return `${startDateTimeStr} – ${endDateTimeStr}`;
 };

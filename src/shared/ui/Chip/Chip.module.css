@@ -4,9 +4,10 @@
     gap: var(--space-1-5);
     font-weight: var(--font-weight-medium);
     line-height: 1;
-    white-space: nowrap;
     transition: all var(--duration-150) var(--ease-out);
     height: fit-content;
+    max-width: 100%;
+    word-break: break-word;
     
     &.clickable {
         cursor: pointer;
